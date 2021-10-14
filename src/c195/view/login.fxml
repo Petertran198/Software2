@@ -11,9 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
-          minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0"
-          prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195.controller.LoginController">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195.controller.LoginController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="495.3333740234375" minWidth="10.0" prefWidth="407.3333740234375" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="593.333292643229" minWidth="10.0" prefWidth="593.333292643229" />
@@ -23,7 +21,7 @@
       <RowConstraints maxHeight="469.99999618530273" minHeight="10.0" prefHeight="469.99999618530273" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Label alignment="CENTER" prefHeight="37.0" prefWidth="378.0" text="Appointment Application">
+      <Label fx:id="appointmentAppLabel" alignment="CENTER" prefHeight="37.0" prefWidth="378.0" text="AppointmentApp">
          <font>
             <Font name="Arial Black" size="24.0" />
          </font>
@@ -42,22 +40,23 @@
             </Label>
             <TextField layoutX="164.0" layoutY="113.0" prefHeight="25.0" prefWidth="393.0" />
             <TextField layoutX="168.0" layoutY="212.0" prefHeight="25.0" prefWidth="393.0" />
-            <Label layoutX="16.0" layoutY="284.0" text="Location: ">
+            <Label fx:id="timeZoneTitleLabel" layoutX="16.0" layoutY="284.0" text="TimeZone: ">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label fx:id="locationLabel" layoutX="178.0" layoutY="284.0" prefHeight="53.0" prefWidth="224.0">
+            <Label fx:id="timeZoneLabel" layoutX="178.0" layoutY="284.0" prefHeight="53.0" prefWidth="224.0">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
             <Button fx:id="loginButton" layoutX="426.0" layoutY="377.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="153.0" text="Login" />
+            <Label fx:id="errors" layoutX="169.0" layoutY="16.0" prefHeight="69.0" prefWidth="386.0" />
 
 
          </children>
       </Pane>
-      <Label alignment="CENTER_RIGHT" prefHeight="37.0" prefWidth="343.0" text="Login" GridPane.columnIndex="1">
+      <Label fx:id="loginLabel" alignment="CENTER_RIGHT" prefHeight="37.0" prefWidth="343.0" text="Login" GridPane.columnIndex="1">
          <font>
             <Font name="Arial Black" size="24.0" />
          </font>
