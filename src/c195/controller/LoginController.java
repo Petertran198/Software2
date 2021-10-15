@@ -1,11 +1,21 @@
 package c195.controller;
 
+import c195.utilities.LoginAccount;
+import c195.utilities.SwitchRoute;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Locale;
@@ -27,8 +37,16 @@ public class LoginController implements Initializable {
     @FXML private Label timeZoneTitleLabel;
     @FXML private Label timeZoneLabel;
     @FXML private Label errors;
+    //TextFields FXML
+    @FXML private TextField userIDTextField;
+    @FXML private TextField passwordTextField;
     //Button FXML
     @FXML private Button loginButton;
+
+    //variables to switch scenes.
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
 
     //Needed to append the error message if other error messages are needed
@@ -57,11 +75,27 @@ public class LoginController implements Initializable {
             errorMsgText.append("Local Machine's language not supported. " +
                     "Default: English");
             errors.setText(errorMsgText.toString());
-
         }
     }
 
+    /**
+     * Get the userId and password
+     * Then check if there is an account with those info
+     * If there is then log in if not give error message
+     */
+    @FXML
+    private void loginToAccount(ActionEvent event)  {
+            try{
+                if(LoginAccount.logIntoAccount(userIDTextField.getText(),
+                        passwordTextField.getText())){
+                    SwitchRoute.switchToHome(event);
+                }else {
+                    errors.setText(rb.getString("Account") + " " + rb.getString("not")+" "+ rb.getString("found"));
+                }
+            }catch(Exception e){
 
+            }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timeZoneLabel.setText(" " + getZoneID());

@@ -38,8 +38,8 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <TextField layoutX="164.0" layoutY="113.0" prefHeight="25.0" prefWidth="393.0" />
-            <TextField layoutX="168.0" layoutY="212.0" prefHeight="25.0" prefWidth="393.0" />
+            <TextField fx:id="userIDTextField" layoutX="164.0" layoutY="113.0" prefHeight="25.0" prefWidth="393.0" />
+            <TextField fx:id="passwordTextField" layoutX="168.0" layoutY="212.0" prefHeight="25.0" prefWidth="393.0" />
             <Label fx:id="timeZoneTitleLabel" layoutX="16.0" layoutY="284.0" text="TimeZone: ">
                <font>
                   <Font size="36.0" />
@@ -50,7 +50,7 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Button fx:id="loginButton" layoutX="426.0" layoutY="377.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="153.0" text="Login" />
+            <Button fx:id="loginButton" layoutX="426.0" layoutY="377.0" mnemonicParsing="false" onAction="#loginToAccount" prefHeight="84.0" prefWidth="153.0" text="Login" />
             <Label fx:id="errors" layoutX="169.0" layoutY="16.0" prefHeight="69.0" prefWidth="386.0" />
 
 
