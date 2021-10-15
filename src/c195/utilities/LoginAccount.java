@@ -2,10 +2,7 @@ package c195.utilities;
 
 import c195.dao.JDBC;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLTimeoutException;
+import java.sql.*;
 
 public class LoginAccount {
 
@@ -21,8 +18,11 @@ public class LoginAccount {
         //This is a try-with-resources statement . It makes sure the resource
         // object that we are putting inside '()' has its connection closed
         // at end of statement
-        try(PreparedStatement statement =
-                    JDBC.getConnection().prepareStatement(sqlStatement)){
+        //Therefore we do not have to close con or statement as it is in ()
+        //but we will have to close the resultSet
+        try(Connection con = JDBC.getConnection();
+                PreparedStatement statement =
+                    con.prepareStatement(sqlStatement)){
             statement.setString(1,username);
             statement.setString(2,password);
             //A ResultSet object maintains a cursor pointing to its current row
@@ -33,6 +33,7 @@ public class LoginAccount {
            if(resultSet.next() == true ){
                 return true;
            }
+           resultSet.close();
         }catch(SQLException  e){
             System.out.println("Couldn't log in to account: "+ e.getMessage() );
         }
