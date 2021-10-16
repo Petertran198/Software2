@@ -50,7 +50,7 @@ public class LoginController implements Initializable {
 
 
     //Needed to append the error message if other error messages are needed
-    StringBuilder errorMsgText = new StringBuilder();
+    private String errorMsg = "";
 
     /**
      * Return ur local machine's time zone
@@ -72,10 +72,35 @@ public class LoginController implements Initializable {
             timeZoneTitleLabel.setText(rb.getString("Location"));
             loginLabel.setText(rb.getString("Login"));
         }catch (Exception e){
-            errorMsgText.append("Local Machine's language not supported. " +
-                    "Default: English");
-            errors.setText(errorMsgText.toString());
+            errorMsg += "\n -Local Machine's language not supported. " +
+                    "Default: English";
+            errors.setText(errorMsg);
         }
+    }
+
+    /**This method make sure that the form does not have any empty fields everything must be populated
+     * <br/> <strong>RUNTIME ERROR:</strong> Unable to properly display the error because instead or errors += errors I did
+     * errors = errors. I fixed this by instead of rewriting the error I added on to it by using '+='
+     * @param name name text field input string
+     * @param inventory inventory text field input string
+     * @param cost cost text field input string
+     * @param max  max text field input string
+     * @param min  min text field input string
+     * @param inHouseFieldOrOutsourcedField MachineId/Company's name text field input string
+     * @return Returns correct error message if any field is blank
+     */
+    public static String handleFormErrorsEmptyField(String username,
+                                                    String password) {
+        String errors= "";
+
+        if (username.equals("")) {
+            errors = errors + "\n -Username field can't be empty. ";
+        }
+        if (password.equals("")) {
+            errors = errors + "\n -Password field can't be empty. ";
+        }
+
+        return errors;
     }
 
     /**
@@ -90,10 +115,14 @@ public class LoginController implements Initializable {
                         passwordTextField.getText())){
                     SwitchRoute.switchToHome(event);
                 }else {
-                    errors.setText(rb.getString("Account") + " " + rb.getString("not")+" "+ rb.getString("found"));
+                    errorMsg += "\n -"+
+                            rb.getString("Account") + " " + rb.getString("not")+" "+ rb.getString("found");
+                    errorMsg += handleFormErrorsEmptyField(userIDTextField.getText(), passwordTextField.getText());
+                    errors.setText(errorMsg);
+                    errorMsg = "";
                 }
             }catch(Exception e){
-
+                    System.out.println(e.getMessage());
             }
     }
     @Override
