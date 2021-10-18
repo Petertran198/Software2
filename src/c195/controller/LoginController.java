@@ -2,6 +2,7 @@ package c195.controller;
 
 import c195.utilities.LoginAccount;
 import c195.utilities.SwitchRoute;
+import c195.utilities.TextLog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -89,15 +90,16 @@ public class LoginController implements Initializable {
      * @param inHouseFieldOrOutsourcedField MachineId/Company's name text field input string
      * @return Returns correct error message if any field is blank
      */
-    public static String handleFormErrorsEmptyField(String username,
+    public  String handleFormErrorsEmptyField(String username,
                                                     String password) {
         String errors= "";
 
         if (username.equals("")) {
-            errors = errors + "\n -Username field can't be empty. ";
+            errors +=
+                     "\n- "+ rb.getString("Username")+" "+  rb.getString("not") +" "+ rb.getString("found");
         }
         if (password.equals("")) {
-            errors = errors + "\n -Password field can't be empty. ";
+            errors += "\n- "+ rb.getString("Password")+" "+  rb.getString("not") +" "+ rb.getString("found");
         }
 
         return errors;
@@ -110,9 +112,11 @@ public class LoginController implements Initializable {
      */
     @FXML
     private void loginToAccount(ActionEvent event)  {
-            try{
+        TextLog log = new TextLog();
+        try{
                 if(LoginAccount.logIntoAccount(userIDTextField.getText(),
                         passwordTextField.getText())){
+                    log.logInfo(true);
                     SwitchRoute.switchToHome(event);
                 }else {
                     errorMsg += "\n -"+
@@ -120,10 +124,12 @@ public class LoginController implements Initializable {
                     errorMsg += handleFormErrorsEmptyField(userIDTextField.getText(), passwordTextField.getText());
                     errors.setText(errorMsg);
                     errorMsg = "";
+                    log.logInfo(false);
                 }
             }catch(Exception e){
                     System.out.println(e.getMessage());
             }
+
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
