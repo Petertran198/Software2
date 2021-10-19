@@ -3,14 +3,16 @@ package c195.utilities;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Locale;
+
 
 public class TextLog {
 
+    /**
+     * Keep track of login activities in text field
+     * @param logInSuccessful
+     */
     public  void logInfo(boolean logInSuccessful){
         //Gets the login time.
         ZonedDateTime zonedDateTime = ZonedDateTime.now();
@@ -28,7 +30,7 @@ public class TextLog {
             bufferedWriter.write(timeString);
             bufferedWriter.newLine();
         } catch (IOException e) {
-            System.out.println(e.getMessage()+ " | Happened TextLog Class");
+            System.out.println(e.getMessage()+ " | Happened in TextLog Class");
         }
     }
 }

@@ -1,4 +1,7 @@
 package c195.dao.implementations;
 
-public class AppointmentDaoImplementation {
+import c195.dao.interfaces.AppointmentDaoInterface;
+
+public class AppointmentDaoImplementation implements AppointmentDaoInterface {
+
 }

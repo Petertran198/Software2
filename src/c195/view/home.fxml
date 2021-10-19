@@ -20,14 +20,14 @@
                         <Font name="Arial Black" size="18.0" />
                     </font>
                 </Label>
-                <TableView layoutX="6.0" layoutY="28.0" prefHeight="189.0" prefWidth="794.0">
+                <TableView fx:id="customerTable" layoutX="6.0" layoutY="28.0" prefHeight="189.0" prefWidth="794.0">
                     <columns>
-                        <TableColumn prefWidth="76.66668939590454" text="Customer ID" />
-                        <TableColumn prefWidth="97.33330535888672" text="Name" />
-                        <TableColumn prefWidth="198.6666717529297" text="Address" />
-                        <TableColumn prefWidth="62.66668701171875" text="State" />
-                        <TableColumn prefWidth="125.33334350585938" text="Provinces" />
-                        <TableColumn prefWidth="215.33331298828125" text="Phone" />
+                        <TableColumn fx:id="customerIDColumn" prefWidth="61.0" text="Cus I.D." />
+                        <TableColumn fx:id="customerNameColumn" prefWidth="114.0" text="Name" />
+                        <TableColumn fx:id="customerAddressColumn" prefWidth="206.0" text="Address" />
+                        <TableColumn fx:id="customerStateColumn" prefWidth="72.0" text="State" />
+                        <TableColumn fx:id="customerCountryColumn" prefWidth="133.0" text="Country" />
+                        <TableColumn fx:id="customerPhoneColumn" prefWidth="207.0" text="Phone" />
                     </columns>
                 </TableView>
                 <TextArea fx:id="customersMessageArea" layoutX="801.0" layoutY="28.0" prefHeight="189.0" prefWidth="123.0" />
@@ -44,18 +44,18 @@
                     </font>
                 </Label>
                 <TextArea fx:id="appointmentsMessageArea" layoutX="803.0" layoutY="27.0" prefHeight="189.0" prefWidth="123.0" />
-                <TableView layoutX="7.0" layoutY="28.0" prefHeight="189.0" prefWidth="794.0">
+                <TableView fx:id="appointmentTable" layoutX="7.0" layoutY="28.0" prefHeight="189.0" prefWidth="794.0">
                     <columns>
-                        <TableColumn prefWidth="45.33334255218506" text="Apt. ID" />
-                        <TableColumn prefWidth="68.66669082641602" text="Title" />
-                        <TableColumn prefWidth="87.33330535888672" text="Description" />
-                        <TableColumn prefWidth="78.66673278808594" text="Location" />
-                        <TableColumn minWidth="0.0" prefWidth="91.99993896484375" text="Contact" />
-                        <TableColumn prefWidth="62.0" text="Type" />
-                        <TableColumn prefWidth="85.3333740234375" text="Start Date" />
-                        <TableColumn prefWidth="85.33331298828125" text="Due Date" />
-                        <TableColumn prefWidth="86.66668701171875" text="Cust. ID" />
-                        <TableColumn prefWidth="101.99993896484375" text="User. ID" />
+                        <TableColumn fx:id="appointmentIDColumn" prefWidth="45.33334255218506" text="Apt. ID" />
+                        <TableColumn fx:id="appointmentTitleColumn" prefWidth="68.66669082641602" text="Title" />
+                        <TableColumn fx:id="appointmentDescriptionColumn" prefWidth="87.33330535888672" text="Description" />
+                        <TableColumn fx:id="appointmentLocationColumn" prefWidth="78.66673278808594" text="Location" />
+                        <TableColumn fx:id="appointmentContactColumn" minWidth="0.0" prefWidth="91.99993896484375" text="Contact" />
+                        <TableColumn fx:id="appointmentTypeColumn" prefWidth="62.0" text="Type" />
+                        <TableColumn fx:id="appointmentStartColumn" prefWidth="85.3333740234375" text="Start Date" />
+                        <TableColumn fx:id="appointmentDueDateColumn" prefWidth="85.33331298828125" text="Due Date" />
+                        <TableColumn fx:id="appointmentCustomerIDColumn" prefWidth="86.66668701171875" text="Cust. ID" />
+                        <TableColumn fx:id="appointmentUserIDColumn" prefWidth="101.99993896484375" text="User. ID" />
                     </columns>
                 </TableView>
                 <Button layoutX="7.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToAppointmentInfoForm" prefHeight="25.0" prefWidth="103.0" text="Add Appointment" />
