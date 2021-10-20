@@ -25,11 +25,13 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
                             "ON cus.Division_ID = d.Division_ID " +
                         "INNER JOIN countries cou " +
                             " ON d.Country_ID = cou.Country_ID";
-
-        try(Connection con = JDBC.getConnection();
-            Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-        ) {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+             connection = JDBC.getConnection();
+             statement = connection.createStatement();
+             resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
                 int Customer_ID = resultSet.getInt("Customer_ID");
                 String Customer_name = resultSet.getString("Customer_Name");
@@ -42,7 +44,8 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
                         Address,Division,Country,Phone);
                 customers.add(customer);
             }
-
+            statement.close();
+            resultSet.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

@@ -1,6 +1,8 @@
 package c195.controller;
 
+import c195.dao.implementations.AppointmentDaoImplementation;
 import c195.dao.implementations.CustomerDaoImplementation;
+import c195.dao.interfaces.AppointmentDaoInterface;
 import c195.dao.interfaces.CustomerDaoInterface;
 import c195.model.Appointment;
 import c195.model.Customer;
@@ -46,7 +48,7 @@ public class HomeController implements Initializable {
     //variables
     //Using the DAO pattern, customerDao will be used to query  the customer db
     CustomerDaoInterface customerDao = new CustomerDaoImplementation();
-
+    AppointmentDaoInterface appointmentDao = new AppointmentDaoImplementation();
 
 
 
@@ -87,8 +89,7 @@ public class HomeController implements Initializable {
         SwitchRoute.switchToLocationReport(event);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void showCustomerTable(){
         ObservableList<Customer> customerList;
         customerList = customerDao.getAllCustomer();
         //Populate each columns with the data that belongs to that specific
@@ -110,5 +111,37 @@ public class HomeController implements Initializable {
         customerStateColumn.setCellValueFactory(new PropertyValueFactory<>(
                 "division"));
         customerTable.setItems(customerList);
+    }
+
+    public void showAppointmentTable(){
+        ObservableList<Appointment> appointmentList;
+        appointmentList = appointmentDao.getAllAppointment();
+        appointmentTable.setItems(appointmentList);
+        appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "customer_ID"));
+        appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "title"));
+        appointmentDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "description"));
+        appointmentLocationColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "location"));
+        appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "type"));
+        appointmentContactColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "contact_name"));
+        appointmentUserIDColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "user_ID"));
+        appointmentCustomerIDColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "contact_ID"));
+        appointmentStartColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "start"));
+        appointmentDueDateColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "end"));
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        showCustomerTable();
+        showAppointmentTable();
     }
 }

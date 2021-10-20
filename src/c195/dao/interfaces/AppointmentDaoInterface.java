@@ -1,5 +1,8 @@
 package c195.dao.interfaces;
 
-public interface AppointmentDaoInterface {
+import c195.model.Appointment;
+import javafx.collections.ObservableList;
 
+public interface AppointmentDaoInterface {
+    ObservableList<Appointment> getAllAppointment();
 }
