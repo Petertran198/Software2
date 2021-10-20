@@ -12,11 +12,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -52,7 +54,31 @@ public class HomeController implements Initializable {
 
 
 
+    public void deleteAppointment(){
+        try{
+            Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
+            int id = selectedAppointment.getAppointment_ID();
+            String title = selectedAppointment.getTitle();
+            String type = selectedAppointment.getType();
+            int confirmDelete = JOptionPane.showConfirmDialog(null,"Are u sure u " +
+                            "want" +
+                            " to delete?\nAppointment Title: "+title+" | Type: "+type,
+                    "Delete " +
+                            "Appointment " +
+                            "Notice",
+                    JOptionPane.YES_NO_OPTION);
+            if(confirmDelete == JOptionPane.YES_OPTION){
+                appointmentDao.deleteAppointment(id);
+                showAppointmentTable();
+            }
+        }catch(NullPointerException e){
+            Alert noAppointmentSelectedAlert = new Alert(Alert.AlertType.ERROR);
+            noAppointmentSelectedAlert.setContentText("Please select an " +
+                    "appointment to delete");
+            noAppointmentSelectedAlert.show();
+        }
 
+    }
     /** This method when click will switch to the customerInfoForm.fxml
      * @param event any ActionEvent most likely click
      * */

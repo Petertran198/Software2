@@ -5,4 +5,5 @@ import javafx.collections.ObservableList;
 
 public interface AppointmentDaoInterface {
     ObservableList<Appointment> getAllAppointment();
+    void deleteAppointment(int id);
 }

@@ -59,4 +59,18 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
 
         return appointments;
     }
+
+    @Override
+    public void deleteAppointment(int id) {
+        String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
+        try {
+            PreparedStatement preparedStatement =
+                    JDBC.getConnection().prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
