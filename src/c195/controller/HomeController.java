@@ -51,7 +51,35 @@ public class HomeController implements Initializable {
     //Using the DAO pattern, customerDao will be used to query  the customer db
     CustomerDaoInterface customerDao = new CustomerDaoImplementation();
     AppointmentDaoInterface appointmentDao = new AppointmentDaoImplementation();
+    public void deleteCustomer(){
+        try{
+            Customer selectedCustomer =
+                    customerTable.getSelectionModel().getSelectedItem();
+            int id = selectedCustomer.getCustomer_ID();
+            String name = selectedCustomer.getCustomer_Name();
+            int confirmDelete = JOptionPane.showConfirmDialog(null,"Are u sure u " +
+                            "want" +
+                            " to delete?\nCustomer: "+name+" with the id "+id +
+                            "\nAll their " +
+                            "APPOINTMENTS will also be deleted.\nPlease " +
+                            "confirm that is what you want.",
+                    "Delete " +
+                            "Customer " +
+                            "Notice",
+                    JOptionPane.YES_NO_OPTION);
+            if(confirmDelete == JOptionPane.YES_OPTION){
+                customerDao.deleteCustomer(id);
+                showCustomerTable();
+                showAppointmentTable();
+            }
+        }catch(NullPointerException e){
+            Alert noCustomerSelectedAlert = new Alert(Alert.AlertType.ERROR);
+            noCustomerSelectedAlert.setContentText("Please select a " +
+                    "customer to delete");
+            noCustomerSelectedAlert.show();
+        }
 
+    }
 
 
     public void deleteAppointment(){
@@ -158,7 +186,7 @@ public class HomeController implements Initializable {
         appointmentUserIDColumn.setCellValueFactory(new PropertyValueFactory<>(
                 "user_ID"));
         appointmentCustomerIDColumn.setCellValueFactory(new PropertyValueFactory<>(
-                "contact_ID"));
+                "customer_ID"));
         appointmentStartColumn.setCellValueFactory(new PropertyValueFactory<>(
                 "start"));
         appointmentDueDateColumn.setCellValueFactory(new PropertyValueFactory<>(

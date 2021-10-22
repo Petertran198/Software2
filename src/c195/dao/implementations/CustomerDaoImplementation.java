@@ -6,10 +6,7 @@ import c195.model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class CustomerDaoImplementation implements CustomerDaoInterface {
 
@@ -51,5 +48,32 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
             e.printStackTrace();
         }
         return customers;
+    }
+
+    @Override
+    public void deleteCustomer(int id) {
+        String deleteCustomerAppointmentSql = "Delete From appointments WHERE" +
+                " Customer_ID = ?";
+        String deleteCustomerSql = "Delete FROM customers WHERE Customer_ID =" +
+                " ?";
+        Connection con = null;
+        PreparedStatement deleteAppointmentStatement = null;
+        PreparedStatement deleteCustomerStatement = null;
+
+        try{
+            con = JDBC.getConnection();
+            deleteAppointmentStatement =
+                    con.prepareStatement(deleteCustomerAppointmentSql);
+            deleteAppointmentStatement.setInt(1, id);
+            deleteCustomerStatement = con.prepareStatement(deleteCustomerSql);
+            deleteCustomerStatement.setInt(1, id);
+            //executeUpdate does not return a resultSet
+            deleteAppointmentStatement.executeUpdate();
+            deleteCustomerStatement.executeUpdate();
+            deleteAppointmentStatement.close();
+            deleteCustomerStatement.close();
+        }catch(SQLException e ){
+            System.out.println("Error in deleteCustomer() "+ e.getMessage());
+        }
     }
 }

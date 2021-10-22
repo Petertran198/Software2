@@ -5,5 +5,5 @@ import javafx.collections.ObservableList;
 
 public interface CustomerDaoInterface {
     public ObservableList<Customer> getAllCustomer();
-
+    public void deleteCustomer(int id);
 }
