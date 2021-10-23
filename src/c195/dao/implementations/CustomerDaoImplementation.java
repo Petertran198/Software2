@@ -4,6 +4,7 @@ import c195.dao.JDBC;
 import c195.dao.interfaces.CustomerDaoInterface;
 import c195.model.Country;
 import c195.model.Customer;
+import c195.model.FLDivision;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -114,5 +115,31 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
         }
         return countries;
 
+    }
+
+
+    @Override
+    public ObservableList<FLDivision> getFLDDivisionList() {
+        ObservableList<FLDivision> divisions =
+                FXCollections.observableArrayList();
+        String sql = "SELECT Division_ID, Division, Country_ID FROM " +
+                "first_level_divisions";
+        try(
+                Statement statement = JDBC.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+        ){
+            while(resultSet.next()){
+                FLDivision division = new FLDivision(
+                        resultSet.getInt(
+                        "Division_ID"),
+                        resultSet.getString("Division"),
+                        resultSet.getInt("Country_ID")
+                );
+                divisions.add(division);
+            }
+        }catch(SQLException e){
+            System.out.println("Error in getFLDDivisionList method"+ e.getMessage());
+        }
+        return divisions;
     }
 }
