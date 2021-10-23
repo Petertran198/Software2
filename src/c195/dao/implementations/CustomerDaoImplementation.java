@@ -2,6 +2,7 @@ package c195.dao.implementations;
 
 import c195.dao.JDBC;
 import c195.dao.interfaces.CustomerDaoInterface;
+import c195.model.Country;
 import c195.model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -75,5 +76,43 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
         }catch(SQLException e ){
             System.out.println("Error in deleteCustomer() "+ e.getMessage());
         }
+    }
+
+    @Override
+    public void addCustomer(Customer customer) {
+        String sql = "Insert into Customer(Customer_Name, Address, " +
+                "Postal_Code, Phone, Division_ID) VALUES (?,?,?,?,?)";
+        try(PreparedStatement preparedStatement =
+                    JDBC.getConnection().prepareStatement(sql)){
+            preparedStatement.setString(1,customer.getCustomer_Name());
+            preparedStatement.setString(2,customer.getAddress());
+            preparedStatement.setString(3,customer.getPostal_code());
+            preparedStatement.setString(4,customer.getPhone());
+            preparedStatement.setInt(5,customer.getDivision_ID());
+        }catch(SQLException e){
+            System.out.println("Problem in addCustomer method" + e.getMessage());
+        }
+    }
+
+    @Override
+    public ObservableList<Country> getCountryList() {
+        ObservableList<Country> countries = FXCollections.observableArrayList();
+        String sql = "SELECT Country,Country_ID FROM countries";
+        try{
+            Statement statement =
+                    JDBC.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()){
+                Country country = new Country(
+                        resultSet.getInt("Country_ID"),
+                        resultSet.getString("Country")
+                );
+                countries.add(country);
+            }
+        }catch(SQLException e){
+            System.out.println("Error in getCountry method " + e.getMessage());
+        }
+        return countries;
+
     }
 }

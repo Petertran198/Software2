@@ -17,6 +17,7 @@ public class Customer {
     private String country_name;
     private  String division;
 
+
     /**
      * This constructor is for the table view therefore it only has certain
      * parms. It is not meant to be saved in database that will be dont in
@@ -136,4 +137,27 @@ public class Customer {
     public void setDivision(String division) {
         this.division = division;
     }
+
+
+    /**
+     * This constructor is for customer add field
+     * @param name
+     * @param address
+     * @param postal_code
+     * @param phone
+     * @param country_name
+     * @param divisionId
+     */
+    public Customer(String name, String address,
+                    String postal_code, String phone,
+                    String country_name,  int divisionId) {
+
+        this.customer_Name = name;
+        this.address = address;
+        this.postal_code = postal_code;
+        this.phone = phone;
+        this.country_name = country_name;
+        this.division_ID = divisionId;
+    }
+
 }
