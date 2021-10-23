@@ -7,8 +7,8 @@ public class FLDivision {
     private String division_Name;
     private LocalDateTime create_Date;
     private String created_By;
-    private LocalDateTime last_Update;
     private String last_Updated_By;
+    private LocalDateTime last_Update;
     private int country_ID;
     public FLDivision(){
 

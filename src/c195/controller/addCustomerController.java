@@ -74,7 +74,7 @@ public class addCustomerController implements Initializable {
     /**
      * Same implementation and reasoning as getCountryDataForComboBox()
      * The method will display the Division aka (state) but hold the FLDDivision
-     * object
+     * object.
      */
     public void getDivisionDataForComboBox(){
         Callback<ListView<FLDivision>, ListCell<FLDivision>> cellFactory =

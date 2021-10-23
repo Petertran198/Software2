@@ -138,7 +138,7 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
                 divisions.add(division);
             }
         }catch(SQLException e){
-            System.out.println("Error in getFLDDivisionList method"+ e.getMessage());
+            System.out.println("Error in getFLDDivisionList()"+ e.getMessage());
         }
         return divisions;
     }
