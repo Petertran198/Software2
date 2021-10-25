@@ -107,14 +107,14 @@ public class HomeController implements Initializable {
         }
 
     }
-    /** This method when click will switch to the customerInfoForm.fxml
+    /** This method when click will switch to the addCustomerInfoForm.fxml
      * @param event any ActionEvent most likely click
      * */
     public void switchToCustomerInfoForm(ActionEvent event) throws Exception {
         SwitchRoute.switchToCustomerInfoForm(event);
     }
 
-    /** This method when click will switch to the appointmentInfoForm.fxml
+    /** This method when click will switch to the addAppointmentInfoForm.fxml
      * @param event any ActionEvent most likely click
      * */
     public void switchToAppointmentInfoForm(ActionEvent event) throws Exception {
@@ -136,7 +136,7 @@ public class HomeController implements Initializable {
         SwitchRoute.switchToCustomerMonthAndTypeReport(event);
     }
 
-    /** This method when click will switch to the appointmentInfoForm.fxml
+    /** This method when click will switch to the addAppointmentInfoForm.fxml
      * @param event any ActionEvent most likely click
      * */
     public void switchToLocationReport(ActionEvent event) throws Exception {

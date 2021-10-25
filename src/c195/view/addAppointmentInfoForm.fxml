@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195.controller.AppointmentController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195.controller.AddAppointmentController">
     <children>
         <AnchorPane prefHeight="400.0" prefWidth="152.0">
             <children>
@@ -21,17 +21,17 @@
                         <Font name="Arial Black" size="18.0" />
                     </font>
                 </Label>
-                <ComboBox layoutX="7.0" layoutY="128.0" prefHeight="25.0" prefWidth="181.0" promptText="Select Contact">
+                <ComboBox fx:id="contactCombo" layoutX="7.0" layoutY="128.0" prefHeight="25.0" prefWidth="181.0" promptText="Select Contact">
                     <padding>
                         <Insets left="50.0" />
                     </padding>
                 </ComboBox>
-                <ComboBox layoutX="7.0" layoutY="200.0" prefHeight="25.0" prefWidth="181.0" promptText="Select Customer">
+                <ComboBox fx:id="customerCombo" layoutX="7.0" layoutY="200.0" prefHeight="25.0" prefWidth="181.0" promptText="Select Customer">
                     <padding>
                         <Insets left="50.0" />
                     </padding>
                 </ComboBox>
-                <ComboBox layoutX="7.0" layoutY="270.0" prefHeight="25.0" prefWidth="181.0" promptText="Select User">
+                <ComboBox fx:id="userCombo" layoutX="7.0" layoutY="270.0" prefHeight="25.0" prefWidth="181.0" promptText="Select User">
                     <padding>
                         <Insets left="50.0" />
                     </padding>

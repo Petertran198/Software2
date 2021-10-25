@@ -18,7 +18,7 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class addCustomerController implements Initializable {
+public class AddCustomerController implements Initializable {
 
     //FXML fields
     @FXML private TextField nameTextField;

@@ -2,7 +2,7 @@ package c195.dao.implementations;
 
 import c195.dao.JDBC;
 import c195.dao.interfaces.AppointmentDaoInterface;
-import c195.model.Appointment;
+import c195.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -71,6 +71,71 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @Override
+    public ObservableList<Customer> getAllCustomers() {
+        String sql = "Select Customer_ID, Customer_Name FROM Customers";
+        ObservableList<Customer> customers =
+                FXCollections.observableArrayList();
+        try{
+            Statement statement =
+                    JDBC.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()){
+                Customer customer = new Customer(
+                        resultSet.getInt("Customer_ID"),
+                        resultSet.getString("Customer_Name")
+                );
+                customers.add(customer);
+            }
+        }catch(SQLException e){
+            System.out.println("Error in getAllCustomer method " + e.getMessage());
+        }
+        return customers;
+    }
+
+    @Override
+    public ObservableList<Contact> getAllContacts() {
+        ObservableList<Contact> contacts = FXCollections.observableArrayList();
+        String sql = "SELECT Contact_ID, Contact_Name, Email FROM Contacts";
+        try{
+            Statement statement =
+                    JDBC.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()){
+                Contact contact = new Contact(
+                        resultSet.getInt("Contact_ID"),
+                        resultSet.getString("Contact_Name"),
+                        resultSet.getString("Email")
+                );
+                contacts.add(contact);
+            }
+        }catch(SQLException e){
+            System.out.println("Error in getAllContact method " + e.getMessage());
+        }
+        return contacts;
+    }
+
+    @Override
+    public ObservableList<User> getAllUsers() {
+        String sql = "Select * FROM Users";
+        ObservableList<User> users = FXCollections.observableArrayList();
+        try{
+            Statement statement =
+                    JDBC.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()){
+                User user = new User(
+                        resultSet.getInt("User_ID"),
+                        resultSet.getString("User_Name")
+                );
+                users.add(user);
+            }
+        }catch(SQLException e){
+            System.out.println("Error in getAllCustomer method " + e.getMessage());
+        }
+        return users;
     }
 
 }

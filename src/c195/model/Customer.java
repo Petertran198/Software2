@@ -19,6 +19,15 @@ public class Customer {
 
 
     /**
+     * Used to add a customer for appointment form
+     * @param customer_ID
+     * @param customer_Name
+     */
+    public Customer(int customer_ID, String customer_Name){
+        this.customer_ID = customer_ID;
+        this.customer_Name = customer_Name;
+    }
+    /**
      * This constructor is for the table view therefore it only has certain
      * parms. It is not meant to be saved in database that will be dont in
      * overloaded verizon of this constructor
@@ -40,6 +49,27 @@ public class Customer {
         this.division = division;
         this.phone = phone;
         this.country_name = country_name;
+    }
+
+    /**
+     * This constructor is for customer add field
+     * @param name
+     * @param address
+     * @param postal_code
+     * @param phone
+     * @param country_name
+     * @param divisionId
+     */
+    public Customer(String name, String address,
+                    String postal_code, String phone,
+                    String country_name,  int divisionId) {
+
+        this.customer_Name = name;
+        this.address = address;
+        this.postal_code = postal_code;
+        this.phone = phone;
+        this.country_name = country_name;
+        this.division_ID = divisionId;
     }
 
     public int getCustomer_ID() {
@@ -139,25 +169,6 @@ public class Customer {
     }
 
 
-    /**
-     * This constructor is for customer add field
-     * @param name
-     * @param address
-     * @param postal_code
-     * @param phone
-     * @param country_name
-     * @param divisionId
-     */
-    public Customer(String name, String address,
-                    String postal_code, String phone,
-                    String country_name,  int divisionId) {
 
-        this.customer_Name = name;
-        this.address = address;
-        this.postal_code = postal_code;
-        this.phone = phone;
-        this.country_name = country_name;
-        this.division_ID = divisionId;
-    }
 
 }

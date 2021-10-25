@@ -12,7 +12,7 @@ public class SwitchRoute {
     private static Stage stage;
     private static Scene scene;
 
-    /** This method when click will switch to the customerInfoForm.fxml
+    /** This method when click will switch to the addCustomerInfoForm.fxml
      * @param event any ActionEvent most likely click
      * */
     public static void switchToHome(ActionEvent event) throws Exception {
@@ -24,22 +24,22 @@ public class SwitchRoute {
         stage.show();
     }
 
-    /** This method when click will switch to the customerInfoForm.fxml
+    /** This method when click will switch to the addCustomerInfoForm.fxml
      * @param event any ActionEvent most likely click
      * */
     public static void switchToCustomerInfoForm(ActionEvent event) throws Exception {
-        root = FXMLLoader.load(SwitchRoute.class.getResource("../view/customerInfoForm.fxml"));
+        root = FXMLLoader.load(SwitchRoute.class.getResource("../view/addCustomerInfoForm.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    /** This method when click will switch to the appointmentInfoForm.fxml
+    /** This method when click will switch to the addAppointmentInfoForm.fxml
      * @param event any ActionEvent most likely click
      * */
     public static void switchToAppointmentInfoForm(ActionEvent event) throws Exception {
-        root = FXMLLoader.load(SwitchRoute.class.getResource("../view/appointmentInfoForm.fxml"));
+        root = FXMLLoader.load(SwitchRoute.class.getResource("../view/addAppointmentInfoForm.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -69,7 +69,7 @@ public class SwitchRoute {
         stage.show();
     }
 
-    /** This method when click will switch to the appointmentInfoForm.fxml
+    /** This method when click will switch to the addAppointmentInfoForm.fxml
      * @param event any ActionEvent most likely click
      * */
     public static void switchToLocationReport(ActionEvent event) throws Exception {

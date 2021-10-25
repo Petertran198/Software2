@@ -9,7 +9,6 @@ public class Contact {
         this.contact_ID = contact_ID;
         this.contact_Name = contact_Name;
         this.email = email;
-
     }
 
     public String getEmail() {

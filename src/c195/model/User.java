@@ -12,7 +12,17 @@ public class User {
     private String created_Date;
     private LocalDateTime last_Update;
     private String last_Updated_By;
-    public User(){
 
+    public User(int user_ID, String user_Name){
+        this.user_ID = user_ID;
+        this.user_Name=user_Name;
+    }
+
+    public String getUser_Name() {
+        return user_Name;
+    }
+
+    public void setUser_Name(String user_Name) {
+        this.user_Name = user_Name;
     }
 }
