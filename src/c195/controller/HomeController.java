@@ -50,6 +50,27 @@ public class HomeController implements Initializable {
     //Using the DAO pattern, customerDao will be used to query  the customer db
     CustomerDaoInterface customerDao = new CustomerDaoImplementation();
     AppointmentDaoInterface appointmentDao = new AppointmentDaoImplementation();
+
+    //This variable is to select the customer we want to edit
+    public  static Customer selectedCustomerToModify;
+
+
+    public void modifyCustomer(ActionEvent event) throws Exception{
+        String err = "";
+        Customer selectedCustomer =
+                customerTable.getSelectionModel().getSelectedItem();
+        if(selectedCustomer != null){
+            selectedCustomerToModify =
+                    customerDao.findCustomer(selectedCustomer.getCustomer_ID());
+            switchToEditCustomerInfoForm(event);
+        }else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No Customer Selected");
+            alert.setHeaderText("No Selection Notice");
+            alert.setContentText("Please select a customer to edit.");
+            alert.showAndWait();
+        }
+    }
     public void deleteCustomer(){
         try{
             Customer selectedCustomer =

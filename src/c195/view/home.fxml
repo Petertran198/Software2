@@ -32,7 +32,7 @@
                 </TableView>
                 <TextArea fx:id="customersMessageArea" layoutX="801.0" layoutY="28.0" prefHeight="189.0" prefWidth="123.0" />
                 <Button layoutX="6.0" layoutY="218.0" mnemonicParsing="false" onAction="#switchToAddCustomerInfoForm" prefHeight="25.0" prefWidth="103.0" text="Add Customer" />
-                <Button layoutX="113.0" layoutY="218.0" mnemonicParsing="false" onAction="#switchToEditCustomerInfoForm" prefHeight="25.0" prefWidth="114.0" text="Edit Customer" />
+                <Button layoutX="113.0" layoutY="218.0" mnemonicParsing="false" onAction="#modifyCustomer" prefHeight="25.0" prefWidth="114.0" text="Edit Customer" />
                 <Button layoutX="806.0" layoutY="218.0" mnemonicParsing="false" onAction="#deleteCustomer" prefHeight="25.0" prefWidth="114.0" text="Delete Customer" />
             </children>
         </Pane>

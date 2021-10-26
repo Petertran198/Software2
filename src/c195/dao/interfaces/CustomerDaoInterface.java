@@ -11,4 +11,5 @@ public interface CustomerDaoInterface {
     public void addCustomer(Customer customer);
     public ObservableList<Country> getCountryList();
     public ObservableList<FLDivision> getFLDDivisionList();
+    public Customer findCustomer(int id);
 }

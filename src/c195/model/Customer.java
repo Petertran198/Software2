@@ -19,6 +19,7 @@ public class Customer {
 
 
 
+
     /**
      * Used to add a customer for appointment form
      * @param customer_ID
@@ -69,6 +70,10 @@ public class Customer {
         this.postal_code = postal_code;
         this.phone = phone;
         this.division_ID = divisionId;
+    }
+
+    public Customer(){
+
     }
 
     public int getCustomer_ID() {

@@ -143,4 +143,42 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
         }
         return divisions;
     }
+
+    @Override
+    public Customer findCustomer(int id) {
+        String sql = "SELECT cus.Customer_ID, cus.Customer_Name, cus.Address," +
+                "cus.Phone, cus.Postal_Code, d.Division, cou.Country\n" +
+                "FROM customers cus \n" +
+                "INNER JOIN first_level_divisions d\n" +
+                "ON cus.Division_ID = d.Division_ID\n" +
+                "INNER JOIN countries cou\n" +
+                "ON d.Country_ID = cou.Country_ID\n" +
+                "WHERE cus.Customer_ID ="+id+" " +
+                "LIMIT 1";
+        Customer customer = new Customer();
+        try(
+                Statement statement = JDBC.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+        ){
+            while(resultSet.next()){
+                int customer_id = resultSet.getInt("Customer_ID");
+                String customer_name = resultSet.getString("Customer_Name");
+                String address = resultSet.getString("Address");
+                String division = resultSet.getString("Division");
+                String phone = resultSet.getString("Phone");
+                String country_name = resultSet.getString("Country");
+                String postal_code = resultSet.getString("Postal_Code");
+                customer.setCustomer_ID(customer_id);
+                customer.setCustomer_Name(customer_name);
+                customer.setAddress(address);
+                customer.setDivision(division);
+                customer.setCountry_name(country_name);
+                customer.setPhone(phone);
+                customer.setPostal_code(postal_code);
+            }
+        }catch(SQLException e){
+            System.out.println("Error in findCustomer)"+ e.getMessage());
+        }
+        return  customer;
+    }
 }
