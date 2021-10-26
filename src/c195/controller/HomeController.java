@@ -7,7 +7,6 @@ import c195.dao.interfaces.CustomerDaoInterface;
 import c195.model.Appointment;
 import c195.model.Customer;
 import c195.utilities.SwitchRoute;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -110,17 +109,29 @@ public class HomeController implements Initializable {
     /** This method when click will switch to the addCustomerInfoForm.fxml
      * @param event any ActionEvent most likely click
      * */
-    public void switchToCustomerInfoForm(ActionEvent event) throws Exception {
-        SwitchRoute.switchToCustomerInfoForm(event);
+    public void switchToAddCustomerInfoForm(ActionEvent event) throws Exception {
+        SwitchRoute.switchToAddCustomerInfoForm(event);
+    }
+    /** This method when click will switch to the editCustomerInfoForm.fxml
+     * @param event any ActionEvent most likely click
+     * */
+    public void switchToEditCustomerInfoForm(ActionEvent event) throws Exception {
+        SwitchRoute.switchToEditCustomerInfoForm(event);
     }
 
     /** This method when click will switch to the addAppointmentInfoForm.fxml
      * @param event any ActionEvent most likely click
      * */
-    public void switchToAppointmentInfoForm(ActionEvent event) throws Exception {
-        SwitchRoute.switchToAppointmentInfoForm(event);
+    public void switchToAddAppointmentInfoForm(ActionEvent event) throws Exception {
+        SwitchRoute.switchToAddAppointmentInfoForm(event);
     }
 
+    /** This method when click will switch to the editAppointmentInfoForm.fxml
+     * @param event any ActionEvent most likely click
+     * */
+    public void switchToEditAppointmentInfoForm(ActionEvent event) throws Exception {
+        SwitchRoute.switchToEditAppointmentInfoForm(event);
+    }
 
     /** This method when click will switch to the contactAppointmentReport.fxml
      * @param event any ActionEvent most likely click

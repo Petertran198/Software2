@@ -31,8 +31,8 @@
                     </columns>
                 </TableView>
                 <TextArea fx:id="customersMessageArea" layoutX="801.0" layoutY="28.0" prefHeight="189.0" prefWidth="123.0" />
-                <Button layoutX="6.0" layoutY="218.0" mnemonicParsing="false" onAction="#switchToCustomerInfoForm" prefHeight="25.0" prefWidth="103.0" text="Add Customer" />
-                <Button layoutX="113.0" layoutY="218.0" mnemonicParsing="false" onAction="#switchToCustomerInfoForm" prefHeight="25.0" prefWidth="114.0" text="Edit Customer" />
+                <Button layoutX="6.0" layoutY="218.0" mnemonicParsing="false" onAction="#switchToAddCustomerInfoForm" prefHeight="25.0" prefWidth="103.0" text="Add Customer" />
+                <Button layoutX="113.0" layoutY="218.0" mnemonicParsing="false" onAction="#switchToEditCustomerInfoForm" prefHeight="25.0" prefWidth="114.0" text="Edit Customer" />
                 <Button layoutX="806.0" layoutY="218.0" mnemonicParsing="false" onAction="#deleteCustomer" prefHeight="25.0" prefWidth="114.0" text="Delete Customer" />
             </children>
         </Pane>
@@ -58,8 +58,8 @@
                         <TableColumn fx:id="appointmentUserIDColumn" prefWidth="101.99993896484375" text="User. ID" />
                     </columns>
                 </TableView>
-                <Button layoutX="7.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToAppointmentInfoForm" prefHeight="25.0" prefWidth="103.0" text="Add Appointment" />
-                <Button layoutX="115.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToAppointmentInfoForm" prefHeight="25.0" prefWidth="114.0" text="Edit Appointment" />
+                <Button layoutX="7.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToAddAppointmentInfoForm" prefHeight="25.0" prefWidth="103.0" text="Add Appointment" />
+                <Button layoutX="115.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToEditAppointmentInfoForm" prefHeight="25.0" prefWidth="114.0" text="Edit Appointment" />
                 <Button layoutX="808.0" layoutY="216.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="25.0" prefWidth="114.0" text="Delete Appointment" />
                 <RadioButton layoutX="475.0" layoutY="6.0" mnemonicParsing="false" text="All">
                     <toggleGroup>
