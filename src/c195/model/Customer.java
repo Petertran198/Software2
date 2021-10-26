@@ -18,6 +18,7 @@ public class Customer {
     private  String division;
 
 
+
     /**
      * Used to add a customer for appointment form
      * @param customer_ID
@@ -57,18 +58,16 @@ public class Customer {
      * @param address
      * @param postal_code
      * @param phone
-     * @param country_name
      * @param divisionId
      */
     public Customer(String name, String address,
                     String postal_code, String phone,
-                    String country_name,  int divisionId) {
+                     int divisionId) {
 
         this.customer_Name = name;
         this.address = address;
         this.postal_code = postal_code;
         this.phone = phone;
-        this.country_name = country_name;
         this.division_ID = divisionId;
     }
 

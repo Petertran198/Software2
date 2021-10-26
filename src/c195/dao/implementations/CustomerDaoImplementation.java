@@ -81,7 +81,7 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
 
     @Override
     public void addCustomer(Customer customer) {
-        String sql = "Insert into Customer(Customer_Name, Address, " +
+        String sql = "Insert into Customers(Customer_Name, Address, " +
                 "Postal_Code, Phone, Division_ID) VALUES (?,?,?,?,?)";
         try(PreparedStatement preparedStatement =
                     JDBC.getConnection().prepareStatement(sql)){
@@ -90,6 +90,7 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
             preparedStatement.setString(3,customer.getPostal_code());
             preparedStatement.setString(4,customer.getPhone());
             preparedStatement.setInt(5,customer.getDivision_ID());
+            preparedStatement.executeUpdate();
         }catch(SQLException e){
             System.out.println("Problem in addCustomer method" + e.getMessage());
         }
