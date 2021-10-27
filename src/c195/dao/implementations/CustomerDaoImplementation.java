@@ -97,6 +97,24 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
     }
 
     @Override
+    public void updateCustomer(Customer customer) {
+        String sql = "Update customers SET Customer_Name =?, Address=?, " +
+                "Postal_Code=?, Phone=?, Division_ID=? WHERE Customer_ID =?";
+        try(PreparedStatement preparedStatement =
+                    JDBC.getConnection().prepareStatement(sql)){
+            preparedStatement.setString(1,customer.getCustomer_Name());
+            preparedStatement.setString(2,customer.getAddress());
+            preparedStatement.setString(3,customer.getPostal_code());
+            preparedStatement.setString(4,customer.getPhone());
+            preparedStatement.setInt(5,customer.getDivision_ID());
+            preparedStatement.setInt(6,customer.getCustomer_ID());
+            preparedStatement.executeUpdate();
+        }catch(SQLException e){
+            System.out.println("Problem in addCustomer method" + e.getMessage());
+        }
+    }
+
+    @Override
     public ObservableList<Country> getCountryList() {
         ObservableList<Country> countries = FXCollections.observableArrayList();
         String sql = "SELECT Country,Country_ID FROM countries";
@@ -180,5 +198,23 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
             System.out.println("Error in findCustomer)"+ e.getMessage());
         }
         return  customer;
+    }
+
+    @Override
+    public Country findCountry(String name) {
+        String sql = "SELECT * FROM countries WHERE Country = '"+name+"' LIMIT 1";
+        Country country = new Country();
+        try(
+                Statement statement = JDBC.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+        ){
+            while(resultSet.next()){
+                country.setCountry_ID(resultSet.getInt("Country_ID"));
+                country.setCountryName(resultSet.getString("Country"));
+            }
+        }catch(SQLException e){
+            System.out.println("Error in findCountry()"+ e.getMessage());
+        }
+        return country;
     }
 }

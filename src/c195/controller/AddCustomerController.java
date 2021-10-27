@@ -130,13 +130,11 @@ public class AddCustomerController implements Initializable {
     }
 
 
-    public void saveCustomer(ActionEvent event) throws Exception {
+    public void saveCustomer(ActionEvent event) throws Exception{
        String name = nameTextField.getText();
        String address = addressTextField.getText();
        String phone = phoneTextField.getText();
        String postal = postalTextField.getText();
-       String countryName =
-                countryDropDown.getSelectionModel().getSelectedItem().getCountryName();
        FLDivision div =
                FLDDropDown.getSelectionModel().getSelectedItem();
        int divID = div.getDivision_ID();

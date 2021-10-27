@@ -9,7 +9,9 @@ public interface CustomerDaoInterface {
     public ObservableList<Customer> getAllCustomer();
     public void deleteCustomer(int id);
     public void addCustomer(Customer customer);
+    public void updateCustomer(Customer customer);
     public ObservableList<Country> getCountryList();
     public ObservableList<FLDivision> getFLDDivisionList();
     public Customer findCustomer(int id);
+    public  Country findCountry(String name);
 }

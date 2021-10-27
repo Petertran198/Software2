@@ -74,4 +74,9 @@ public class FLDivision {
     public void setCountry_ID(int country_ID) {
         this.country_ID = country_ID;
     }
+
+    @Override
+    public String toString() {
+        return this.getDivision_Name();
+    }
 }

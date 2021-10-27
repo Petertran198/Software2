@@ -10,6 +10,10 @@ public class Country {
     private LocalDateTime last_Update;
     private String last_Updated_By;
 
+    @Override
+    public String toString() {
+        return this.getCountryName();
+    }
 
     public Country(){
 
