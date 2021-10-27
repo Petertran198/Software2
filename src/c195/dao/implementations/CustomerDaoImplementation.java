@@ -142,7 +142,7 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
         ObservableList<FLDivision> divisions =
                 FXCollections.observableArrayList();
         String sql = "SELECT Division_ID, Division, Country_ID FROM " +
-                "first_level_divisions";
+                "first_level_divisions ";
         try(
                 Statement statement = JDBC.getConnection().createStatement();
                 ResultSet resultSet = statement.executeQuery(sql);

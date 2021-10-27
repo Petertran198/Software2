@@ -34,7 +34,7 @@ public class AddCustomerController implements Initializable {
     // errors
     @FXML private Label errors;
     String errorListString = "";
-
+    private static  ObservableList<FLDivision> allFlds;
 
     //customerDao is used for accessing and saving customer data.
     CustomerDaoInterface customerDAO = new CustomerDaoImplementation();
@@ -72,42 +72,18 @@ public class AddCustomerController implements Initializable {
         countryDropDown.setItems(customerDAO.getCountryList());
     }
 
-    /**
-     * Same implementation and reasoning as getCountryDataForComboBox()
-     * The method will display the Division aka (state) but hold the FLDDivision
-     * object.
-     */
-    public void getDivisionDataForComboBox(){
-        Callback<ListView<FLDivision>, ListCell<FLDivision>> cellFactory =
-                new Callback<>() {
-                    @Override
-                    public ListCell<FLDivision> call(ListView<FLDivision> l) {
-                        return new ListCell<>() {
-                            @Override
-                            protected void updateItem(FLDivision division,
-                                                      boolean empty) {
-                                super.updateItem(division, empty);
-                                if (division == null || empty) {
-                                    setGraphic(null);
-                                } else {
-                                    setText(division.getDivision_Name());
-                                }
-                            }
-                        };
-                    }
-                };
-        FLDDropDown.setButtonCell(cellFactory.call(null));
-        FLDDropDown.setCellFactory(cellFactory);
-        FLDDropDown.setItems(customerDAO.getFLDDivisionList());
+    public void selectCountry(ActionEvent event) throws Exception{
+        //If a country is selected from dropdown
+        if(countryDropDown.getSelectionModel().getSelectedItem() != null){
+            int country_id =
+                    countryDropDown.getSelectionModel().getSelectedItem().getCountry_ID();
+            ObservableList<FLDivision> selectedCountryFLDList =
+                    allFlds.filtered(fld -> fld.getCountry_ID() == country_id);
+            FLDDropDown.setItems(selectedCountryFLDList);
+        }
     }
 
-    /**
-     * In charge of selecting the first item in comboboxes
-     */
-    public void selectFirstItemFromComboBox(){
-        countryDropDown.getSelectionModel().selectFirst();
-        FLDDropDown.getSelectionModel().selectFirst();
-    }
+
 
     public  String handleFormEmptyField(String name, String address,
                                             String phone, String postal
@@ -131,25 +107,31 @@ public class AddCustomerController implements Initializable {
 
 
     public void saveCustomer(ActionEvent event) throws Exception{
-       String name = nameTextField.getText();
-       String address = addressTextField.getText();
-       String phone = phoneTextField.getText();
-       String postal = postalTextField.getText();
-       FLDivision div =
-               FLDDropDown.getSelectionModel().getSelectedItem();
-       int divID = div.getDivision_ID();
-       errorListString = handleFormEmptyField(name,address,phone,postal);
-       errors.setText(errorListString);
-       if(errorListString.isBlank()){
-           Customer customer = new Customer(name, address, postal,phone,
-                divID);
-           try {
-                customerDAO.addCustomer(customer);
-                SwitchRoute.switchToHome(event);
-           }catch (NullPointerException e){
-               System.out.println("Can not add user " + e.getMessage());
-           }
-       }
+        String name = "";
+        String address = "";
+        String phone = "";
+        String postal = "";
+        try{
+             name = nameTextField.getText();
+             address = addressTextField.getText();
+             phone = phoneTextField.getText();
+             postal = postalTextField.getText();
+            FLDivision div =
+                    FLDDropDown.getSelectionModel().getSelectedItem();
+            int divID = div.getDivision_ID();
+            Customer customer = new Customer(name, address, postal,phone,
+                        divID);
+            customerDAO.addCustomer(customer);
+            SwitchRoute.switchToHome(event);
+        }catch(NullPointerException e ){
+            errorListString = handleFormEmptyField(name,address,phone,postal);
+            errorListString = errorListString + "\n-Please make sure all " +
+                    "combo " +
+                    "boxes are filled";
+            errors.setText(errorListString);
+        }
+
+
     }
     /** This method when click will switch to the home.fxml
      * @param event any ActionEvent most likely click
@@ -162,7 +144,8 @@ public class AddCustomerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getCountryDataForComboBox();
-        getDivisionDataForComboBox();
-        selectFirstItemFromComboBox();
+        //Get all fld's then filtered later using lambda expression
+        allFlds = customerDAO.getFLDDivisionList();
+
     }
 }
