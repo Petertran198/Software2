@@ -186,20 +186,25 @@ public class EditCustomerController implements Initializable {
         customerIDField.setText(Integer.toString(customer.getCustomer_ID()));
         countriesList = customerDAO.getCountryList();
 
-        for(Country country: countriesList){
+        //Used Lambda to iterate through countriesList, populate combo with
+        // selected country and also get the country_id of that country to
+        // filter the states that belongs to the country later
+        countriesList.forEach(country -> {
             if(country.getCountryName().equals(customer.getCountry_name())){
                 countryDropDown.getSelectionModel().select(country);
                 country_id = country.getCountry_ID();
             }
-        }
+        });
 
-        FLDList =
-                customerDAO.getFLDDivisionList();
-        for(FLDivision fld: FLDList){
+        FLDList = customerDAO.getFLDDivisionList();
+        //Used Lambda function to iterate and populate combo box with correct
+        // selected country
+        FLDList.forEach(fld -> {
             if(fld.getDivision_Name().equals(customer.getDivision())){
                 FLDDropDown.getSelectionModel().select(fld);
             }
-        }
+
+        });
 
     }
 
