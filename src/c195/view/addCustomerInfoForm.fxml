@@ -56,7 +56,7 @@
                 </Label>
                 <TextField fx:id="postalTextField" layoutX="110.0" layoutY="244.0" prefHeight="25.0" prefWidth="149.0" />
                 <TextField fx:id="addressTextField" layoutX="109.0" layoutY="200.0" prefHeight="25.0" prefWidth="149.0" />
-                <ComboBox fx:id="countryDropDown" layoutX="40.0" layoutY="14.0" onAction="#selectCountry" prefHeight="25.0" prefWidth="210.0" promptText="Select Country">
+                <ComboBox fx:id="countryDropDown" layoutX="40.0" layoutY="14.0" onAction="#selectCountryToFilterFLD" prefHeight="25.0" prefWidth="210.0" promptText="Select Country">
                     <padding>
                         <Insets left="50.0" />
                     </padding>

@@ -34,7 +34,7 @@ public class AddCustomerController implements Initializable {
     // errors
     @FXML private Label errors;
     String errorListString = "";
-    private static  ObservableList<FLDivision> allFlds;
+    private  ObservableList<FLDivision> allFlds;
 
     //customerDao is used for accessing and saving customer data.
     CustomerDaoInterface customerDAO = new CustomerDaoImplementation();
@@ -72,11 +72,14 @@ public class AddCustomerController implements Initializable {
         countryDropDown.setItems(customerDAO.getCountryList());
     }
 
-    public void selectCountry(ActionEvent event) throws Exception{
+    public void selectCountryToFilterFLD(ActionEvent event) throws Exception{
         //If a country is selected from dropdown
         if(countryDropDown.getSelectionModel().getSelectedItem() != null){
             int country_id =
                     countryDropDown.getSelectionModel().getSelectedItem().getCountry_ID();
+            //Instead of hitting the database and querying for all FLD's
+            // WHERE country_id = "insert-country-id" I used a lambda to filter
+            // the flds after I get the country via selection of combo box
             ObservableList<FLDivision> selectedCountryFLDList =
                     allFlds.filtered(fld -> fld.getCountry_ID() == country_id);
             FLDDropDown.setItems(selectedCountryFLDList);

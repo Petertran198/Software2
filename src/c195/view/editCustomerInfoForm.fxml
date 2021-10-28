@@ -32,8 +32,7 @@
                         <Font name="Arial" size="18.0" />
                     </font>
                 </Label>
-                <TextField fx:id="customerIDField" disable="true"
-                           editable="false" layoutX="156.0" layoutY="101.0" promptText="Auto Gen - Disabled" />
+                <TextField fx:id="customerIDField" disable="true" editable="false" layoutX="156.0" layoutY="101.0" promptText="Auto Gen - Disabled" />
                 <TextField fx:id="nameTextField" layoutX="153.0" layoutY="200.0" prefHeight="25.0" prefWidth="149.0" />
                 <TextField fx:id="phoneTextField" layoutX="153.0" layoutY="240.0" prefHeight="25.0" prefWidth="149.0" />
                 <Label fx:id="errors" layoutX="4.0" layoutY="275.0" prefHeight="122.0" prefWidth="301.0">
@@ -56,7 +55,7 @@
                 </Label>
                 <TextField fx:id="postalTextField" layoutX="110.0" layoutY="244.0" prefHeight="25.0" prefWidth="149.0" />
                 <TextField fx:id="addressTextField" layoutX="109.0" layoutY="200.0" prefHeight="25.0" prefWidth="149.0" />
-                <ComboBox fx:id="countryDropDown" layoutX="40.0" layoutY="14.0" prefHeight="25.0" prefWidth="210.0" promptText="Select Country">
+                <ComboBox fx:id="countryDropDown" layoutX="40.0" layoutY="14.0" onAction="#selectCountryToFilterFLD" prefHeight="25.0" prefWidth="210.0" promptText="Select Country">
 
                 </ComboBox>
                 <ComboBox fx:id="FLDDropDown" layoutX="40.0" layoutY="101.0" prefHeight="25.0" prefWidth="210.0" promptText="Choose First-Level Division">
