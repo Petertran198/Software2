@@ -20,6 +20,7 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
                         "a.Title, " +
                         "a.Description, "+
                         "a.Location, " +
+                        "a.Contact_ID, "+
                         "c.Contact_Name, "+
                         "a.Type, "+
                         "a.Start, "+
@@ -42,13 +43,14 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
                 String type = resultSet.getString("Type");
                 int customerID = resultSet.getInt("Customer_ID");
                 int userID = resultSet.getInt("User_ID");
+                int contactID = resultSet.getInt("Contact_ID");
                 LocalDateTime start = resultSet.getTimestamp("Start").toLocalDateTime();
                 LocalDateTime end =
                         resultSet.getTimestamp("End").toLocalDateTime();
 
                 Appointment appointment = new Appointment(appointmentID,title
                         ,description, location, contact_name,type,customerID,
-                        userID,start,end );
+                        userID,contactID,start,end );
                 appointments.add(appointment);
             }
             statement.close();

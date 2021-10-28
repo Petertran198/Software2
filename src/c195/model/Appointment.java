@@ -18,10 +18,11 @@ public class Appointment {
     private int user_ID;
     private int contact_ID;
     private String contact_name;
-
+    private int contact_id;
     public Appointment(int appointment_id, String title, String description,
                        String location,String contactName, String type,
-                       int customer_id, int user_ID, LocalDateTime start,
+                       int customer_id, int user_id,
+                       int contact_id, LocalDateTime start,
                        LocalDateTime end){
         this.appointment_ID = appointment_id;
         this.title = title;
@@ -30,7 +31,8 @@ public class Appointment {
         this.type = type;
         this.contact_name = contactName;
         this.customer_ID = customer_id;
-        this.user_ID = user_ID;
+        this.user_ID = user_id;
+        this.contact_ID = contact_id;
         this.start = start;
         this.end = end;
     }

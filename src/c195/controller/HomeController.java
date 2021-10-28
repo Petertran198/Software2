@@ -204,7 +204,7 @@ public class HomeController implements Initializable {
         appointmentList = appointmentDao.getAllAppointment();
         appointmentTable.setItems(appointmentList);
         appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>(
-                "customer_ID"));
+                "appointment_ID"));
         appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>(
                 "title"));
         appointmentDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>(
