@@ -4,10 +4,8 @@ import c195.dao.implementations.AppointmentDaoImplementation;
 import c195.dao.implementations.CustomerDaoImplementation;
 import c195.dao.interfaces.AppointmentDaoInterface;
 import c195.dao.interfaces.CustomerDaoInterface;
-import c195.model.Contact;
-import c195.model.Country;
-import c195.model.Customer;
-import c195.model.User;
+import c195.model.*;
+import c195.utilities.DateTimeHelper;
 import c195.utilities.SwitchRoute;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
@@ -144,23 +143,45 @@ public class AddAppointmentController implements Initializable {
 
 
     public void saveAppointment(ActionEvent event) {
-        int startHour;
-        int startMinutes;
-        int endHour;
-        int endMinutes;
+        //Convert 0 -> 00, 1 -> 01
+        String startHourString;
+        String endHourString;
         //Convert 0 -> 00, 1 -> 01
         String startMinutesString;
         String endMinutesString;
         // Combined string for Date,hours & mins of am/pm start and end date
         String combinedStartTime;
         String combinedEndTime;
+        LocalDateTime startLocalDateTime;
+        LocalDateTime endLocalDateTime;
         try{
             String title = titleField.getText();
             String type = typeField.getText();
             String location = locationField.getText();
             String description = descriptionField.getText();
-            startMinutes = startMinutesSpinner.getValue();
-            endMinutes = endMinutesSpinner.getValue();
+            int startMinutes = startMinutesSpinner.getValue();
+            int endMinutes = endMinutesSpinner.getValue();
+            int startHour = startHourSpinner.getValue();
+            int endHour = endHourSpinner.getValue();
+
+            //If Start Am Radio Button is selected
+            if(startTimePMRadioButton.isSelected()){
+                startHour = startHourSpinner.getValue() + 12;
+            }
+            //If End Am Radio Button is selected
+            if(endTimePMRadioButton.isSelected()){
+                endHour = endHourSpinner.getValue() + 12;
+            }
+            //Date Picker --------------
+            String startDatePickerString =
+                    startDatePicker.getValue().toString();
+            String endDatePickerString = endDatePicker.getValue().toString();
+            //Time ----------
+            startHourString = (startHour < 10 ?
+                    "0"+startHour :
+                    String.valueOf(startHour));
+            endHourString = (endHour < 10 ? "0"+endHour :
+                    String.valueOf(endHour));
             //Move double two decimal place so it can get converted to minutes
             startMinutesString = (startMinutes < 10 ?
                     "0"+startMinutes :
@@ -168,32 +189,28 @@ public class AddAppointmentController implements Initializable {
             endMinutesString = (endMinutes < 10 ?
                     "0"+endMinutes :
                     String.valueOf(endMinutes));
-
-            //If Start Am Radio Button is selected
-            if(startTimeAMRadioButton.isSelected()){
-                startHour = startHourSpinner.getValue();
-            }else{
-                startHour = startHourSpinner.getValue() + 12;
-            }
-            //If End Am Radio Button is selected
-            if(endTimeAMRadioButton.isSelected()){
-                endHour = endHourSpinner.getValue();
-            }else{
-                endHour = endHourSpinner.getValue() + 12;
-            }
-            String startDatePickerString =
-                    startDatePicker.getValue().toString();
-            String endDatePickerString = endDatePicker.getValue().toString();
             //Format Ex 2021-09-29 1:20  NOTE 24hour format
             combinedStartTime =
-                    startDatePickerString+" "+startHour+":"+startMinutesString;
-            combinedEndTime = endDatePickerString+" "+endHour+
-                    ":"+endMinutesString;
+                    startDatePickerString+" "+startHourString+":"+startMinutesString;
+            combinedEndTime =
+                    endDatePickerString+" "+endHourString+":" + endMinutesString;
+              startLocalDateTime = DateTimeHelper.convertToUTC(combinedStartTime);
+              endLocalDateTime = DateTimeHelper.convertToUTC(combinedEndTime);
+            Appointment appointment = new Appointment(title,description,
+                    location,contactCombo.getValue().getContact_Name(), type,
+                    customerCombo.getValue().getCustomer_ID(),
+                    userCombo.getValue().getUser_ID(),
+                    contactCombo.getValue().getContact_ID(),
+                    startLocalDateTime,endLocalDateTime);
 
-
+            appointmentDAO.saveAppointment(appointment);
+            SwitchRoute.switchToHome(event);
         }catch(NullPointerException e){
             errors.setText("\nPlease fill out all fields \n-Date " +
-                    "Pickers \n-Text Fields");
+                    "Pickers \n-Text Fields \n-Combo Boxes");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error From AddAppointment can't SeitchRoute");
         }
 
 

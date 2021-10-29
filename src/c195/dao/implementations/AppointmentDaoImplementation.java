@@ -3,6 +3,7 @@ package c195.dao.implementations;
 import c195.dao.JDBC;
 import c195.dao.interfaces.AppointmentDaoInterface;
 import c195.model.*;
+import c195.utilities.DateTimeHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -49,8 +50,9 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
                         resultSet.getTimestamp("End").toLocalDateTime();
 
                 Appointment appointment = new Appointment(appointmentID,title
-                        ,description, location, contact_name,type,customerID,
-                        userID,contactID,start,end );
+                        ,description,location,contact_name,type,customerID,
+                        userID,contactID,start,end);
+
                 appointments.add(appointment);
             }
             statement.close();
@@ -138,6 +140,30 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
             System.out.println("Error in getAllCustomer method " + e.getMessage());
         }
         return users;
+    }
+
+    @Override
+    public void saveAppointment(Appointment appointment) {
+        String sql = "INSERT INTO appointments(Title,Description,Location," +
+                "Type,Customer_ID,User_ID, Contact_ID, Start, End) VALUES(?," +
+                "?,?,?,?,?,?,?,?)";
+        try{
+            PreparedStatement preparedStatement =
+                    JDBC.getConnection().prepareStatement(sql);
+            preparedStatement.setString(1,appointment.getTitle());
+            preparedStatement.setString(2, appointment.getDescription());
+            preparedStatement.setString(3,appointment.getLocation());
+            preparedStatement.setString(4,appointment.getType());
+            preparedStatement.setInt(5,appointment.getCustomer_ID());
+            preparedStatement.setInt(6,appointment.getUser_ID());
+            preparedStatement.setInt(7,appointment.getContact_ID());
+            preparedStatement.setObject(8, appointment.getStart());
+            preparedStatement.setObject(9, appointment.getEnd());
+            preparedStatement.executeUpdate();
+            //Got to work on converting the two dates to utc
+        }catch(SQLException e){
+            System.out.println("Error in addAppointment "+ e.getMessage());
+        }
     }
 
 }

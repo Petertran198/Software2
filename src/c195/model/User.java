@@ -25,4 +25,12 @@ public class User {
     public void setUser_Name(String user_Name) {
         this.user_Name = user_Name;
     }
+
+    public int getUser_ID() {
+        return user_ID;
+    }
+
+    public void setUser_ID(int user_ID) {
+        this.user_ID = user_ID;
+    }
 }

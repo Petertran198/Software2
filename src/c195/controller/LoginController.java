@@ -117,6 +117,7 @@ public class LoginController implements Initializable {
                 if(LoginAccount.logIntoAccount(userIDTextField.getText(),
                         passwordTextField.getText())){
                     log.logInfo(true);
+
                     SwitchRoute.switchToHome(event);
                 }else {
                     errorMsg += "\n -"+
