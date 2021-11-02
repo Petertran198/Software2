@@ -14,5 +14,6 @@ public interface AppointmentDaoInterface {
     ObservableList<User> getAllUsers();
     public void saveAppointment(Appointment appointment);
     public Appointment findAppointment(int id);
+    public void updateAppointment(Appointment appointment);
 
 }

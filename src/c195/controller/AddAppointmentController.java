@@ -161,6 +161,7 @@ public class AddAppointmentController implements Initializable {
             String description = descriptionField.getText();
             int startMinutes = startMinutesSpinner.getValue();
             int endMinutes = endMinutesSpinner.getValue();
+            //12AM is 00H  while 12PM is 12H AND 1PM is 13H
             int startHour = startHourSpinner.getValue();
             int endHour = endHourSpinner.getValue();
 

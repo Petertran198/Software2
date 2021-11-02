@@ -160,7 +160,6 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
             preparedStatement.setObject(8, appointment.getStart());
             preparedStatement.setObject(9, appointment.getEnd());
             preparedStatement.executeUpdate();
-            //Got to work on converting the two dates to utc
         }catch(SQLException e){
             System.out.println("Error in addAppointment "+ e.getMessage());
         }
@@ -205,7 +204,6 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
                 appointment.setContact_ID(contact_id);
                 appointment.setStart(start);
                 appointment.setEnd(end);
-                System.out.println(appointment.getStart() + "---------------");
                 return appointment;
             }
             return appointment;
@@ -213,6 +211,30 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
             System.out.println("Error in findAppointment "+ e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public void updateAppointment(Appointment appointment) {
+        try{
+            String sql = "Update appointments" +
+                    " SET Title=?, Description=?, Location=?, Type=?," +
+                    " Start=?, End=?, Customer_ID=?, User_ID =?, Contact_ID =? " +
+                    "WHERE Appointment_ID=?";
+            PreparedStatement preparedStatement = JDBC.getConnection().prepareStatement(sql);
+            preparedStatement.setString(1,appointment.getTitle());
+            preparedStatement.setString(2,appointment.getDescription());
+            preparedStatement.setString(3,appointment.getLocation());
+            preparedStatement.setString(4,appointment.getType());
+            preparedStatement.setObject(5, appointment.getStart());
+            preparedStatement.setObject(6,appointment.getEnd());
+            preparedStatement.setInt(7, appointment.getCustomer_ID());
+            preparedStatement.setInt(8, appointment.getUser_ID());
+            preparedStatement.setInt(9, appointment.getContact_ID());
+            preparedStatement.setInt(10, appointment.getAppointment_ID());
+            preparedStatement.executeUpdate();
+        }catch(SQLException e ){
+            System.out.println("Error in updateAppointment "+ e.getMessage());
+        }
     }
 
 }
