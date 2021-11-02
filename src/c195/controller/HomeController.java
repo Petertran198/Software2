@@ -98,7 +98,7 @@ public class HomeController implements Initializable {
             String name = selectedCustomer.getCustomer_Name();
             int confirmDelete = JOptionPane.showConfirmDialog(null,"Are u sure u " +
                             "want" +
-                            " to delete?\nCustomer: "+name+" with the id "+id +
+                            " to delete? \nCustomer: "+name+" with the id "+id +
                             "\nAll their " +
                             "APPOINTMENTS will also be deleted.\nPlease " +
                             "confirm that is what you want.",
@@ -129,14 +129,25 @@ public class HomeController implements Initializable {
             String type = selectedAppointment.getType();
             int confirmDelete = JOptionPane.showConfirmDialog(null,"Are u sure u " +
                             "want" +
-                            " to delete?\nAppointment Title: "+title+" | Type: "+type,
+                            " to delete? \nAppointment Title: "+title+" | Type: "+type,
                     "Delete " +
                             "Appointment " +
                             "Notice",
                     JOptionPane.YES_NO_OPTION);
             if(confirmDelete == JOptionPane.YES_OPTION){
+
+                //Got to save these info because the appointment will already be deleted therefore
+                //I can't called selectedAppointment.getAppointment_ID
+                int appointmentID = selectedAppointment.getAppointment_ID();
+                String appointmentType = selectedAppointment.getType();
+                String appointmentTitle = selectedAppointment.getTitle();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Deleted Appointment");
+                alert.setContentText("Appointment ID: "+appointmentID +"\nAppointment Title: "+appointmentTitle+"\nType: "+appointmentType+
+                        "\n Has been deleted");
                 appointmentDao.deleteAppointment(id);
                 showAppointmentTable();
+                alert.show();
             }
         }catch(NullPointerException e){
             Alert noAppointmentSelectedAlert = new Alert(Alert.AlertType.ERROR);
