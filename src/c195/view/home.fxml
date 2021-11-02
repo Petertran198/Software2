@@ -59,7 +59,7 @@
                     </columns>
                 </TableView>
                 <Button layoutX="7.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToAddAppointmentInfoForm" prefHeight="25.0" prefWidth="103.0" text="Add Appointment" />
-                <Button layoutX="115.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToEditAppointmentInfoForm" prefHeight="25.0" prefWidth="114.0" text="Edit Appointment" />
+                <Button layoutX="115.0" layoutY="216.0" mnemonicParsing="false" onAction="#modifyAppointment" prefHeight="25.0" prefWidth="114.0" text="Edit Appointment" />
                 <Button layoutX="808.0" layoutY="216.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="25.0" prefWidth="114.0" text="Delete Appointment" />
                 <RadioButton layoutX="475.0" layoutY="6.0" mnemonicParsing="false" text="All">
                     <toggleGroup>

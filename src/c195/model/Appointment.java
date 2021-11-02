@@ -36,6 +36,9 @@ public class Appointment {
         this.end = end;
     }
 
+    public Appointment(){
+
+    }
     //For addApartmentController
     public Appointment( String title, String description,
                        String location,String contactName, String type,

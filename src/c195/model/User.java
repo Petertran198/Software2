@@ -33,4 +33,9 @@ public class User {
     public void setUser_ID(int user_ID) {
         this.user_ID = user_ID;
     }
+
+    @Override
+    public String toString() {
+        return this.getUser_Name();
+    }
 }

@@ -112,7 +112,7 @@ public class EditCustomerController implements Initializable {
             int country_id =
                     countryDropDown.getSelectionModel().getSelectedItem().getCountry_ID();
             FLDDropDown.getSelectionModel().clearSelection();
-// Clear value of ComboBox because clearSelection() does not do it
+            // Clear value of ComboBox because clearSelection() does not do it
             FLDDropDown.setValue(null);
 
             //Instead of hitting the database and querying for all FLD's

@@ -53,6 +53,8 @@ public class HomeController implements Initializable {
 
     //This variable is to select the customer we want to edit
     public  static Customer selectedCustomerToModify;
+    //This variable is to select the appointment we want to edit
+    public static Appointment selectedAppointmentToModify;
 
 
     public void modifyCustomer(ActionEvent event) throws Exception{
@@ -68,6 +70,23 @@ public class HomeController implements Initializable {
             alert.setTitle("No Customer Selected");
             alert.setHeaderText("No Selection Notice");
             alert.setContentText("Please select a customer to edit.");
+            alert.showAndWait();
+        }
+    }
+
+    public void modifyAppointment(ActionEvent event) throws Exception{
+        String err = "";
+        Appointment selectedAppointment =
+                appointmentTable.getSelectionModel().getSelectedItem();
+        if(selectedAppointment != null){
+            selectedAppointmentToModify =
+                    appointmentDao.findAppointment(selectedAppointment.getAppointment_ID());
+            switchToEditAppointmentInfoForm(event);
+        }else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No Appointment Selected");
+            alert.setHeaderText("No Selection Notice");
+            alert.setContentText("Please select a Appointment to update.");
             alert.showAndWait();
         }
     }

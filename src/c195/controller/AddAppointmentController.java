@@ -164,12 +164,21 @@ public class AddAppointmentController implements Initializable {
             int startHour = startHourSpinner.getValue();
             int endHour = endHourSpinner.getValue();
 
-            //If Start Am Radio Button is selected
-            if(startTimePMRadioButton.isSelected()){
+
+            if(startTimeAMRadioButton.isSelected() && startHour == 12){
+                startHour = 0;
+            }
+            //If Start PM Radio Button is selected and the time isnt 12pm because 12pm is just 12H not 24H
+            //The rest of the PM's u add 12 too
+            if(startTimePMRadioButton.isSelected() && startHour != 12){
                 startHour = startHourSpinner.getValue() + 12;
             }
-            //If End Am Radio Button is selected
-            if(endTimePMRadioButton.isSelected()){
+
+            if(endTimeAMRadioButton.isSelected() && endHour == 12){
+                endHour = 0;
+            }
+            //If End PM Radio Button is selected and the time isnt 12pm because 12pm is just 12H not 24H
+            if(endTimePMRadioButton.isSelected() && endHour != 12){
                 endHour = endHourSpinner.getValue() + 12;
             }
             //Date Picker --------------
@@ -194,10 +203,13 @@ public class AddAppointmentController implements Initializable {
                     startDatePickerString+" "+startHourString+":"+startMinutesString;
             combinedEndTime =
                     endDatePickerString+" "+endHourString+":" + endMinutesString;
-              startLocalDateTime = DateTimeHelper.convertToUTC(combinedStartTime);
-              endLocalDateTime = DateTimeHelper.convertToUTC(combinedEndTime);
+            //Convert start/end datetime string to utc time to be saved to the data base
+            startLocalDateTime = DateTimeHelper.convertToUTC(combinedStartTime);
+            endLocalDateTime = DateTimeHelper.convertToUTC(combinedEndTime);
+
+
             Appointment appointment = new Appointment(title,description,
-                    location,contactCombo.getValue().getContact_Name(), type,
+                    location,contactCombo.getValue().getContact_Name(),type,
                     customerCombo.getValue().getCustomer_ID(),
                     userCombo.getValue().getUser_ID(),
                     contactCombo.getValue().getContact_ID(),
@@ -210,7 +222,7 @@ public class AddAppointmentController implements Initializable {
                     "Pickers \n-Text Fields \n-Combo Boxes");
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error From AddAppointment can't SeitchRoute");
+            System.out.println("Error From AddAppointment can't SwitchRoute");
         }
 
 

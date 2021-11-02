@@ -33,4 +33,12 @@ public class Contact {
     public void setContact_ID(int contact_ID) {
         this.contact_ID = contact_ID;
     }
+
+
+    //This method will instead of populating the combo box with just
+    // the object in string form (Non legible) will instead return the contact's name
+    @Override
+    public String toString() {
+        return this.getContact_Name();
+    }
 }

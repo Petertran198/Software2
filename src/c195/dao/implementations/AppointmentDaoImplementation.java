@@ -166,4 +166,53 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         }
     }
 
+    @Override
+    public Appointment findAppointment(int id) {
+        String sql = "SELECT a.Appointment_ID, a.Title, a.Description, a.Location," +
+                            "a.Type,a.Start, a.end, user.User_ID, contact.Contact_ID," +
+                            " Customer.Customer_ID\n" +
+                        "FROM appointments a\n" +
+                    "INNER JOIN users user\n" +
+                        "ON a.User_ID = user.User_ID\n" +
+                    "INNER JOIN contacts contact\n" +
+                        "ON a.Contact_ID = contact.Contact_ID\n" +
+                    "INNER JOIN customers customer \n" +
+                        "ON a.Customer_ID = customer.Customer_ID \n" +
+                    "WHERE a.Appointment_ID =" + id +" LIMIT 1";
+        Appointment appointment = new Appointment();
+        try(
+                Statement statement = JDBC.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+        ){
+            while(resultSet.next()){
+                int appointment_id = resultSet.getInt("Appointment_ID");
+                String title = resultSet.getString("Title");
+                String description = resultSet.getString("Description");
+                String location = resultSet.getString("Location");
+                String type = resultSet.getString("Type");
+                LocalDateTime start = resultSet.getObject("Start",LocalDateTime.class );
+                LocalDateTime end = resultSet.getObject("End",LocalDateTime.class );
+                int customer_id = resultSet.getInt("Customer_ID");
+                int user_id = resultSet.getInt("User_ID");
+                int contact_id = resultSet.getInt("Contact_ID");
+                appointment.setAppointment_ID(appointment_id);
+                appointment.setTitle(title);
+                appointment.setDescription(description);
+                appointment.setLocation(location);
+                appointment.setType(type);
+                appointment.setCustomer_ID(customer_id);
+                appointment.setUser_ID(user_id);
+                appointment.setContact_ID(contact_id);
+                appointment.setStart(start);
+                appointment.setEnd(end);
+                System.out.println(appointment.getStart() + "---------------");
+                return appointment;
+            }
+            return appointment;
+        }catch (SQLException e){
+            System.out.println("Error in findAppointment "+ e.getMessage());
+        }
+        return null;
+    }
+
 }

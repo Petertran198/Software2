@@ -13,5 +13,6 @@ public interface AppointmentDaoInterface {
     ObservableList<Contact> getAllContacts();
     ObservableList<User> getAllUsers();
     public void saveAppointment(Appointment appointment);
+    public Appointment findAppointment(int id);
 
 }
