@@ -183,8 +183,8 @@ public class EditAppointmentController implements Initializable {
     }
 
     public void initDates(){
-        startDatePicker.setValue(DateTimeHelper.convertLocalDateTimeToLocalDate(appointment.getStart()));
-        endDatePicker.setValue(DateTimeHelper.convertLocalDateTimeToLocalDate(appointment.getEnd()));
+        startDatePicker.setValue(DateTimeHelper.convertUTCLocalDateTimeToLocalDate(appointment.getStart()));
+        endDatePicker.setValue(DateTimeHelper.convertUTCLocalDateTimeToLocalDate(appointment.getEnd()));
 
     }
 
@@ -282,8 +282,26 @@ public class EditAppointmentController implements Initializable {
                     userCombo.getValue().getUser_ID(),
                     contactCombo.getValue().getContact_ID(),
                     startLocalDateTime,endLocalDateTime);
-
             a.setAppointment_ID(appointment.getAppointment_ID());
+
+            //Appointments validation check ---------------------------------
+            //Check if appointment is made within comapny's hour 8am to 10pm
+            if(!DateTimeHelper.isAppointmentTimeWithinCompanysTime(startLocalDateTime,endLocalDateTime)){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Conflicting Appointment Time");
+                alert.setContentText("Appointments must be made within business hours. \n 8AM - 10PM EST Mon-Sun");
+                alert.show();
+                return;
+            }
+            //Check if appointment overlap
+            if(DateTimeHelper.isAppointmentOverlapping(appointment, appointmentDAO.getAllAppointment())){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Conflicting Appointment Time");
+                alert.setContentText("This appointment overlap with another client.");
+                alert.show();
+                return;
+            }
+
             appointmentDAO.updateAppointment(a);
 
             SwitchRoute.switchToHome(event);
@@ -308,5 +326,6 @@ public class EditAppointmentController implements Initializable {
         initTimeSpinnersWithValues();
         initDates();
         setTimeSpinners();
+
     }
 }

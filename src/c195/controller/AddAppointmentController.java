@@ -204,7 +204,8 @@ public class AddAppointmentController implements Initializable {
                     startDatePickerString+" "+startHourString+":"+startMinutesString;
             combinedEndTime =
                     endDatePickerString+" "+endHourString+":" + endMinutesString;
-            //Convert start/end datetime string to utc time to be saved to the data base
+
+            //Converted start/end datetime string to utc time to be saved to the db aka START/END
             startLocalDateTime = DateTimeHelper.convertToUTC(combinedStartTime);
             endLocalDateTime = DateTimeHelper.convertToUTC(combinedEndTime);
 
@@ -216,6 +217,23 @@ public class AddAppointmentController implements Initializable {
                     contactCombo.getValue().getContact_ID(),
                     startLocalDateTime,endLocalDateTime);
 
+            //Appointments validation check -------------------------------
+            //Check if appointment is made within comapny's hour 8am to 10pm
+            if(!DateTimeHelper.isAppointmentTimeWithinCompanysTime(startLocalDateTime,endLocalDateTime)){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Conflicting Appointment Time");
+                alert.setContentText("Appointments must be made within business hours. \n 8AM - 10PM EST Mon-Sun");
+                alert.show();
+                return;
+            }
+            //Check if appointment overlap
+            if(DateTimeHelper.isAppointmentOverlapping(appointment, appointmentDAO.getAllAppointment())){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Conflicting Appointment Time");
+                alert.setContentText("This appointment overlap with another client.");
+                alert.show();
+                return;
+            }
             appointmentDAO.saveAppointment(appointment);
             SwitchRoute.switchToHome(event);
         }catch(NullPointerException e){

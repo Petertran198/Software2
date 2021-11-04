@@ -237,4 +237,25 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         }
     }
 
+    @Override
+    public ObservableList<Appointment> getUsersAppointments(int id) {
+        String sql = "Select * FROM Appointments WHERE User_ID =" + id;
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        try{
+            Statement statement =
+                    JDBC.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()){
+                Appointment appointment = new Appointment();
+                appointment.setStart(resultSet.getObject("Start", LocalDateTime.class));
+                appointment.setEnd(resultSet.getObject("End", LocalDateTime.class));
+                appointment.setAppointment_ID(resultSet.getInt("Appointment_ID"));
+                appointments.add(appointment);
+            }
+        }catch(SQLException e){
+            System.out.println("Error in getUsersAppointments method " + e.getMessage());
+        }
+        return appointments;
+    }
+
 }

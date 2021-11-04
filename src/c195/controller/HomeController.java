@@ -6,7 +6,9 @@ import c195.dao.interfaces.AppointmentDaoInterface;
 import c195.dao.interfaces.CustomerDaoInterface;
 import c195.model.Appointment;
 import c195.model.Customer;
+import c195.utilities.DateTimeHelper;
 import c195.utilities.SwitchRoute;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +21,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.swing.*;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 
@@ -144,7 +149,7 @@ public class HomeController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Deleted Appointment");
                 alert.setContentText("Appointment ID: "+appointmentID +"\nAppointment Title: "+appointmentTitle+"\nType: "+appointmentType+
-                        "\n Has been deleted");
+                        "\nHas been deleted");
                 appointmentDao.deleteAppointment(id);
                 showAppointmentTable();
                 alert.show();
@@ -156,6 +161,38 @@ public class HomeController implements Initializable {
             noAppointmentSelectedAlert.show();
         }
 
+    }
+
+
+    //This method notifies if we have an appointment within 15 mins from us
+    public void checkIfUserHasAppointmentsWithin15Mins(){
+        ObservableList<Appointment> usersAppointments =
+                appointmentDao.getUsersAppointments(1);
+        //Itterate though user appointments, convert to local time and check if
+        // there is an appointment with 15 mins
+        usersAppointments.forEach(appointment -> {
+            LocalDateTime localConvertedStartTime =
+                    DateTimeHelper.convertUTCLocalDateTimeToSystemDefault(appointment.getStart());
+            LocalDateTime localTimeRn =
+                    LocalDateTime.now(ZoneId.systemDefault());
+            LocalDateTime localDateTimeRNPlus15Mins =
+                    LocalDateTime.now(ZoneId.systemDefault()).plusMinutes(15);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+
+            System.out.println(localConvertedStartTime +"Appointment Start Time ");
+            System.out.println(localTimeRn + "Time rn");
+
+
+            if(localConvertedStartTime.isAfter(localTimeRn) && (localConvertedStartTime.isBefore(localDateTimeRNPlus15Mins))){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                String sentence = "You have an upcoming appointment.  " +
+                        "\nAppointment" +
+                        " ID: "+ appointment.getAppointment_ID() +"\nStarting at "+localConvertedStartTime.toLocalTime().format(formatter)+"\nLocal Time: " +localTimeRn.toLocalTime().format(formatter)
+                        ;
+                alert.setContentText(sentence);
+                alert.show();
+            }
+        });
     }
     /** This method when click will switch to the addCustomerInfoForm.fxml
      * @param event any ActionEvent most likely click
@@ -255,9 +292,16 @@ public class HomeController implements Initializable {
                 "end"));
     }
 
+//    public void o(){
+//        ObservableList<Appointment> appointments =
+//                FXCollections.observableArrayList();
+//        appointments = appointmentDao.getUsersAppointments(1);
+//        System.out.println(appointments);
+//    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         showCustomerTable();
         showAppointmentTable();
+        checkIfUserHasAppointmentsWithin15Mins();
     }
 }
