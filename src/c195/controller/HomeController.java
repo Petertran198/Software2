@@ -62,6 +62,7 @@ public class HomeController implements Initializable {
     public static Appointment selectedAppointmentToModify;
 
 
+
     public void modifyCustomer(ActionEvent event) throws Exception{
         String err = "";
         Customer selectedCustomer =
@@ -167,7 +168,7 @@ public class HomeController implements Initializable {
     //This method notifies if we have an appointment within 15 mins from us
     public void checkIfUserHasAppointmentsWithin15Mins(){
         ObservableList<Appointment> usersAppointments =
-                appointmentDao.getUsersAppointments(1);
+                appointmentDao.getUsersAppointments(LoginController.user_id);
         //Itterate though user appointments, convert to local time and check if
         // there is an appointment with 15 mins
         usersAppointments.forEach(appointment -> {

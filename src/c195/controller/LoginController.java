@@ -1,5 +1,6 @@
 package c195.controller;
 
+import c195.model.User;
 import c195.utilities.LoginAccount;
 import c195.utilities.SwitchRoute;
 import c195.utilities.TextLog;
@@ -49,6 +50,8 @@ public class LoginController implements Initializable {
     private Scene scene;
     private Parent root;
 
+    //transfer user to home for appointment verification
+    public static int user_id;
 
     //Needed to append the error message if other error messages are needed
     private String errorMsg = "";
@@ -114,10 +117,11 @@ public class LoginController implements Initializable {
     private void loginToAccount(ActionEvent event)  {
         TextLog log = new TextLog();
         try{
-                if(LoginAccount.logIntoAccount(userIDTextField.getText(),
-                        passwordTextField.getText())){
+            User loggedInUser = LoginAccount.logIntoAccount(userIDTextField.getText(),
+                    passwordTextField.getText());
+                if( loggedInUser != null){
                     log.logInfo(true);
-
+                    LoginController.user_id = loggedInUser.getUser_ID();
                     SwitchRoute.switchToHome(event);
                 }else {
                     errorMsg += "\n -"+

@@ -18,6 +18,10 @@ public class User {
         this.user_Name=user_Name;
     }
 
+    public User() {
+
+    }
+
     public String getUser_Name() {
         return user_Name;
     }
