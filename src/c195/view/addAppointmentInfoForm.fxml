@@ -15,24 +15,24 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195.controller.AddAppointmentController">
     <children>
-        <AnchorPane prefHeight="400.0" prefWidth="152.0">
+        <AnchorPane prefHeight="506.0" prefWidth="243.0">
             <children>
                 <Label layoutX="11.0" layoutY="25.0" text="Appointment">
                     <font>
                         <Font name="Arial Black" size="18.0" />
                     </font>
                 </Label>
-                <ComboBox fx:id="contactCombo" layoutX="7.0" layoutY="128.0" prefHeight="25.0" prefWidth="181.0" promptText="Select Contact">
+                <ComboBox fx:id="contactCombo" layoutX="7.0" layoutY="128.0" prefHeight="25.0" prefWidth="195.0" promptText="Select Contact">
                     <padding>
                         <Insets left="50.0" />
                     </padding>
                 </ComboBox>
-                <ComboBox fx:id="customerCombo" layoutX="7.0" layoutY="200.0" prefHeight="25.0" prefWidth="181.0" promptText="Select Customer">
+                <ComboBox fx:id="customerCombo" layoutX="7.0" layoutY="200.0" prefHeight="25.0" prefWidth="195.0" promptText="Select Customer">
                     <padding>
                         <Insets left="50.0" />
                     </padding>
                 </ComboBox>
-                <ComboBox fx:id="userCombo" layoutX="7.0" layoutY="270.0" prefHeight="25.0" prefWidth="181.0" promptText="Select User">
+                <ComboBox fx:id="userCombo" layoutX="7.0" layoutY="270.0" prefHeight="25.0" prefWidth="195.0" promptText="Select User">
                     <padding>
                         <Insets left="50.0" />
                     </padding>
@@ -44,6 +44,11 @@
                 </Label>
                 <TextField disable="true" editable="false" layoutX="117.0" layoutY="78.0" prefHeight="25.0" prefWidth="70.0" promptText="Auto Gen - Disabled" />
             <Label fx:id="errors" layoutX="7.0" layoutY="305.0" prefHeight="192.0" prefWidth="175.0" />
+            <ComboBox fx:id="typeCombo" layoutX="4.0" layoutY="332.0" prefHeight="25.0" prefWidth="195.0" promptText="Appointment Type">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </ComboBox>
             </children>
         </AnchorPane>
         <AnchorPane prefHeight="506.0" prefWidth="615.0">
@@ -58,14 +63,8 @@
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <TextField fx:id="titleField" layoutX="118.0" layoutY="78.0" prefHeight="25.0" prefWidth="133.0" />
-                <TextField fx:id="typeField" layoutX="291.0" layoutY="78.0" prefHeight="25.0" prefWidth="143.0" />
+                <TextField fx:id="titleField" layoutX="118.0" layoutY="78.0" prefHeight="25.0" prefWidth="322.0" />
                 <TextField fx:id="locationField" layoutX="118.0" layoutY="128.0" prefHeight="25.0" prefWidth="323.0" />
-                <Label alignment="CENTER" layoutX="243.0" layoutY="81.0" prefHeight="20.0" prefWidth="53.0" text="Type">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
                 <Label alignment="CENTER" layoutX="38.0" layoutY="200.0" prefHeight="17.0" prefWidth="86.0" text="Description">
                     <font>
                         <Font size="14.0" />

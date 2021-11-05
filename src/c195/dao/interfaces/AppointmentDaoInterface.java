@@ -1,9 +1,6 @@
 package c195.dao.interfaces;
 
-import c195.model.Appointment;
-import c195.model.Contact;
-import c195.model.Customer;
-import c195.model.User;
+import c195.model.*;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
@@ -22,4 +19,6 @@ public interface AppointmentDaoInterface {
                                                                   int numberOfWeekOffsetFromStartAppointments) throws SQLException;
     public ObservableList<Appointment> getAppointmentsOrderByMonth(int user_id,
                                                                   int numberOfMonthOffsetFromStartAppointments) throws SQLException;
+    public ObservableList<AppointmentTypeOrMonth> getAppointmentsOrderByType();
+    public ObservableList<AppointmentTypeOrMonth> getAppointmentsByMonth();
 }

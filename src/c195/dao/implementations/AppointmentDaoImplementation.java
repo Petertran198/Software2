@@ -3,7 +3,6 @@ package c195.dao.implementations;
 import c195.dao.JDBC;
 import c195.dao.interfaces.AppointmentDaoInterface;
 import c195.model.*;
-import c195.utilities.DateTimeHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -361,6 +360,56 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
             alert.show();
         }
         return appointments;
+    }
+
+    @Override
+    public ObservableList<AppointmentTypeOrMonth> getAppointmentsOrderByType() {
+        String sql = "SELECT Count(*) as Quantity, Type FROM appointments"+
+                " GROUP BY TYPE";
+        ObservableList<AppointmentTypeOrMonth> appointmentTypes =
+                FXCollections.observableArrayList();
+
+        try(
+                Statement statement = JDBC.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+        ){
+            while(resultSet.next()){
+                AppointmentTypeOrMonth appointmentType =
+                        new AppointmentTypeOrMonth();
+                appointmentType.setName(resultSet.getString("Type"));
+                appointmentType.setQuantity(resultSet.getInt("Quantity"));
+                appointmentTypes.add(appointmentType);
+            }
+        }catch (SQLException e){
+            System.out.println("Error in getAppointmentsOrderByType "+ e.getMessage());
+        }
+
+        return appointmentTypes;
+    }
+
+    @Override
+    public ObservableList<AppointmentTypeOrMonth> getAppointmentsByMonth() {
+        String sql = "SELECT Count(*) as Quantity, date_format(Start, '%Y-%m-01') " +
+                "AS Month FROM appointments GROUP BY Month";
+        ObservableList<AppointmentTypeOrMonth> appointmentTypes =
+                FXCollections.observableArrayList();
+
+        try(
+                Statement statement = JDBC.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+        ){
+            while(resultSet.next()){
+                AppointmentTypeOrMonth appointmentType =
+                        new AppointmentTypeOrMonth();
+                appointmentType.setName(resultSet.getString("Month"));
+                appointmentType.setQuantity(resultSet.getInt("Quantity"));
+                appointmentTypes.add(appointmentType);
+            }
+        }catch (SQLException e){
+            System.out.println("Error in getAppointmentsOrderByMonths "+ e.getMessage());
+        }
+
+        return appointmentTypes;
     }
 
 }

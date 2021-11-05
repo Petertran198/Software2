@@ -2,16 +2,15 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" prefHeight="439.0" prefWidth="800.0"
-      xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="c195.controller.CustomerMonthAndTypeReportController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195.controller.CustomerMonthAndTypeReportController">
     <children>
         <AnchorPane prefHeight="454.0" prefWidth="176.0">
             <children>
@@ -21,17 +20,20 @@
                     </font>
                 </Label>
                 <Button layoutX="9.0" layoutY="374.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="25.0" prefWidth="153.0" text="Go Back" />
-                <Label fx:id="errorMessage" layoutX="7.0" layoutY="119.0"
-                        prefHeight="237.0" prefWidth="160.0" />
+                <Label fx:id="errorMessage" layoutX="7.0" layoutY="119.0" prefHeight="237.0" prefWidth="160.0" />
+            <RadioButton fx:id="monthRadioBtn" layoutX="30.0" layoutY="119.0" mnemonicParsing="false" onMouseClicked="#getAppointmentsByMonth" text="Order By Months">
+               <toggleGroup>
+                  <ToggleGroup fx:id="radioToggleGroup" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="typeRadioBtn" layoutX="31.0" layoutY="159.0" mnemonicParsing="false" onMouseClicked="#getAppointmentsByType" selected="true" text="Order By Types" toggleGroup="$radioToggleGroup" />
             </children>
         </AnchorPane>
         <AnchorPane prefHeight="439.0" prefWidth="501.0">
             <children>
-                <TableView fx:id="appointmentTable" layoutX="73.0" layoutY="69.0" prefHeight="322.0" prefWidth="414.0">
+                <TableView fx:id="appointmentTypeOrMonthTable" layoutX="73.0" layoutY="69.0" prefHeight="322.0" prefWidth="488.0">
                     <columns>
-                        <TableColumn fx:id="appointmentIDTableColumn" prefWidth="109.33333337306976" text="Count/Quantity" />
-                        <TableColumn fx:id="titleTableColumn" prefWidth="143.3333740234375" text="Month" />
-                        <TableColumn fx:id="appointmentDescripColumn" prefWidth="156.6666259765625" text="Type" />
+                        <TableColumn fx:id="appointmentCountTableColumn" prefWidth="219.0" text="Count/Quantity" />
+                        <TableColumn fx:id="appointmentTypeOrMonthTableColumn" prefWidth="268.0" text="Type" />
                     </columns>
                 </TableView>
             </children>

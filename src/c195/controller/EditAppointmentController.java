@@ -10,6 +10,7 @@ import c195.model.Customer;
 import c195.model.User;
 import c195.utilities.DateTimeHelper;
 import c195.utilities.SwitchRoute;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +28,8 @@ public class EditAppointmentController implements Initializable {
     private ComboBox<Customer> customerCombo;
     @FXML private  ComboBox<User> userCombo;
     @FXML private  ComboBox<Contact> contactCombo;
+    //Appointment's Type
+    @FXML private ComboBox<String> typeCombo;
     //Textfields
     @FXML private TextField titleField;
     @FXML private TextField typeField;
@@ -55,6 +58,14 @@ public class EditAppointmentController implements Initializable {
     AppointmentDaoInterface appointmentDAO = new AppointmentDaoImplementation();
     //CustomerDAO is used for accessing customer data.
     CustomerDaoInterface customerDao = new CustomerDaoImplementation();
+
+    public  void getAppointmentTypeDataForComboBox(){
+        //appointment type list to display the appointments types avaliable
+        ObservableList<String> appointmentTypesList =
+                FXCollections.observableArrayList("Team Meeting", "Business",
+                        "Consultant");
+        typeCombo.setItems(appointmentTypesList);
+    }
 
     public void getCustomerDataForComboBox(){
         Callback<ListView<Customer>, ListCell<Customer>> cellFactory =
@@ -143,6 +154,8 @@ public class EditAppointmentController implements Initializable {
                 return;
             }
         });
+
+
         ObservableList<Contact> contactList = appointmentDAO.getAllContacts();
         contactList.forEach(contact -> {
             if(contact.getContact_ID() == appointment.getContact_ID()){
@@ -191,7 +204,8 @@ public class EditAppointmentController implements Initializable {
     public void initAppointmentFields(){
         titleField.setText(appointment.getTitle());
         locationField.setText(appointment.getLocation());
-        typeField.setText(appointment.getType());
+        typeCombo.setItems(AddAppointmentController.appointmentTypesList);
+        typeCombo.getSelectionModel().select(appointment.getType());
         descriptionField.setText(appointment.getDescription());
     }
 
@@ -223,7 +237,7 @@ public class EditAppointmentController implements Initializable {
         LocalDateTime endLocalDateTime;
         try{
             String title = titleField.getText();
-            String type = typeField.getText();
+            String type = typeCombo.getValue();
             String location = locationField.getText();
             String description = descriptionField.getText();
             int startMinutes = startMinutesSpinner.getValue();
