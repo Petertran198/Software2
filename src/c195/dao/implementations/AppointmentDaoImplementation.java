@@ -6,6 +6,7 @@ import c195.model.*;
 import c195.utilities.DateTimeHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -254,6 +255,58 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
             }
         }catch(SQLException e){
             System.out.println("Error in getUsersAppointments method " + e.getMessage());
+        }
+        return appointments;
+    }
+
+    @Override
+    public ObservableList<Appointment> getAppointmentsOrderByWeek(int user_id, int numberOfWeekOffsetFromStartAppointments) throws SQLException {
+        ObservableList<Appointment> appointments =
+                FXCollections.observableArrayList();
+        String sql = "SELECT " +
+                "a.Appointment_ID, " +
+                "a.Title, " +
+                "a.Description, "+
+                "a.Location, " +
+                "a.Contact_ID, "+
+                "c.Contact_Name, "+
+                "a.Type, "+
+                "a.Start, "+
+                "a.End, " +
+                "a.Customer_ID, " +
+                "a.User_ID " +
+                "FROM appointments a " +
+                "INNER JOIN contacts c " +
+                "ON a.Contact_ID = c.Contact_ID " +
+                "WHERE a.User_ID=? AND WEEK(a.Start) = WEEK(now(),0) + "+ numberOfWeekOffsetFromStartAppointments;
+        try(PreparedStatement preparedStatement =
+                    JDBC.getConnection().prepareStatement(sql);){
+            preparedStatement.setInt(1,user_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                int appointmentID = resultSet.getInt("Appointment_ID");
+                String title = resultSet.getString("Title");
+                String description = resultSet.getString("Description");
+                String location = resultSet.getString("Location");
+                String contact_name = resultSet.getString("Contact_Name");
+                String type = resultSet.getString("Type");
+                int customerID = resultSet.getInt("Customer_ID");
+                int userID = resultSet.getInt("User_ID");
+                int contactID = resultSet.getInt("Contact_ID");
+                LocalDateTime start = resultSet.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end =
+                        resultSet.getTimestamp("End").toLocalDateTime();
+
+                Appointment appointment = new Appointment(appointmentID,title
+                        ,description,location,contact_name,type,customerID,
+                        userID,contactID,start,end);
+
+                appointments.add(appointment);
+            }
+        }catch(SQLException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Problem in getAppointmentsOrderByWeek "+ e.getMessage());
+            alert.show();
         }
         return appointments;
     }

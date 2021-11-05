@@ -43,7 +43,6 @@
                         <Font name="Arial Black" size="18.0" />
                     </font>
                 </Label>
-                <TextArea fx:id="appointmentsMessageArea" layoutX="803.0" layoutY="27.0" prefHeight="189.0" prefWidth="123.0" />
                 <TableView fx:id="appointmentTable" layoutX="7.0" layoutY="28.0" prefHeight="189.0" prefWidth="794.0">
                     <columns>
                         <TableColumn fx:id="appointmentIDColumn" prefWidth="45.33334255218506" text="Apt. ID" />
@@ -61,16 +60,18 @@
                 <Button layoutX="7.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToAddAppointmentInfoForm" prefHeight="25.0" prefWidth="103.0" text="Add Appointment" />
                 <Button layoutX="115.0" layoutY="216.0" mnemonicParsing="false" onAction="#modifyAppointment" prefHeight="25.0" prefWidth="114.0" text="Edit Appointment" />
                 <Button layoutX="808.0" layoutY="216.0" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="25.0" prefWidth="114.0" text="Delete Appointment" />
-                <RadioButton layoutX="475.0" layoutY="6.0" mnemonicParsing="false" text="All">
+                <RadioButton fx:id="allRadioBtn" layoutX="582.0" layoutY="5.0" mnemonicParsing="false" onAction="#allRadioBtnMethod" selected="true" text="All">
                     <toggleGroup>
                         <ToggleGroup fx:id="appointmentToogleGroup" />
                     </toggleGroup>
                 </RadioButton>
-                <RadioButton layoutX="520.0" layoutY="6.0" mnemonicParsing="false" text="Weekly" toggleGroup="$appointmentToogleGroup" />
-                <RadioButton layoutX="588.0" layoutY="6.0" mnemonicParsing="false" text="Monthly" toggleGroup="$appointmentToogleGroup" />
+                <RadioButton fx:id="weeklyRadioBtn" layoutX="645.0" layoutY="5.0" mnemonicParsing="false" onAction="#weeklyRadioBtnMethod" text="Weekly" toggleGroup="$appointmentToogleGroup" />
+                <RadioButton fx:id="monthlyRadioBtn" layoutX="722.0" layoutY="5.0" mnemonicParsing="false" onAction="#monthlyRadioBtnMethod" text="Monthly" toggleGroup="$appointmentToogleGroup" />
                 <Button layoutX="409.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToCustomerMonthAndTypeReport" text="Customer Month/Type Report " />
                 <Button layoutX="594.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToContactAppointmentReport" text="Contact Report" />
                 <Button layoutX="700.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToLocationReport" text="Location Report" />
+            <Button layoutX="5.0" layoutY="2.0" mnemonicParsing="false" onAction="#goDownBtn" text="Go Back a Month/Week" />
+            <Button layoutX="798.0" layoutY="1.0" mnemonicParsing="false" onAction="#goUpBtn" text="Go Up a Month/Week" />
             </children>
         </Pane>
     </children>

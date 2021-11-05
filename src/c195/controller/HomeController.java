@@ -13,9 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 
@@ -51,6 +49,20 @@ public class HomeController implements Initializable {
     @FXML private TableColumn<Appointment, Integer> appointmentCustomerIDColumn;
     @FXML private TableColumn<Appointment, Integer> appointmentUserIDColumn;
 
+    //Radio Buttons for appointments order by weeks/month
+    @FXML private RadioButton allRadioBtn;
+    @FXML private RadioButton weeklyRadioBtn;
+    @FXML private RadioButton monthlyRadioBtn;
+    @FXML private ToggleGroup appointmentToogleGroup;
+    //keep track of what month or week we want to see. Starting after
+    // appointment start date
+    private static int showWhatMonth = 0;
+    private static int showWhatWeek = 0;
+    private  static boolean isMonthRadioButtonPressed = false;
+    private static boolean isWeekRadioButtonPressed = false;
+
+
+
     //variables
     //Using the DAO pattern, customerDao will be used to query  the customer db
     CustomerDaoInterface customerDao = new CustomerDaoImplementation();
@@ -61,8 +73,54 @@ public class HomeController implements Initializable {
     //This variable is to select the appointment we want to edit
     public static Appointment selectedAppointmentToModify;
 
+    //When the all appointments radio button is selected
+    public void allRadioBtnMethod(ActionEvent event) throws Exception{
 
+    }
+    //When the weekly radio button is selected
+    public void weeklyRadioBtnMethod(ActionEvent event) throws Exception{
+        //Reset/initalize variables
+        isWeekRadioButtonPressed = true;
+        isMonthRadioButtonPressed = false;
+        showWhatWeek = 0;
+        ObservableList<Appointment> appointments =
+                appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,
+                showWhatWeek);
+        appointmentTable.setItems(appointments);
+    }
+    //When the monthly radio button is selected
+    public void monthlyRadioBtnMethod(ActionEvent event) throws Exception{
+        //Reset/initalize variables
+        isWeekRadioButtonPressed = false;
+        isMonthRadioButtonPressed = true;
+        showWhatMonth = 0;
+    }
 
+    //This method is to go up or down a week/month for appointments
+    public void goDownBtn(ActionEvent event) throws Exception{
+            if(appointmentToogleGroup.getSelectedToggle() == weeklyRadioBtn){
+                showWhatWeek = showWhatWeek -1;
+                appointmentTable.setItems(appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,showWhatWeek));
+            }
+
+            if(appointmentToogleGroup.getSelectedToggle() == monthlyRadioBtn){
+                System.out.println("Monthly");
+
+            }
+    }
+
+    //This method is to go up or down a week/month for appointments
+    public void goUpBtn(ActionEvent event) throws Exception{
+        if(appointmentToogleGroup.getSelectedToggle() == weeklyRadioBtn){
+            showWhatWeek = showWhatWeek +1;
+            appointmentTable.setItems(appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,showWhatWeek));
+        }
+
+        if(appointmentToogleGroup.getSelectedToggle() == monthlyRadioBtn) {
+            System.out.println("Monthly");
+
+        }
+    }
     public void modifyCustomer(ActionEvent event) throws Exception{
         String err = "";
         Customer selectedCustomer =
@@ -167,33 +225,39 @@ public class HomeController implements Initializable {
 
     //This method notifies if we have an appointment within 15 mins from us
     public void checkIfUserHasAppointmentsWithin15Mins(){
-        ObservableList<Appointment> usersAppointments =
-                appointmentDao.getUsersAppointments(LoginController.user_id);
-        //Itterate though user appointments, convert to local time and check if
-        // there is an appointment with 15 mins
-        usersAppointments.forEach(appointment -> {
-            LocalDateTime localConvertedStartTime =
-                    DateTimeHelper.convertUTCLocalDateTimeToSystemDefault(appointment.getStart());
-            LocalDateTime localTimeRn =
-                    LocalDateTime.now(ZoneId.systemDefault());
-            LocalDateTime localDateTimeRNPlus15Mins =
-                    LocalDateTime.now(ZoneId.systemDefault()).plusMinutes(15);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+        if(LoginController.remaindAppointmentOnce == true){
+            ObservableList<Appointment> usersAppointments =
+                    appointmentDao.getUsersAppointments(LoginController.user_id);
+            //Itterate though user appointments, convert to local time and check if
+            // there is an appointment with 15 mins
+            usersAppointments.forEach(appointment -> {
+                LocalDateTime localConvertedStartTime =
+                        DateTimeHelper.convertUTCLocalDateTimeToSystemDefault(appointment.getStart());
+                LocalDateTime localTimeRn =
+                        LocalDateTime.now(ZoneId.systemDefault());
+                LocalDateTime localDateTimeRNPlus15Mins =
+                        LocalDateTime.now(ZoneId.systemDefault()).plusMinutes(15);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
 
-            System.out.println(localConvertedStartTime +"Appointment Start Time ");
-            System.out.println(localTimeRn + "Time rn");
-
-
-            if(localConvertedStartTime.isAfter(localTimeRn) && (localConvertedStartTime.isBefore(localDateTimeRNPlus15Mins))){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                String sentence = "You have an upcoming appointment.  " +
-                        "\nAppointment" +
-                        " ID: "+ appointment.getAppointment_ID() +"\nStarting at "+localConvertedStartTime.toLocalTime().format(formatter)+"\nLocal Time: " +localTimeRn.toLocalTime().format(formatter)
-                        ;
-                alert.setContentText(sentence);
-                alert.show();
-            }
-        });
+                if(localConvertedStartTime.isAfter(localTimeRn) && (localConvertedStartTime.isBefore(localDateTimeRNPlus15Mins))){
+                    LoginController.remaindAppointmentOnce = false;
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    String sentence = "You have an upcoming appointment.  " +
+                            "\nAppointment" +
+                            " ID: "+ appointment.getAppointment_ID() +"\nStarting at "+localConvertedStartTime.toLocalTime().format(formatter)+"\nLocal Time: " +localTimeRn.toLocalTime().format(formatter)
+                            ;
+                    alert.setContentText(sentence);
+                    alert.show();
+                }else {
+                    LoginController.remaindAppointmentOnce = false;
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    String sentence = "You have no upcoming appointments within 15 " +
+                            "minutes";
+                    alert.setContentText(sentence);
+                    alert.show();
+                }
+            });
+        }
     }
     /** This method when click will switch to the addCustomerInfoForm.fxml
      * @param event any ActionEvent most likely click

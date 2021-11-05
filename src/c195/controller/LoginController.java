@@ -52,6 +52,7 @@ public class LoginController implements Initializable {
 
     //transfer user to home for appointment verification
     public static int user_id;
+    public static boolean remaindAppointmentOnce;
 
     //Needed to append the error message if other error messages are needed
     private String errorMsg = "";
@@ -122,6 +123,7 @@ public class LoginController implements Initializable {
                 if( loggedInUser != null){
                     log.logInfo(true);
                     LoginController.user_id = loggedInUser.getUser_ID();
+                    LoginController.remaindAppointmentOnce = true;
                     SwitchRoute.switchToHome(event);
                 }else {
                     errorMsg += "\n -"+
