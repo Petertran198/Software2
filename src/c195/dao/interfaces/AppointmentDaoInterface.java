@@ -20,4 +20,6 @@ public interface AppointmentDaoInterface {
     public ObservableList<Appointment> getUsersAppointments(int id);
     public ObservableList<Appointment> getAppointmentsOrderByWeek(int user_id,
                                                                   int numberOfWeekOffsetFromStartAppointments) throws SQLException;
+    public ObservableList<Appointment> getAppointmentsOrderByMonth(int user_id,
+                                                                  int numberOfMonthOffsetFromStartAppointments) throws SQLException;
 }

@@ -54,13 +54,12 @@ public class HomeController implements Initializable {
     @FXML private RadioButton weeklyRadioBtn;
     @FXML private RadioButton monthlyRadioBtn;
     @FXML private ToggleGroup appointmentToogleGroup;
+    @FXML private Button goUpBtn;
+    @FXML private Button goDownBtn;
     //keep track of what month or week we want to see. Starting after
     // appointment start date
     private static int showWhatMonth = 0;
     private static int showWhatWeek = 0;
-    private  static boolean isMonthRadioButtonPressed = false;
-    private static boolean isWeekRadioButtonPressed = false;
-
 
 
     //variables
@@ -75,14 +74,19 @@ public class HomeController implements Initializable {
 
     //When the all appointments radio button is selected
     public void allRadioBtnMethod(ActionEvent event) throws Exception{
-
+        //If shown allAppointments u disable goUp and downButton as it already shows
+        // every appointment
+        goUpBtn.setDisable(true);
+        goDownBtn.setDisable(true);
+        ObservableList<Appointment> appointments =
+                appointmentDao.getAllAppointment();
+        appointmentTable.setItems(appointments);
     }
     //When the weekly radio button is selected
     public void weeklyRadioBtnMethod(ActionEvent event) throws Exception{
-        //Reset/initalize variables
-        isWeekRadioButtonPressed = true;
-        isMonthRadioButtonPressed = false;
         showWhatWeek = 0;
+        goUpBtn.setDisable(false);
+        goDownBtn.setDisable(false);
         ObservableList<Appointment> appointments =
                 appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,
                 showWhatWeek);
@@ -90,35 +94,41 @@ public class HomeController implements Initializable {
     }
     //When the monthly radio button is selected
     public void monthlyRadioBtnMethod(ActionEvent event) throws Exception{
-        //Reset/initalize variables
-        isWeekRadioButtonPressed = false;
-        isMonthRadioButtonPressed = true;
         showWhatMonth = 0;
+        goUpBtn.setDisable(false);
+        goDownBtn.setDisable(false);
+        ObservableList<Appointment> appointments =
+                appointmentDao.getAppointmentsOrderByMonth(LoginController.user_id
+                        ,showWhatMonth);
+        appointmentTable.setItems(appointments);
     }
 
     //This method is to go up or down a week/month for appointments
-    public void goDownBtn(ActionEvent event) throws Exception{
+    public void goDownBtnMethod(ActionEvent event) throws Exception{
             if(appointmentToogleGroup.getSelectedToggle() == weeklyRadioBtn){
                 showWhatWeek = showWhatWeek -1;
                 appointmentTable.setItems(appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,showWhatWeek));
             }
 
             if(appointmentToogleGroup.getSelectedToggle() == monthlyRadioBtn){
-                System.out.println("Monthly");
+                showWhatMonth = showWhatMonth -1;
+                appointmentTable.setItems(appointmentDao.getAppointmentsOrderByMonth(LoginController.user_id
+                        ,showWhatMonth));
 
             }
     }
 
     //This method is to go up or down a week/month for appointments
-    public void goUpBtn(ActionEvent event) throws Exception{
+    public void goUpBtnMethod(ActionEvent event) throws Exception{
         if(appointmentToogleGroup.getSelectedToggle() == weeklyRadioBtn){
             showWhatWeek = showWhatWeek +1;
             appointmentTable.setItems(appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,showWhatWeek));
         }
 
         if(appointmentToogleGroup.getSelectedToggle() == monthlyRadioBtn) {
-            System.out.println("Monthly");
-
+            showWhatMonth = showWhatMonth + 1;
+            appointmentTable.setItems(appointmentDao.getAppointmentsOrderByMonth(LoginController.user_id
+                    ,showWhatMonth));
         }
     }
     public void modifyCustomer(ActionEvent event) throws Exception{
@@ -332,6 +342,8 @@ public class HomeController implements Initializable {
     }
 
     public void showAppointmentTable(){
+        goUpBtn.setDisable(true);
+        goDownBtn.setDisable(true);
         ObservableList<Appointment> appointmentList;
         appointmentList = appointmentDao.getAllAppointment();
         appointmentTable.setItems(appointmentList);
