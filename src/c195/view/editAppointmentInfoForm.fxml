@@ -58,13 +58,7 @@
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <Label alignment="CENTER" layoutX="38.0" layoutY="131.0" prefHeight="17.0" prefWidth="86.0" text="Location">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
                 <TextField fx:id="titleField" layoutX="118.0" layoutY="78.0" prefHeight="25.0" prefWidth="323.0" />
-                <TextField fx:id="locationField" layoutX="118.0" layoutY="128.0" prefHeight="25.0" prefWidth="323.0" />
                 <Label alignment="CENTER" layoutX="38.0" layoutY="200.0" prefHeight="17.0" prefWidth="86.0" text="Description">
                     <font>
                         <Font size="14.0" />
@@ -109,6 +103,7 @@
                 </RadioButton>
                 <RadioButton fx:id="endTimePMRadioButton" layoutX="540.0" layoutY="322.0" mnemonicParsing="false" text="PM" toggleGroup="$endTimeGroup" />
                 <TextField fx:id="descriptionField" layoutX="119.0" layoutY="196.0" prefHeight="25.0" prefWidth="322.0" />
+            <ComboBox fx:id="locationCombo" layoutX="121.0" layoutY="132.0" prefHeight="25.0" prefWidth="322.0" promptText="Select a Location" />
             </children>
         </AnchorPane>
     </children>

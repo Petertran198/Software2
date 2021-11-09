@@ -31,8 +31,9 @@ public class AddAppointmentController implements Initializable {
     @FXML private ComboBox<Customer> customerCombo;
     @FXML private  ComboBox<User> userCombo;
     @FXML private  ComboBox<Contact> contactCombo;
-    //Appointment's Type
+    //Appointment's Type & location
     @FXML private ComboBox<String> typeCombo;
+    @FXML private ComboBox<String> locationCombo;
 
     //Time components
     @FXML private DatePicker startDatePicker;
@@ -60,14 +61,19 @@ public class AddAppointmentController implements Initializable {
 
     //appointmentDao is used for accessing and saving appointments data.
     AppointmentDaoInterface appointmentDAO = new AppointmentDaoImplementation();
+
     //appointment type list to display the appointments types avaliable
     public static ObservableList<String> appointmentTypesList =
             FXCollections.observableArrayList("Team Meeting", "Business",
                     "Consultant");
-
+    public static ObservableList<String> appointmentLocationList =
+            FXCollections.observableArrayList("White Plains", "Newmarket", "London");
 
     public  void getAppointmentTypeDataForComboBox(){
         typeCombo.setItems(appointmentTypesList);
+    }
+    public  void getAppointmentLocationDataForComboBox(){
+        locationCombo.setItems(appointmentLocationList);
     }
     public void getCustomerDataForComboBox(){
         Callback<ListView<Customer>, ListCell<Customer>> cellFactory =
@@ -165,7 +171,7 @@ public class AddAppointmentController implements Initializable {
         try{
             String title = titleField.getText();
             String type = typeCombo.getValue();
-            String location = locationField.getText();
+            String location = locationCombo.getValue();
             String description = descriptionField.getText();
             int startMinutes = startMinutesSpinner.getValue();
             int endMinutes = endMinutesSpinner.getValue();
@@ -216,8 +222,8 @@ public class AddAppointmentController implements Initializable {
             //Converted start/end datetime string to utc time to be saved to the db aka START/END
             startLocalDateTime = DateTimeHelper.convertToUTC(combinedStartTime);
             endLocalDateTime = DateTimeHelper.convertToUTC(combinedEndTime);
-
-            if(type.isBlank()){
+            //Type & location combo box must be filled
+            if(type.isBlank() || location.isBlank()){
                 throw new NullPointerException();
             }
             Appointment appointment = new Appointment(title,description,
@@ -282,6 +288,6 @@ public class AddAppointmentController implements Initializable {
         getUserDataForComboBox();
         initTimeSpinnersWithValues();
         getAppointmentTypeDataForComboBox();
-
+        getAppointmentLocationDataForComboBox();
     }
 }

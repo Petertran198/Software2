@@ -363,6 +363,86 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
     }
 
     @Override
+    public ObservableList<Appointment> getAppointmentsByLocation(String loc) {
+        String sql = "SELECT " +
+                " a.Appointment_ID, "+
+                "a.Title, " +
+                "a.Description, "+
+                "a.Location, " +
+                "a.Contact_ID, "+
+                "c.Contact_Name, "+
+                "a.Type, "+
+                "a.Start, "+
+                "a.End, " +
+                "a.Customer_ID, " +
+                "a.User_ID " +
+                "FROM appointments a " +
+                "INNER JOIN contacts c " +
+                "ON a.Contact_ID = c.Contact_ID" +
+                " WHERE a.Location = '"+ loc +"'";
+        ObservableList<Appointment> appointments =
+                FXCollections.observableArrayList();
+        try(
+                Statement statement = JDBC.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+        ){
+            while(resultSet.next()){
+                Appointment appointment = new Appointment();
+                appointment.setAppointment_ID(resultSet.getInt("Appointment_ID"));
+                appointment.setTitle(resultSet.getString("Title"));
+                appointment.setLocation(resultSet.getString("Location"));
+                appointment.setContact_name(resultSet.getString("Contact_Name"));
+                appointment.setType(resultSet.getString("Type"));
+                appointment.setDescription(resultSet.getString("description"));
+                LocalDateTime start = resultSet.getTimestamp("Start").toLocalDateTime();
+                appointment.setStart(start);
+                LocalDateTime end =
+                        resultSet.getTimestamp("End").toLocalDateTime();
+                appointment.setEnd(end);
+                appointments.add(appointment);
+            }
+        }catch (SQLException e){
+            System.out.println("Errors in getAppointmentByLocation "+ e.getMessage());
+        }
+        return appointments;
+    }
+
+    @Override
+    public ObservableList<Appointment> getAllAppointmentsByContact(String contactName) {
+        String sql = "SELECT " +
+                        "c.Contact_Name, a.Appointment_ID, a.Title, a.Type, " +
+                "a.Description, " +
+                        "a.Start, a.End, a.Customer_ID "+
+                    "FROM appointments a INNER JOIN contacts c " +
+                        "ON c.Contact_ID = a.Contact_ID "+
+                    "WHERE Contact_Name = '"+contactName+"' " +
+                    "ORDER BY a.Start";
+        ObservableList<Appointment> appointments =
+                FXCollections.observableArrayList();
+        try(
+                Statement statement = JDBC.getConnection().createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+        ){
+            while(resultSet.next()){
+                Appointment appointment = new Appointment();
+               appointment.setAppointment_ID(resultSet.getInt("Appointment_ID"));
+               appointment.setContact_name(resultSet.getString("Contact_Name"));
+               appointment.setType(resultSet.getString("Type"));
+               appointment.setTitle(resultSet.getString("Title"));
+               appointment.setDescription(resultSet.getString("Description"));
+               appointment.setCustomer_ID(resultSet.getInt("Customer_ID"));
+               appointment.setStart(resultSet.getObject("Start", LocalDateTime.class));
+               appointment.setEnd(resultSet.getObject("End", LocalDateTime.class));
+               appointments.add(appointment);
+            }
+        }catch (SQLException e){
+            System.out.println("Error in getAllAppointmentsByContact "+ e.getMessage());
+        }
+
+        return appointments;
+    }
+
+    @Override
     public ObservableList<AppointmentTypeOrMonth> getAppointmentsOrderByType() {
         String sql = "SELECT Count(*) as Quantity, Type FROM appointments"+
                 " GROUP BY TYPE";
