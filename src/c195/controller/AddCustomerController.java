@@ -19,6 +19,9 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller to handle AddCustomer
+ */
 public class AddCustomerController implements Initializable {
 
     //FXML fields
@@ -72,6 +75,10 @@ public class AddCustomerController implements Initializable {
         countryDropDown.setItems(customerDAO.getCountryList());
     }
 
+    /**
+     *Use LAMBDA to filters for FLD(aka region)  after selecting a country from
+     * combo box
+     */
     public void selectCountryToFilterFLD(ActionEvent event) throws Exception{
         //If a country is selected from dropdown
         if(countryDropDown.getSelectionModel().getSelectedItem() != null){
@@ -80,6 +87,7 @@ public class AddCustomerController implements Initializable {
             //Instead of hitting the database and querying for all FLD's
             // WHERE country_id = "insert-country-id" I used a lambda to filter
             // the flds after I get the country via selection of combo box
+            // This makes the code cleaner and more readable
             ObservableList<FLDivision> selectedCountryFLDList =
                     allFlds.filtered(fld -> fld.getCountry_ID() == country_id);
             FLDDropDown.setItems(selectedCountryFLDList);
@@ -87,7 +95,15 @@ public class AddCustomerController implements Initializable {
     }
 
 
-
+    /**
+     * Check if addCustomer form had any empty fields that is not suppose to be empty
+     * @param name
+     * @param address
+     * @param phone
+     * @param postal
+     * @return returns the error message if there is a field that is empty that
+     * isn't suppose to be
+     */
     public  String handleFormEmptyField(String name, String address,
                                             String phone, String postal
                                               ) {
@@ -109,6 +125,11 @@ public class AddCustomerController implements Initializable {
     }
 
 
+    /**
+     * Save Customer
+     * @param event
+     * @throws Exception
+     */
     public void saveCustomer(ActionEvent event) throws Exception{
         String name = "";
         String address = "";

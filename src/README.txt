@@ -19,6 +19,11 @@ MYSQL Connector: mysql-connector-java-8.0.25
 To run the program: You first have to reconfigure the JDBC to connect to the database
 you want to use.
 
+Additional report: The additional custom report created for appointments contain all
+the appointments sorted by Locations.
+
+
+
 
 
 

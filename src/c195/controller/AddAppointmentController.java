@@ -25,6 +25,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**
+ * Controller to handle AddingAppointments
+ */
 public class AddAppointmentController implements Initializable {
 
     //ComboBox variables
@@ -66,15 +69,25 @@ public class AddAppointmentController implements Initializable {
     public static ObservableList<String> appointmentTypesList =
             FXCollections.observableArrayList("Team Meeting", "Business",
                     "Consultant");
+    //appointment location list to display the appointments location available
     public static ObservableList<String> appointmentLocationList =
             FXCollections.observableArrayList("White Plains", "Newmarket", "London");
 
+    /**
+     * Populate typeCombo box with appointment types
+     */
     public  void getAppointmentTypeDataForComboBox(){
         typeCombo.setItems(appointmentTypesList);
     }
+    /**
+     * Populate locationCombo box with appointment locations
+     */
     public  void getAppointmentLocationDataForComboBox(){
         locationCombo.setItems(appointmentLocationList);
     }
+    /**
+     * Populate customerCombo box with customers
+     */
     public void getCustomerDataForComboBox(){
         Callback<ListView<Customer>, ListCell<Customer>> cellFactory =
                 new Callback<>() {
@@ -155,7 +168,10 @@ public class AddAppointmentController implements Initializable {
     }
 
 
-
+    /**
+     * Save the appointment
+     * @param event
+     */
     public void saveAppointment(ActionEvent event) {
         //Convert 0 -> 00, 1 -> 01
         String startHourString;
@@ -263,6 +279,9 @@ public class AddAppointmentController implements Initializable {
 
     }
 
+    /**
+     * Init all  Time Spinners with correct Value
+     */
     public void initTimeSpinnersWithValues(){
         SpinnerValueFactory<Integer> valueFactoryHoursStart =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1,12);

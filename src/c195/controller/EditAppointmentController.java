@@ -22,6 +22,9 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/**
+ * Controller to handle Editing Appointments
+ */
 public class EditAppointmentController implements Initializable {
     //ComboBox variables
     @FXML
@@ -59,6 +62,11 @@ public class EditAppointmentController implements Initializable {
     //CustomerDAO is used for accessing customer data.
     CustomerDaoInterface customerDao = new CustomerDaoImplementation();
 
+
+    /**
+     * Callback to returns the customer Name for the combobox text instead of the
+     * Customer object because "Peter" is easier than "Model.298.Peter"
+     */
     public void getCustomerDataForComboBox(){
         Callback<ListView<Customer>, ListCell<Customer>> cellFactory =
                 new Callback<>() {
@@ -83,6 +91,10 @@ public class EditAppointmentController implements Initializable {
         customerCombo.setItems(appointmentDAO.getAllCustomers());
     }
 
+    /**
+     * Callback to returns the contact name for the combobox text instead of the
+     * contact object because "Peter" is easier than "Model.298.Peter"
+     */
     public void getContactDataForComboBox(){
         Callback<ListView<Contact>, ListCell<Contact>> cellFactory =
                 new Callback<>() {
@@ -107,6 +119,10 @@ public class EditAppointmentController implements Initializable {
         contactCombo.setItems(appointmentDAO.getAllContacts());
     }
 
+    /**
+     * Callback to returns the User Name for the combobox text instead of the
+     * User object because "Peter" is easier than "Model.298.Peter"
+     */
     public void getUserDataForComboBox(){
         Callback<ListView<User>, ListCell<User>> cellFactory =
                 new Callback<>() {
@@ -138,8 +154,14 @@ public class EditAppointmentController implements Initializable {
         SwitchRoute.switchToHome(event);
     }
 
+    /**
+     * Populate the ComboBox with the correct customer, user, and contact
+     */
     public  void getSelectedComboBoxData(){
         ObservableList<Customer> customerList = customerDao.getAllCustomer();
+        //I used Lambda as it is more readable then using a for loop
+        //The lambda iterate through each customer and then check for the correct
+        // customer and then select that customer for combo box.
         customerList.forEach(customer -> {
             if(customer.getCustomer_ID() == appointment.getCustomer_ID()){
                 customerCombo.getSelectionModel().select(customer);
@@ -165,6 +187,9 @@ public class EditAppointmentController implements Initializable {
         });
     }
 
+    /**
+     * Init all time spinners with correct values
+     */
     public void initTimeSpinnersWithValues(){
         SpinnerValueFactory<Integer> valueFactoryHoursStart =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1,12);
@@ -187,12 +212,19 @@ public class EditAppointmentController implements Initializable {
         valueFactoryMinsEnd.setValue(appointment.getEnd().getMinute());
     }
 
+    /**
+     * Populate the datePickers with the correct local dates
+     */
     public void initDates(){
         startDatePicker.setValue(DateTimeHelper.convertUTCLocalDateTimeToLocalDate(appointment.getStart()));
         endDatePicker.setValue(DateTimeHelper.convertUTCLocalDateTimeToLocalDate(appointment.getEnd()));
 
     }
 
+    /**
+     * Populate all the appointment text fields with the info of that specific
+     * appointments
+     */
     public void initAppointmentFields(){
         titleField.setText(appointment.getTitle());
         typeCombo.setItems(AddAppointmentController.appointmentTypesList);
@@ -203,6 +235,9 @@ public class EditAppointmentController implements Initializable {
     }
 
 
+    /**
+     * Set the correct radio button if appointment is AM or PM
+     */
     public void setTimeSpinners(){
         if(DateTimeHelper.isAMTime(appointment.getStart())){
             startTimeAMRadioButton.setSelected(true);
@@ -216,6 +251,10 @@ public class EditAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Update the appointment if it passes all test and validations.
+     * @param event
+     */
     public void saveAppointment(ActionEvent event) {
         //Convert 0 -> 00, 1 -> 01
         String startHourString;

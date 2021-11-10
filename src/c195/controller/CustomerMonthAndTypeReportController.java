@@ -23,6 +23,9 @@ import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller to handle Appointment reports for Months and Type
+ */
 public class CustomerMonthAndTypeReportController implements Initializable {
     private Stage stage;
     private Scene scene;
@@ -51,6 +54,11 @@ public class CustomerMonthAndTypeReportController implements Initializable {
         stage.show();
     }
 
+    /**
+     * When selected will get and set the table to a list of aggregated data
+     * regarding that appointment type
+     * @param mouseEvent
+     */
     public void getAppointmentsByType(javafx.scene.input.MouseEvent mouseEvent) {
         appointmentTypeOrMonthTableColumn.setText("Type");
         showAppointmentsList =
@@ -59,6 +67,11 @@ public class CustomerMonthAndTypeReportController implements Initializable {
 
     }
 
+    /**
+     * When selected will get and set the table to a list of aggregated data
+     * of all appointments by month
+     * @param mouseEvent
+     */
     public void getAppointmentsByMonth(javafx.scene.input.MouseEvent mouseEvent) {
         appointmentTypeOrMonthTableColumn.setText("Month");
         showAppointmentsList =

@@ -1,5 +1,9 @@
 package c195.model;
 
+/**
+ * This class is used to hold the aggregated data when querying the Appointment Table
+ * Contains info about appointments as a whole AKA(GROUP BY CLAUSE)
+ */
 public class AppointmentTypeOrMonth {
     private String name;
     private int quantity;

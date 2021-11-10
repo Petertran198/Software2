@@ -51,7 +51,11 @@ public class LocationReportController implements Initializable {
         stage.show();
     }
 
-
+    /**
+     * Select a location from locationCombo and then set  appointment table to
+     * contain all appointments that is from that location
+     * @param event
+     */
     public void sortByLocation(ActionEvent event){
         String locationString = locationCombo.getValue();
         appointmentsByLocation =

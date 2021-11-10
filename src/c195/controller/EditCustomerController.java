@@ -17,6 +17,9 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller to handle Editing Customers
+ */
 public class EditCustomerController implements Initializable {
     //FXML fields
     @FXML private TextField nameTextField;
@@ -106,6 +109,12 @@ public class EditCustomerController implements Initializable {
         FLDDropDown.setCellFactory(cellFactory);
         FLDDropDown.setItems(customerDAO.getFLDDivisionList().filtered(fld -> fld.getCountry_ID() == country_id));
     }
+
+    /**
+     * Select country to then filter that country for correct FLD(Region)
+     * @param event
+     * @throws Exception
+     */
     public void selectCountryToFilterFLD(ActionEvent event) throws Exception{
         //If a country is selected from dropdown
         if(countryDropDown.getSelectionModel().getSelectedItem() != null){
@@ -124,6 +133,14 @@ public class EditCustomerController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @param address
+     * @param phone
+     * @param postal
+     * @return string with the error msg if there is one
+     */
     public  String handleFormEmptyField(String name, String address,
                                         String phone, String postal
     ) {
@@ -144,6 +161,11 @@ public class EditCustomerController implements Initializable {
         return errorMsg;
     }
 
+    /**
+     * Save the customer if it pass all valdiations and test
+     * @param event
+     * @throws Exception
+     */
     public void saveCustomer(ActionEvent event) throws Exception{
         String name = "";
         String address = "";
@@ -177,7 +199,9 @@ public class EditCustomerController implements Initializable {
     }
 
 
-
+    /**
+     * Populate Form with correct info about a specific Customer
+     */
     public void populateForm(){
         nameTextField.setText(customer.getCustomer_Name());
         addressTextField.setText(customer.getAddress());

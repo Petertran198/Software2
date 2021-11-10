@@ -5,14 +5,16 @@ import c195.model.User;
 
 import java.sql.*;
 
+/**
+ * Utility for logging into accounts
+ */
 public class LoginAccount {
 
     /**
      * This method is a static method that logs into account
-     *
      * @param username
      * @param password
-     * @return boolean
+     * @return true if there is a user with that username and password
      */
     public static User logIntoAccount(String username, String password) throws SQLException {
         String sqlStatement = "SELECT User_Name, Password, User_ID FROM users " +

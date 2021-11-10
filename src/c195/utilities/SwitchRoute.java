@@ -7,6 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Utility class to handle routing
+ */
 public class SwitchRoute {
     private static Parent root;
     private static Stage stage;

@@ -36,10 +36,16 @@ public class Appointment {
         this.end = end;
     }
 
+    /**
+     * Default
+     */
     public Appointment(){
 
     }
-    //For addApartmentController
+
+    /**
+     * For addApartmentController
+     */
     public Appointment( String title, String description,
                        String location,String contactName, String type,
                        int customer_id, int user_id,

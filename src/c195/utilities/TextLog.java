@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * Utility class to keep track of logins
+ */
 public class TextLog {
 
     /**

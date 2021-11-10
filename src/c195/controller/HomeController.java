@@ -317,6 +317,9 @@ public class HomeController implements Initializable {
         SwitchRoute.switchToLocationReport(event);
     }
 
+    /**
+     * Init the customer columns and display customers
+     */
     public void showCustomerTable(){
         ObservableList<Customer> customerList;
         customerList = customerDao.getAllCustomer();
@@ -341,6 +344,9 @@ public class HomeController implements Initializable {
         customerTable.setItems(customerList);
     }
 
+    /**
+     * Init the appointments columns and display appointments
+     */
     public void showAppointmentTable(){
         goUpBtn.setDisable(true);
         goDownBtn.setDisable(true);
@@ -369,12 +375,6 @@ public class HomeController implements Initializable {
                 "end"));
     }
 
-//    public void o(){
-//        ObservableList<Appointment> appointments =
-//                FXCollections.observableArrayList();
-//        appointments = appointmentDao.getUsersAppointments(1);
-//        System.out.println(appointments);
-//    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         showCustomerTable();

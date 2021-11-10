@@ -23,6 +23,9 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller to handle  Appointments Report for Contacts
+ */
 public class ContactAppointmentReportController implements Initializable {
     private Stage stage;
     private Scene scene;
@@ -45,13 +48,13 @@ public class ContactAppointmentReportController implements Initializable {
     ObservableList<Appointment> contactList = FXCollections.observableArrayList();
 
 
-
-
-
+    /**
+     * Select a contact from combo and query sql for that contact
+     * @param event
+     */
     public void selectContact(ActionEvent event){
        contactList =
                 appointmentDao.getAllAppointmentsByContact(contactCombo.getValue().getContact_Name());
-        System.out.println(contactList);
         appointmentTable.setItems(contactList);
     }
 
@@ -73,6 +76,7 @@ public class ContactAppointmentReportController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactCombo.setItems(appointmentDao.getAllContacts());
+        //Init the table columns
         contactNameColumn.setCellValueFactory(new PropertyValueFactory<>(
                 "contact_name"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>(

@@ -10,15 +10,28 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * Contains Date and time Utility methods
+ */
 public class DateTimeHelper {
 
 
+    /**
+     *
+     * @param localDateTime Takes in a LocalDateTime
+     * @return return the  LocalDateTime converted to system default local Date
+     */
     public static LocalDate convertUTCLocalDateTimeToLocalDate(LocalDateTime localDateTime){
         ZonedDateTime zdt = ZonedDateTime.of(localDateTime,ZoneId.systemDefault());
         LocalDate localDate = zdt.toLocalDateTime().toLocalDate();
         return  localDate;
     }
 
+    /**
+     *
+     * @param dateString Convert a string to utc LocalDateTime obj
+     * @return a LocalDateTime Object in UTC format
+     */
     public static LocalDateTime convertToUTC(String dateString){
         LocalDateTime date = null;
         try{
@@ -40,13 +53,23 @@ public class DateTimeHelper {
         return date;
     }
 
-    //This method convert the time that was saved in db in UTC to be converted to system default tineZone
+
+    /**
+     * This method convert the time that was saved in db in UTC to be converted to system default tineZone
+     * @param localDateTime
+     * @return the old UTC DateTime converted to the systemDefault localDateTime
+     */
     public static LocalDateTime convertUTCLocalDateTimeToSystemDefault(LocalDateTime localDateTime){
         ZoneId zoneId = ZoneId.systemDefault();
         ZonedDateTime localZonedDateTime =  ZonedDateTime.of(localDateTime,zoneId);
         return localZonedDateTime.toLocalDateTime();
     }
 
+    /**
+     * Checks if AM or PM
+     * @param localDateTime
+     * @return true if AM
+     */
     public static boolean isAMTime(LocalDateTime localDateTime){
         int hour = localDateTime.getHour();
         if(hour == 0){
@@ -56,6 +79,12 @@ public class DateTimeHelper {
     }
 
 
+    /**
+     *
+     * @param currentAppointment The CurrentAppointment that is being created
+     * @param allAppointments list of all appointments to check for overlap
+     * @return returns true if appointment overlaps
+     */
     public static boolean isAppointmentOverlapping(Appointment currentAppointment,
                                                    ObservableList<Appointment> allAppointments){
         for(Appointment anotherAppointment : allAppointments){
@@ -78,6 +107,12 @@ public class DateTimeHelper {
         return false;
     }
 
+    /**
+     * Check if appointment is within the company's work schedule
+     * @param start start time
+     * @param end   end time
+     * @return returns true if it is within the company's time
+     */
     public static boolean isAppointmentTimeWithinCompanysTime(LocalDateTime start, LocalDateTime end){
 
         ZoneId estTimeZone = ZoneId.of("America/New_York");
@@ -108,6 +143,13 @@ public class DateTimeHelper {
         return true;
 
     }
+
+    /**
+     * Convert the 24 hour time to actual 12 hour format with 0:00H being 12H and
+     * 24H also being 12H
+     * @param localDateTime
+     * @return the 24 hour time converted to 12 hour format
+     */
     public static int returnHourIn12HourFormat(LocalDateTime localDateTime){
         LocalDateTime convertedTimeToLocal = convertUTCLocalDateTimeToSystemDefault(localDateTime);
         int hour = convertedTimeToLocal.getHour();

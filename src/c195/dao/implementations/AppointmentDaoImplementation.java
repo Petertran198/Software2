@@ -10,8 +10,15 @@ import javafx.scene.control.Alert;
 import java.sql.*;
 import java.time.LocalDateTime;
 
+/**
+ * Contains DB methods for handling Appointments
+ */
 public class AppointmentDaoImplementation implements AppointmentDaoInterface {
 
+    /**
+     *
+     * @return Observablelist of all Appointments
+     */
     @Override
     public ObservableList<Appointment> getAllAppointment() {
         ObservableList<Appointment> appointments =
@@ -64,6 +71,10 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         return appointments;
     }
 
+    /**
+     * Takes in an appointmentID and delete that appointment
+     * @param id appointmentID
+     */
     @Override
     public void deleteAppointment(int id) {
         String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
@@ -77,6 +88,10 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         }
     }
 
+    /**
+     * Get a list of all Customers
+     * @return ObservableList of Customers
+     */
     @Override
     public ObservableList<Customer> getAllCustomers() {
         String sql = "Select Customer_ID, Customer_Name FROM Customers";
@@ -99,6 +114,10 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         return customers;
     }
 
+    /**
+     * Get a list of all Contacts
+     * @return ObservableList of Contacts
+     */
     @Override
     public ObservableList<Contact> getAllContacts() {
         ObservableList<Contact> contacts = FXCollections.observableArrayList();
@@ -121,6 +140,10 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         return contacts;
     }
 
+    /**
+     * Get a list of all Users
+     * @return ObservableList of Users
+     */
     @Override
     public ObservableList<User> getAllUsers() {
         String sql = "Select * FROM Users";
@@ -142,6 +165,10 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         return users;
     }
 
+    /**
+     * Save appointment to db
+     * @param appointment takes in an appointment instance to save to db
+     */
     @Override
     public void saveAppointment(Appointment appointment) {
         String sql = "INSERT INTO appointments(Title,Description,Location," +
@@ -165,6 +192,11 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         }
     }
 
+    /**
+     * Find the specific appointment specified
+     * @param id Takes in appointment id
+     * @return the correct appointment specified
+     */
     @Override
     public Appointment findAppointment(int id) {
         String sql = "SELECT a.Appointment_ID, a.Title, a.Description, a.Location," +
@@ -213,6 +245,10 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         return null;
     }
 
+    /**
+     * Update a specific  appointment
+     * @param appointment Takes in an appointment that u want to update its data
+     */
     @Override
     public void updateAppointment(Appointment appointment) {
         try{
@@ -237,6 +273,11 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         }
     }
 
+    /**
+     * Takes in a user_id and return a list of all appointments made by that user
+     * @param id
+     * @return observableList of all appointments made by that specific user
+     */
     @Override
     public ObservableList<Appointment> getUsersAppointments(int id) {
         String sql = "Select * FROM Appointments WHERE User_ID =" + id;
@@ -258,6 +299,14 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         return appointments;
     }
 
+    /**
+     *
+     * @param user_id
+     * @param numberOfWeekOffsetFromStartAppointments
+     * @return  an  observableList of appointments by Weeks
+     * orders by weeks
+     * @throws SQLException
+     */
     @Override
     public ObservableList<Appointment> getAppointmentsOrderByWeek(int user_id, int numberOfWeekOffsetFromStartAppointments) throws SQLException {
         ObservableList<Appointment> appointments =
@@ -310,6 +359,12 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         return appointments;
     }
 
+    /**
+     * @param user_id
+     * @param numberOfMonthOffsetFromStartAppointments
+     * @return ObserableList of appointments by months
+     * @throws SQLException
+     */
     @Override
     public ObservableList<Appointment> getAppointmentsOrderByMonth(int user_id, int numberOfMonthOffsetFromStartAppointments) throws SQLException {
         ObservableList<Appointment> appointments =
@@ -362,6 +417,11 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         return appointments;
     }
 
+    /**
+     * Get the appointments with a specific location
+     * @param loc
+     * @return an observableList of appointments by location
+     */
     @Override
     public ObservableList<Appointment> getAppointmentsByLocation(String loc) {
         String sql = "SELECT " +
@@ -407,6 +467,10 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         return appointments;
     }
 
+    /**
+     * Get all the appointments of a specific contact
+     * @return an observableList of appointments by a specific contact
+     */
     @Override
     public ObservableList<Appointment> getAllAppointmentsByContact(String contactName) {
         String sql = "SELECT " +
@@ -442,6 +506,10 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
         return appointments;
     }
 
+    /**
+     *
+     * @return an observableList of AGGREGATED appointments by type
+     */
     @Override
     public ObservableList<AppointmentTypeOrMonth> getAppointmentsOrderByType() {
         String sql = "SELECT Count(*) as Quantity, Type FROM appointments"+

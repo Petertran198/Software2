@@ -10,8 +10,15 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 
+/**
+ * Contains DB methods for handling Customers
+ */
 public class CustomerDaoImplementation implements CustomerDaoInterface {
 
+    /**
+     *
+     * @return Observablelist of all Customers
+     */
     @Override
     public ObservableList<Customer> getAllCustomer() {
         ObservableList<Customer> customers =
@@ -52,6 +59,10 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
         return customers;
     }
 
+    /**
+     * Delete a specific customer from db with the specified id
+     * @param id take a customer_id
+     */
     @Override
     public void deleteCustomer(int id) {
         String deleteCustomerAppointmentSql = "Delete From appointments WHERE" +
@@ -79,6 +90,10 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
         }
     }
 
+    /**
+     * Save a customer to db
+     * @param customer Customer instance to add to db
+     */
     @Override
     public void addCustomer(Customer customer) {
         String sql = "Insert into Customers(Customer_Name, Address, " +
@@ -114,6 +129,11 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
         }
     }
 
+    /**
+     *
+     * @return ObservableList of ALL Country, each country includes country names and
+     * ids
+     */
     @Override
     public ObservableList<Country> getCountryList() {
         ObservableList<Country> countries = FXCollections.observableArrayList();
@@ -162,6 +182,11 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
         return divisions;
     }
 
+    /**
+     * returns a customer
+     * @param id customer_id
+     * @return a customer with that specific id
+     */
     @Override
     public Customer findCustomer(int id) {
         String sql = "SELECT cus.Customer_ID, cus.Customer_Name, cus.Address," +
@@ -200,6 +225,11 @@ public class CustomerDaoImplementation implements CustomerDaoInterface {
         return  customer;
     }
 
+    /**
+     * Find a specific country by its name
+     * @param name
+     * @return country
+     */
     @Override
     public Country findCountry(String name) {
         String sql = "SELECT * FROM countries WHERE Country = '"+name+"' LIMIT 1";
