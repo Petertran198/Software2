@@ -1,5 +1,7 @@
 package c195.utilities;
 
+import c195.model.User;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,9 +15,8 @@ public class TextLog {
 
     /**
      * Keep track of login activities in text field
-     * @param logInSuccessful
      */
-    public  void logInfo(boolean logInSuccessful){
+    public  void logInfo(boolean logInSuccessful, User user){
         //Gets the login time.
         ZonedDateTime zonedDateTime = ZonedDateTime.now();
         //Formating pattern for date/time
@@ -23,9 +24,9 @@ public class TextLog {
                 DateTimeFormatter.ofPattern("MM/dd/yyyy 'at' hh:mma z");
         String timeString = formatter.format(zonedDateTime);
         if(logInSuccessful == false ){
-            timeString += " -Unsuccessful login";
+            timeString += " -Unsuccessful login | Invalid Username entered:"+ user.getUser_Name();
         }else{
-            timeString += " -Successful login";
+            timeString += "-Successful login by " + user.getUser_Name();
         }
         try(FileWriter fw = new FileWriter("login_activity.txt", true);
             BufferedWriter bufferedWriter = new BufferedWriter(fw)){

@@ -179,9 +179,10 @@ public class EditCustomerController implements Initializable {
             FLDivision div =
                     FLDDropDown.getSelectionModel().getSelectedItem();
             int divID = div.getDivision_ID();
-            Customer customer = new Customer(name, address, postal,phone,
+            Customer updatedCustomer = new Customer(name, address, postal,phone,
                     divID);
-            customerDAO.addCustomer(customer);
+            updatedCustomer.setCustomer_ID(customer.getCustomer_ID());
+            customerDAO.updateCustomer(updatedCustomer);
             SwitchRoute.switchToHome(event);
         }catch(NullPointerException e ){
             errorListString = handleFormEmptyField(name,address,phone,postal);
@@ -189,6 +190,7 @@ public class EditCustomerController implements Initializable {
                     "combo " +
                     "boxes are filled";
             errors.setText(errorListString);
+            System.out.println("Error in update Customer "+ e.getMessage());
         }
     }
     /** This method when click will switch to the home.fxml

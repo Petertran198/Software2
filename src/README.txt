@@ -1,5 +1,7 @@
 Software 2 Create a CRM/Appointment Manager using Java.
 
+Version 2
+
 Title: CRM/Appointment Manager Applications
 
 Purpose of the application: To create, store & retrieve customers and appointments in

@@ -22,8 +22,6 @@ public class Customer {
 
     /**
      * Used to add a customer for appointment form
-     * @param customer_ID
-     * @param customer_Name
      */
     public Customer(int customer_ID, String customer_Name){
         this.customer_ID = customer_ID;
@@ -33,12 +31,6 @@ public class Customer {
      * This constructor is for the table view therefore it only has certain
      * parms. It is not meant to be saved in database that will be dont in
      * overloaded verizon of this constructor
-     * @param customer_ID
-     * @param customer_Name
-     * @param address
-     * @param division
-     * @param country_name
-     * @param phone
      */
     public Customer(int customer_ID, String customer_Name,
                     String address, String division, String country_name,
@@ -55,11 +47,6 @@ public class Customer {
 
     /**
      * This constructor is for customer add field
-     * @param name
-     * @param address
-     * @param postal_code
-     * @param phone
-     * @param divisionId
      */
     public Customer(String name, String address,
                     String postal_code, String phone,

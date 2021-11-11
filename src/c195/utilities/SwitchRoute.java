@@ -85,6 +85,7 @@ public class SwitchRoute {
 
     /** This method when click will switch to the customerMonthAndTypeReport.fxml
      * @param event any ActionEvent most likely click
+     * @throws Exception
      * */
     public static void switchToCustomerMonthAndTypeReport(ActionEvent event) throws Exception {
         root = FXMLLoader.load(SwitchRoute.class.getResource("../view/customerMonthAndTypeReport.fxml"));
@@ -96,6 +97,7 @@ public class SwitchRoute {
 
     /** This method when click will switch to the addAppointmentInfoForm.fxml
      * @param event any ActionEvent most likely click
+     * @throws Exception if FXML not found
      * */
     public static void switchToLocationReport(ActionEvent event) throws Exception {
         root = FXMLLoader.load(SwitchRoute.class.getResource("../view/locationReport.fxml"));

@@ -121,7 +121,7 @@ public class LoginController implements Initializable {
             User loggedInUser = LoginAccount.logIntoAccount(userIDTextField.getText(),
                     passwordTextField.getText());
                 if( loggedInUser != null){
-                    log.logInfo(true);
+                    log.logInfo(true, loggedInUser);
                     LoginController.user_id = loggedInUser.getUser_ID();
                     LoginController.remaindAppointmentOnce = true;
                     SwitchRoute.switchToHome(event);
@@ -131,7 +131,9 @@ public class LoginController implements Initializable {
                     errorMsg += handleFormErrorsEmptyField(userIDTextField.getText(), passwordTextField.getText());
                     errors.setText(errorMsg);
                     errorMsg = "";
-                    log.logInfo(false);
+                    User invalidUser = new User();
+                    invalidUser.setUser_Name(userIDTextField.getText());
+                    log.logInfo(false, invalidUser);
                 }
             }catch(Exception e){
                     System.out.println(e.getMessage());
