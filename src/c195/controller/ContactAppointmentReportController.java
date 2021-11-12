@@ -77,6 +77,8 @@ public class ContactAppointmentReportController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactCombo.setItems(appointmentDao.getAllContacts());
         //Init the table columns
+        customerIDColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "customer_ID"));
         contactNameColumn.setCellValueFactory(new PropertyValueFactory<>(
                 "contact_name"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>(

@@ -31,8 +31,10 @@ public class CustomerMonthAndTypeReportController implements Initializable {
     private Scene scene;
     private Parent root;
     @FXML private TableView<AppointmentTypeOrMonth> appointmentTypeOrMonthTable;
+    @FXML private TableColumn<AppointmentTypeOrMonth, String> appointmentMonthTableColumn;
     @FXML private TableColumn<AppointmentTypeOrMonth, Integer> appointmentCountTableColumn;
-    @FXML private TableColumn<AppointmentTypeOrMonth, String> appointmentTypeOrMonthTableColumn;
+    @FXML private TableColumn<AppointmentTypeOrMonth, String> appointmentTypeTableColumn;
+
     @FXML private RadioButton typeRadioBtn;
     @FXML private RadioButton monthRadioBtn;
     @FXML private ToggleGroup radioToggleGroup;
@@ -53,44 +55,45 @@ public class CustomerMonthAndTypeReportController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+//
+//
+// ----------------------------------------------------------------------------------
+//    /**
+//     * When selected will get and set the table to a list of aggregated data
+//     * regarding that appointment type
+//     * @param mouseEvent
+//     */
+//    public void getAppointmentsByType(javafx.scene.input.MouseEvent mouseEvent) {
+//        appointmentTypeOrMonthTableColumn.setText("Type");
+//        showAppointmentsList =
+//                appointmentDAO.getAppointmentsOrderByType();
+//        appointmentTypeOrMonthTable.setItems(showAppointmentsList);
+//
+//    }
 
-    /**
-     * When selected will get and set the table to a list of aggregated data
-     * regarding that appointment type
-     * @param mouseEvent
-     */
-    public void getAppointmentsByType(javafx.scene.input.MouseEvent mouseEvent) {
-        appointmentTypeOrMonthTableColumn.setText("Type");
-        showAppointmentsList =
-                appointmentDAO.getAppointmentsOrderByType();
-        appointmentTypeOrMonthTable.setItems(showAppointmentsList);
-
-    }
-
-    /**
-     * When selected will get and set the table to a list of aggregated data
-     * of all appointments by month
-     * @param mouseEvent
-     */
-    public void getAppointmentsByMonth(javafx.scene.input.MouseEvent mouseEvent) {
-        appointmentTypeOrMonthTableColumn.setText("Month");
-        showAppointmentsList =
-                appointmentDAO.getAppointmentsByMonth();
-        appointmentTypeOrMonthTable.setItems(showAppointmentsList);
-    }
+//    /**
+//     * When selected will get and set the table to a list of aggregated data
+//     * of all appointments by month
+//     * @param mouseEvent
+//     */
+//    public void getAppointmentsByMonth(javafx.scene.input.MouseEvent mouseEvent) {
+//        appointmentTypeOrMonthTableColumn.setText("Month");
+//        showAppointmentsList =
+//                appointmentDAO.getAppointmentsByMonth();
+//        appointmentTypeOrMonthTable.setItems(showAppointmentsList);
+//    }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentCountTableColumn.setCellValueFactory(new PropertyValueFactory<>(
                 "quantity"));
-        appointmentTypeOrMonthTableColumn.setCellValueFactory(new PropertyValueFactory<>(
+        appointmentTypeTableColumn.setCellValueFactory(new PropertyValueFactory<>(
                 "name"));
-
-        //Populate the table first time with appointments group by types
-        appointmentTypeOrMonthTableColumn.setText("Type");
+        appointmentMonthTableColumn.setCellValueFactory(new PropertyValueFactory<>(
+                "month"));
         showAppointmentsList =
-                appointmentDAO.getAppointmentsOrderByType();
+                appointmentDAO.getAppointmentsOrderByMonthAndType();
         appointmentTypeOrMonthTable.setItems(showAppointmentsList);
     }
 

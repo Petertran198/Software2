@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="472.0" prefWidth="1286.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195.controller.ContactAppointmentReportController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="472.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="c195.controller.ContactAppointmentReportController">
     <children>
         <AnchorPane prefHeight="439.0" prefWidth="143.0">
             <children>
@@ -24,17 +25,20 @@
         </AnchorPane>
         <AnchorPane prefHeight="472.0" prefWidth="1122.0">
             <children>
-                <TableView fx:id="appointmentTable" layoutX="20.0" layoutY="71.0" prefHeight="322.0" prefWidth="1040.0">
+                <TableView fx:id="appointmentTable" layoutX="20.0" layoutY="47.0">
                     <columns>
-                  <TableColumn fx:id="contactNameColumn" prefWidth="97.0" text="Contact Name" />
-                        <TableColumn fx:id="idColumn" prefWidth="97.0" text="Apt. ID" />
+                  <TableColumn fx:id="contactNameColumn" prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="idColumn" prefWidth="75.0" text="Apt. ID" />
                         <TableColumn fx:id="titleColumn" prefWidth="124.0" text="Title" />
                         <TableColumn fx:id="typeColumn" prefWidth="128.66667938232422" text="Type" />
                         <TableColumn fx:id="descriptionColumn" prefWidth="203.0" text="Description" />
                         <TableColumn fx:id="startColumn" prefWidth="116.0" text="Start" />
                         <TableColumn fx:id="endColumn" prefWidth="92.0" text="End" />
-                        <TableColumn fx:id="customerIDCoulmn" prefWidth="177.0" text="Customer ID" />
+                        <TableColumn fx:id="customerIDColumn" prefWidth="177.0" text="Customer ID" />
                     </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
                 </TableView>
             </children>
         </AnchorPane>

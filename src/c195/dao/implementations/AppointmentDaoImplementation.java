@@ -498,6 +498,7 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
                appointment.setStart(resultSet.getObject("Start", LocalDateTime.class));
                appointment.setEnd(resultSet.getObject("End", LocalDateTime.class));
                appointments.add(appointment);
+               System.out.println(appointment.getCustomer_ID() );
             }
         }catch (SQLException e){
             System.out.println("Error in getAllAppointmentsByContact "+ e.getMessage());
@@ -505,15 +506,13 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
 
         return appointments;
     }
+    
 
-    /**
-     *
-     * @return an observableList of AGGREGATED appointments by type
-     */
     @Override
-    public ObservableList<AppointmentTypeOrMonth> getAppointmentsOrderByType() {
-        String sql = "SELECT Count(*) as Quantity, Type FROM appointments"+
-                " GROUP BY TYPE";
+    public ObservableList<AppointmentTypeOrMonth> getAppointmentsOrderByMonthAndType() {
+        String sql = "SELECT Type, Count(*) as Quantity, date_format(Start, " +
+                "'%Y-%m-01') " +
+                "AS Month FROM appointments GROUP BY Month, Type";
         ObservableList<AppointmentTypeOrMonth> appointmentTypes =
                 FXCollections.observableArrayList();
 
@@ -526,31 +525,8 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
                         new AppointmentTypeOrMonth();
                 appointmentType.setName(resultSet.getString("Type"));
                 appointmentType.setQuantity(resultSet.getInt("Quantity"));
-                appointmentTypes.add(appointmentType);
-            }
-        }catch (SQLException e){
-            System.out.println("Error in getAppointmentsOrderByType "+ e.getMessage());
-        }
-
-        return appointmentTypes;
-    }
-
-    @Override
-    public ObservableList<AppointmentTypeOrMonth> getAppointmentsByMonth() {
-        String sql = "SELECT Count(*) as Quantity, date_format(Start, '%Y-%m-01') " +
-                "AS Month FROM appointments GROUP BY Month";
-        ObservableList<AppointmentTypeOrMonth> appointmentTypes =
-                FXCollections.observableArrayList();
-
-        try(
-                Statement statement = JDBC.getConnection().createStatement();
-                ResultSet resultSet = statement.executeQuery(sql);
-        ){
-            while(resultSet.next()){
-                AppointmentTypeOrMonth appointmentType =
-                        new AppointmentTypeOrMonth();
-                appointmentType.setName(resultSet.getString("Month"));
-                appointmentType.setQuantity(resultSet.getInt("Quantity"));
+                appointmentType.setMonth(resultSet.getString("Month"));
+                System.out.println(appointmentType.getMonth());
                 appointmentTypes.add(appointmentType);
             }
         }catch (SQLException e){

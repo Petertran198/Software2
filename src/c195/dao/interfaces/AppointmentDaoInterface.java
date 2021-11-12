@@ -23,6 +23,6 @@ public interface AppointmentDaoInterface {
 
     public ObservableList<Appointment> getAllAppointmentsByContact(String contactName);
     //AppointmentTypeOrMonth Class
-    public ObservableList<AppointmentTypeOrMonth> getAppointmentsOrderByType();
-    public ObservableList<AppointmentTypeOrMonth> getAppointmentsByMonth();
+    public ObservableList<AppointmentTypeOrMonth> getAppointmentsOrderByMonthAndType();
+
 }
