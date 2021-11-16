@@ -61,6 +61,9 @@ public class EditAppointmentController implements Initializable {
     AppointmentDaoInterface appointmentDAO = new AppointmentDaoImplementation();
     //CustomerDAO is used for accessing customer data.
     CustomerDaoInterface customerDao = new CustomerDaoImplementation();
+    //These 2 vars are for converting utcAppointment time from db to local
+    LocalDateTime localStartTime;
+    LocalDateTime localEndTime;
 
 
     /**
@@ -189,17 +192,19 @@ public class EditAppointmentController implements Initializable {
 
     /**
      * Init all time spinners with correct values
+     * --------Problem time is in 12 hour format of UTC need to change back to
+     * local date
      */
     public void initTimeSpinnersWithValues(){
         SpinnerValueFactory<Integer> valueFactoryHoursStart =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1,12);
         startHourSpinner.setValueFactory(valueFactoryHoursStart);
-        valueFactoryHoursStart.setValue(DateTimeHelper.returnHourIn12HourFormat(appointment.getStart()));
+        valueFactoryHoursStart.setValue(DateTimeHelper.returnHourIn12HourFormat(localStartTime));
 
         SpinnerValueFactory<Integer> valueFactoryHoursEnd =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1,12);
         endHourSpinner.setValueFactory(valueFactoryHoursEnd);
-        valueFactoryHoursEnd.setValue(DateTimeHelper.returnHourIn12HourFormat(appointment.getEnd()));
+        valueFactoryHoursEnd.setValue(DateTimeHelper.returnHourIn12HourFormat(localEndTime));
 
         SpinnerValueFactory<Integer> valueFactoryMinsStart =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60);
@@ -366,6 +371,12 @@ public class EditAppointmentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointment = HomeController.selectedAppointmentToModify;
+         localStartTime =
+                DateTimeHelper.convertDBUTCTimeToSystemDefault(appointment.getStart());
+         localEndTime =
+                DateTimeHelper.convertDBUTCTimeToSystemDefault(appointment.getEnd());
+//        System.out.println("This is UTC time" + appointment.getStart());
+//        System.out.println("This is local" + localStartTime);
         getCustomerDataForComboBox();
         getContactDataForComboBox();
         getUserDataForComboBox();

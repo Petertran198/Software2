@@ -89,7 +89,7 @@ public class HomeController implements Initializable {
         goDownBtn.setDisable(false);
         ObservableList<Appointment> appointments =
                 appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,
-                showWhatWeek);
+                        showWhatWeek);
         appointmentTable.setItems(appointments);
     }
     //When the monthly radio button is selected
@@ -105,17 +105,17 @@ public class HomeController implements Initializable {
 
     //This method is to go up or down a week/month for appointments
     public void goDownBtnMethod(ActionEvent event) throws Exception{
-            if(appointmentToogleGroup.getSelectedToggle() == weeklyRadioBtn){
-                showWhatWeek = showWhatWeek -1;
-                appointmentTable.setItems(appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,showWhatWeek));
-            }
+        if(appointmentToogleGroup.getSelectedToggle() == weeklyRadioBtn){
+            showWhatWeek = showWhatWeek -1;
+            appointmentTable.setItems(appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,showWhatWeek));
+        }
 
-            if(appointmentToogleGroup.getSelectedToggle() == monthlyRadioBtn){
-                showWhatMonth = showWhatMonth -1;
-                appointmentTable.setItems(appointmentDao.getAppointmentsOrderByMonth(LoginController.user_id
-                        ,showWhatMonth));
+        if(appointmentToogleGroup.getSelectedToggle() == monthlyRadioBtn){
+            showWhatMonth = showWhatMonth -1;
+            appointmentTable.setItems(appointmentDao.getAppointmentsOrderByMonth(LoginController.user_id
+                    ,showWhatMonth));
 
-            }
+        }
     }
 
     //This method is to go up or down a week/month for appointments
@@ -242,7 +242,7 @@ public class HomeController implements Initializable {
             // there is an appointment with 15 mins
             usersAppointments.forEach(appointment -> {
                 LocalDateTime localConvertedStartTime =
-                        DateTimeHelper.convertUTCLocalDateTimeToSystemDefault(appointment.getStart());
+                        DateTimeHelper.convertDBUTCTimeToSystemDefault(appointment.getStart());
                 LocalDateTime localTimeRn =
                         LocalDateTime.now(ZoneId.systemDefault());
                 LocalDateTime localDateTimeRNPlus15Mins =
@@ -379,6 +379,6 @@ public class HomeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         showCustomerTable();
         showAppointmentTable();
-        checkIfUserHasAppointmentsWithin15Mins();
+//        checkIfUserHasAppointmentsWithin15Mins();
     }
 }

@@ -27,12 +27,15 @@ public class DateTimeHelper {
         return  localDate;
     }
 
+
     /**
      *
      * @param dateString Convert a string to utc LocalDateTime obj
-     * @return a LocalDateTime Object in UTC format
+     * @return a LocalDateTime Object in UTC format. Takes in a LOCAL 24 hour time
+     * and return a 24 hour time in UTC
      */
     public static LocalDateTime convertToUTC(String dateString){
+        //Tested this method successfully convert time
         LocalDateTime date = null;
         try{
             //Formatter pattern
@@ -41,8 +44,10 @@ public class DateTimeHelper {
             //convert our string date to localdatetime obj using the
             // pattern specified above
             date = LocalDateTime.parse(dateString,formatter);
-            //System default time zone
-            ZonedDateTime localDateTimeZone = ZonedDateTime.of(date,ZoneId.systemDefault());
+//            //System default time zone
+            ZonedDateTime localDateTimeZone = ZonedDateTime.of(date,
+                    ZoneId.systemDefault());
+
             ZonedDateTime utcDateTimeZone =
                     localDateTimeZone.withZoneSameInstant(ZoneId.of("UTC"));
             //This is the converted utc timezone
@@ -53,17 +58,24 @@ public class DateTimeHelper {
         return date;
     }
 
-
     /**
      * This method convert the time that was saved in db in UTC to be converted to system default tineZone
-     * @param localDateTime
+     * @param local
      * @return the old UTC DateTime converted to the systemDefault localDateTime
      */
-    public static LocalDateTime convertUTCLocalDateTimeToSystemDefault(LocalDateTime localDateTime){
-        ZoneId zoneId = ZoneId.systemDefault();
-        ZonedDateTime localZonedDateTime =  ZonedDateTime.of(localDateTime,zoneId);
-        return localZonedDateTime.toLocalDateTime();
+    public static LocalDateTime convertDBUTCTimeToSystemDefault(LocalDateTime local){
+        ZonedDateTime utcDateTimeZone = ZonedDateTime.of(local,
+                ZoneId.of("UTC"));
+
+        ZonedDateTime localDateTimeZone =
+                utcDateTimeZone.withZoneSameInstant(ZoneId.of(ZoneId.systemDefault().toString()));
+        //This is the converted utc timezone
+        LocalDateTime convertedTime = localDateTimeZone.toLocalDateTime();
+        return convertedTime;
     }
+
+
+
 
     /**
      * Checks if AM or PM
@@ -147,12 +159,13 @@ public class DateTimeHelper {
     /**
      * Convert the 24 hour time to actual 12 hour format with 0:00H being 12H and
      * 24H also being 12H
-     * @param localDateTime
+     * @param startTimeUTC24HourFormat
      * @return the 24 hour time converted to 12 hour format
      */
-    public static int returnHourIn12HourFormat(LocalDateTime localDateTime){
-        LocalDateTime convertedTimeToLocal = convertUTCLocalDateTimeToSystemDefault(localDateTime);
-        int hour = convertedTimeToLocal.getHour();
+    public static int returnHourIn12HourFormat(LocalDateTime startTimeUTC24HourFormat){
+//        LocalDateTime convertedTimeToLocal = convertUTCLocalDateTimeToSystemDefault(localDateTime);
+        System.out.println(startTimeUTC24HourFormat.getHour());
+        int hour = startTimeUTC24HourFormat.getHour();
         if(hour == 0){
              hour = 12;
         }else if (hour >0 && hour > 12){

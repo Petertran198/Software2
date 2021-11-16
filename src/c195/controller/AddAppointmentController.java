@@ -23,6 +23,7 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
@@ -182,8 +183,8 @@ public class AddAppointmentController implements Initializable {
         // Combined string for Date,hours & mins of am/pm start and end date
         String combinedStartTime;
         String combinedEndTime;
-        LocalDateTime startLocalDateTime;
-        LocalDateTime endLocalDateTime;
+        LocalDateTime startLocalDateTimeUTC;
+        LocalDateTime endLocalDateTimeUTC;
         try{
             String title = titleField.getText();
             String type = typeCombo.getValue();
@@ -236,36 +237,50 @@ public class AddAppointmentController implements Initializable {
                     endDatePickerString+" "+endHourString+":" + endMinutesString;
 
             //Converted start/end datetime string to utc time to be saved to the db aka START/END
-            startLocalDateTime = DateTimeHelper.convertToUTC(combinedStartTime);
-            endLocalDateTime = DateTimeHelper.convertToUTC(combinedEndTime);
+////            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
+////                    "yyyy-MM-dd kk:mm");
+//            startLocalDateTimeUTC = LocalDateTime.parse(combinedStartTime,formatter);
+//            endLocalDateTimeUTC = LocalDateTime.parse(combinedEndTime,formatter);
+
+            startLocalDateTimeUTC = DateTimeHelper.convertToUTC(combinedStartTime);
+            endLocalDateTimeUTC = DateTimeHelper.convertToUTC(combinedEndTime);
+            //convert our string date to localdatetime obj using the
+            // pattern specified above
+            System.out.println(startLocalDateTimeUTC +  "start");
+//            //Local time convertion is correctly converted to 24 hour format
+//            //12AM is 00H  while 12PM is 12H AND 1PM is 13H
+//            System.out.println(combinedStartTime + "----Local start time");
+//            System.out.println(startLocalDateTimeUTC + "-----UTC");
+
             //Type & location combo box must be filled
             if(type.isBlank() || location.isBlank()){
                 throw new NullPointerException();
             }
+
             Appointment appointment = new Appointment(title,description,
                     location,contactCombo.getValue().getContact_Name(),type,
                     customerCombo.getValue().getCustomer_ID(),
                     userCombo.getValue().getUser_ID(),
                     contactCombo.getValue().getContact_ID(),
-                    startLocalDateTime,endLocalDateTime);
+                    startLocalDateTimeUTC,endLocalDateTimeUTC);
 
-            //Appointments validation check -------------------------------
-            //Check if appointment is made within comapny's hour 8am to 10pm
-            if(!DateTimeHelper.isAppointmentTimeWithinCompanysTime(startLocalDateTime,endLocalDateTime)){
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setHeaderText("Conflicting Appointment Time");
-                alert.setContentText("Appointments must be made within business hours. \n 8AM - 10PM EST Mon-Sun");
-                alert.show();
-                return;
-            }
-            //Check if appointment overlap
-            if(DateTimeHelper.isAppointmentOverlapping(appointment, appointmentDAO.getAllAppointment())){
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setHeaderText("Conflicting Appointment Time");
-                alert.setContentText("This appointment overlap with another client.");
-                alert.show();
-                return;
-            }
+//            //Appointments validation check -------------------------------
+//            //Check if appointment is made within comapny's hour 8am to 10pm
+//            if(!DateTimeHelper.isAppointmentTimeWithinCompanysTime(startLocalDateTimeUTC,endLocalDateTimeUTC)){
+//                Alert alert = new Alert(Alert.AlertType.WARNING);
+//                alert.setHeaderText("Conflicting Appointment Time");
+//                alert.setContentText("Appointments must be made within business hours. \n 8AM - 10PM EST Mon-Sun");
+//                alert.show();
+//                return;
+//            }
+//            //Check if appointment overlap
+//            if(DateTimeHelper.isAppointmentOverlapping(appointment, appointmentDAO.getAllAppointment())){
+//                Alert alert = new Alert(Alert.AlertType.WARNING);
+//                alert.setHeaderText("Conflicting Appointment Time");
+//                alert.setContentText("This appointment overlap with another client.");
+//                alert.show();
+//                return;
+//            }
             appointmentDAO.saveAppointment(appointment);
             SwitchRoute.switchToHome(event);
         }catch(NullPointerException e){

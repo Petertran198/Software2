@@ -52,10 +52,10 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
                 int customerID = resultSet.getInt("Customer_ID");
                 int userID = resultSet.getInt("User_ID");
                 int contactID = resultSet.getInt("Contact_ID");
-                LocalDateTime start = resultSet.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime start = resultSet.getObject("Start",
+                        LocalDateTime.class);
                 LocalDateTime end =
-                        resultSet.getTimestamp("End").toLocalDateTime();
-
+                        resultSet.getObject("End",LocalDateTime.class);
                 Appointment appointment = new Appointment(appointmentID,title
                         ,description,location,contact_name,type,customerID,
                         userID,contactID,start,end);
@@ -506,7 +506,7 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
 
         return appointments;
     }
-    
+
 
     @Override
     public ObservableList<AppointmentTypeOrMonth> getAppointmentsOrderByMonthAndType() {
