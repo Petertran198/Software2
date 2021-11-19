@@ -60,7 +60,8 @@ public class HomeController implements Initializable {
     // appointment start date
     private static int showWhatMonth = 0;
     private static int showWhatWeek = 0;
-
+    //If msg is empty there is no appointments within 15
+    private static String alertMsgIfThereIsAppointmentWithin15Mins = "";
 
     //variables
     //Using the DAO pattern, customerDao will be used to query  the customer db
@@ -235,10 +236,11 @@ public class HomeController implements Initializable {
 
     //This method notifies if we have an appointment within 15 mins from us
     public void checkIfUserHasAppointmentsWithin15Mins(){
-        if(LoginController.remaindAppointmentOnce == true){
+        String alertMsg;
+        if(LoginController.remaindAppointmentOnce){
             ObservableList<Appointment> usersAppointments =
                     appointmentDao.getUsersAppointments(LoginController.user_id);
-            //Itterate though user appointments, convert to local time and check if
+            //Iterate though user appointments, convert to local time and check if
             // there is an appointment with 15 mins
             usersAppointments.forEach(appointment -> {
                 LocalDateTime localConvertedStartTime =
@@ -248,25 +250,21 @@ public class HomeController implements Initializable {
                 LocalDateTime localDateTimeRNPlus15Mins =
                         LocalDateTime.now(ZoneId.systemDefault()).plusMinutes(15);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
-
                 if(localConvertedStartTime.isAfter(localTimeRn) && (localConvertedStartTime.isBefore(localDateTimeRNPlus15Mins))){
-                    LoginController.remaindAppointmentOnce = false;
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    String sentence = "You have an upcoming appointment.  " +
-                            "\nAppointment" +
-                            " ID: "+ appointment.getAppointment_ID() +"\nStarting at "+localConvertedStartTime.toLocalTime().format(formatter)+"\nLocal Time: " +localTimeRn.toLocalTime().format(formatter)
-                            ;
-                    alert.setContentText(sentence);
-                    alert.show();
-                }else {
-                    LoginController.remaindAppointmentOnce = false;
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    String sentence = "You have no upcoming appointments within 15 " +
-                            "minutes";
-                    alert.setContentText(sentence);
-                    alert.show();
+                    HomeController.alertMsgIfThereIsAppointmentWithin15Mins = "You have an upcoming appointment.  " + "\nAppointment" + " ID: "+ appointment.getAppointment_ID() +"\nStarting at "+localConvertedStartTime.toLocalTime().format(formatter)+"\nLocal Time: " +localTimeRn.toLocalTime().format(formatter);
                 }
             });
+
+            if(HomeController.alertMsgIfThereIsAppointmentWithin15Mins.isBlank()){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("No appointments within 15 mins");
+                alert.show();
+            }else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText(HomeController.alertMsgIfThereIsAppointmentWithin15Mins);
+                alert.show();
+            }
+            LoginController.remaindAppointmentOnce = false;
         }
     }
     /** This method when click will switch to the addCustomerInfoForm.fxml

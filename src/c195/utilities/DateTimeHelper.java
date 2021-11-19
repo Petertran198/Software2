@@ -144,8 +144,8 @@ public class DateTimeHelper {
 
         LocalDateTime startEstLocalDateTime = convertUTCTimeToEst(start);
         LocalDateTime endEstLocalDateTime = convertUTCTimeToEst(end);
-        System.out.println("Start time converted to EST " +startEstLocalDateTime );
-        System.out.println("Start business hours EST" +startBusinessHour );
+//        System.out.println("Start time converted to EST " +startEstLocalDateTime );
+//        System.out.println("Start business hours EST" +startBusinessHour );
 
         //if the start is before or after the business hours return false
         if(startEstLocalDateTime.toLocalTime().isBefore(startBusinessHour)|| startEstLocalDateTime.toLocalTime().isAfter(endBusinessHour)){

@@ -406,7 +406,6 @@ public class AppointmentDaoImplementation implements AppointmentDaoInterface {
                 Appointment appointment = new Appointment(appointmentID,title
                         ,description,location,contact_name,type,customerID,
                         userID,contactID,start,end);
-
                 appointments.add(appointment);
             }
         }catch(SQLException e){
