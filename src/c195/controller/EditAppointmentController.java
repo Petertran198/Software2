@@ -244,12 +244,12 @@ public class EditAppointmentController implements Initializable {
      * Set the correct radio button if appointment is AM or PM
      */
     public void setTimeSpinners(){
-        if(DateTimeHelper.isAMTime(appointment.getStart())){
+        if(DateTimeHelper.isAMTime(DateTimeHelper.convertUTCTimeToEst(appointment.getStart()))){
             startTimeAMRadioButton.setSelected(true);
         }else {
             startTimePMRadioButton.setSelected(true);
         }
-        if(DateTimeHelper.isAMTime(appointment.getEnd())){
+        if(DateTimeHelper.isAMTime(DateTimeHelper.convertUTCTimeToEst(appointment.getEnd()))){
             endTimeAMRadioButton.setSelected(true);
         }else{
             endTimePMRadioButton.setSelected(true);
