@@ -66,7 +66,6 @@ public class DateTimeHelper {
     public static LocalDateTime convertDBUTCTimeToSystemDefault(LocalDateTime local){
         ZonedDateTime utcDateTimeZone = ZonedDateTime.of(local,
                 ZoneId.of("UTC"));
-
         ZonedDateTime localDateTimeZone =
                 utcDateTimeZone.withZoneSameInstant(ZoneId.of(ZoneId.systemDefault().toString()));
         //This is the converted utc timezone
@@ -74,7 +73,20 @@ public class DateTimeHelper {
         return convertedTime;
     }
 
-
+    /**
+     * This method convert the UTC time to est
+     * @param local
+     * @return the utc localDateTime converted to est time
+     */
+    public static LocalDateTime convertUTCTimeToEst(LocalDateTime local){
+        ZonedDateTime utcDateTimeZone = ZonedDateTime.of(local,
+                ZoneId.of("UTC"));
+        ZonedDateTime estDateTimeZone =
+                utcDateTimeZone.withZoneSameInstant(ZoneId.of("America/New_York"));
+        //This is the converted utc timezone
+        LocalDateTime convertedTime = estDateTimeZone.toLocalDateTime();
+        return convertedTime;
+    }
 
 
     /**
@@ -106,52 +118,44 @@ public class DateTimeHelper {
             LocalDateTime currentEnd = currentAppointment.getEnd();
             LocalDateTime anotherAppointmentStart = anotherAppointment.getStart();
             LocalDateTime anotherAppointmentEnd = anotherAppointment.getEnd();
-            if(anotherAppointment.getAppointment_ID() == currentAppointment.getAppointment_ID() ){
-
-                if(currentStart.isAfter(anotherAppointmentStart) && currentEnd.isBefore(anotherAppointmentEnd)){
+                if(currentStart.isEqual(anotherAppointmentStart)){
                     return true;
                 }
                 if(currentStart.isBefore(anotherAppointmentStart) && currentEnd.isAfter(anotherAppointmentStart)){
                     return true;
                 }
-            }
+                if(currentStart.isAfter(anotherAppointmentStart) && currentStart.isBefore(anotherAppointmentEnd)){
+                    return true;
+                }
         }
         return false;
     }
 
     /**
      * Check if appointment is within the company's work schedule
-     * @param start start time
-     * @param end   end time
+     * @param start start time in UTC
+     * @param end   end time in UTC
      * @return returns true if it is within the company's time
      */
     public static boolean isAppointmentTimeWithinCompanysTime(LocalDateTime start, LocalDateTime end){
+        //Times to check if within these valid hours 8am-10pm
+        LocalTime startBusinessHour = LocalTime.of(8, 0);
+        LocalTime endBusinessHour = LocalTime.of(22, 0);
 
-        ZoneId estTimeZone = ZoneId.of("America/New_York");
+        LocalDateTime startEstLocalDateTime = convertUTCTimeToEst(start);
+        LocalDateTime endEstLocalDateTime = convertUTCTimeToEst(end);
+        System.out.println("Start time converted to EST " +startEstLocalDateTime );
+        System.out.println("Start business hours EST" +startBusinessHour );
 
-        ZonedDateTime companyStartTime8AMESTConverted = ZonedDateTime.of(start.toLocalDate(), LocalTime.of(8,00),estTimeZone);
-        ZonedDateTime businessStartTimeConvertBackToSystemDefaultTime =
-                companyStartTime8AMESTConverted.withZoneSameInstant(ZoneId.systemDefault());
-
-        //22 hours is 10pm est, which is the company's closing hours
-        ZonedDateTime companyEndTime10PMESTConverted = ZonedDateTime.of(end.toLocalDate(), LocalTime.of(22,00),estTimeZone);
-        ZonedDateTime businessEndTimeConvertBackToSystemDefaultTime = companyEndTime10PMESTConverted.withZoneSameInstant(ZoneId.systemDefault());
-
-        if(start.toLocalTime().isBefore(companyStartTime8AMESTConverted.toLocalTime())){
+        //if the start is before or after the business hours return false
+        if(startEstLocalDateTime.toLocalTime().isBefore(startBusinessHour)|| startEstLocalDateTime.toLocalTime().isAfter(endBusinessHour)){
+            return false;
+        }
+        //if the end is before or after the business hours return false
+        if(endEstLocalDateTime.toLocalTime().isBefore(startBusinessHour)|| endEstLocalDateTime.toLocalTime().isAfter(endBusinessHour)){
             return false;
         }
 
-        if(start.toLocalTime().isAfter(companyEndTime10PMESTConverted.toLocalTime())){
-            return false;
-        }
-
-        if(end.toLocalTime().isBefore(companyStartTime8AMESTConverted.toLocalTime())){
-            return false;
-        }
-
-        if(end.toLocalTime().isAfter((companyEndTime10PMESTConverted.toLocalTime()))){
-            return false;
-        }
         return true;
 
     }
@@ -164,7 +168,7 @@ public class DateTimeHelper {
      */
     public static int returnHourIn12HourFormat(LocalDateTime startTimeUTC24HourFormat){
 //        LocalDateTime convertedTimeToLocal = convertUTCLocalDateTimeToSystemDefault(localDateTime);
-        System.out.println(startTimeUTC24HourFormat.getHour());
+//        System.out.println(startTimeUTC24HourFormat.getHour());
         int hour = startTimeUTC24HourFormat.getHour();
         if(hour == 0){
              hour = 12;

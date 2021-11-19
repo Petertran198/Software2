@@ -343,18 +343,19 @@ public class EditAppointmentController implements Initializable {
             if(!DateTimeHelper.isAppointmentTimeWithinCompanysTime(startLocalDateTime,endLocalDateTime)){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setHeaderText("Conflicting Appointment Time");
-                alert.setContentText("Appointments must be made within business hours. \n 8AM - 10PM EST Mon-Sun");
+                alert.setContentText("Appointments must be made within business " +
+                        "hours. \n 8AM - 10PM EST Mon-Sun");
                 alert.show();
                 return;
             }
-            //Check if appointment overlap
-            if(DateTimeHelper.isAppointmentOverlapping(appointment, appointmentDAO.getAllAppointment())){
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setHeaderText("Conflicting Appointment Time");
-                alert.setContentText("This appointment overlap with another client.");
-                alert.show();
-                return;
-            }
+//            //Check if appointment overlap
+//            if(DateTimeHelper.isAppointmentOverlapping(appointment, appointmentDAO.getAllAppointment())){
+//                Alert alert = new Alert(Alert.AlertType.WARNING);
+//                alert.setHeaderText("Conflicting Appointment Time");
+//                alert.setContentText("This appointment overlap with another client.");
+//                alert.show();
+//                return;
+//            }
 
             appointmentDAO.updateAppointment(a);
 

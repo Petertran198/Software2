@@ -236,17 +236,9 @@ public class AddAppointmentController implements Initializable {
             combinedEndTime =
                     endDatePickerString+" "+endHourString+":" + endMinutesString;
 
-            //Converted start/end datetime string to utc time to be saved to the db aka START/END
-////            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
-////                    "yyyy-MM-dd kk:mm");
-//            startLocalDateTimeUTC = LocalDateTime.parse(combinedStartTime,formatter);
-//            endLocalDateTimeUTC = LocalDateTime.parse(combinedEndTime,formatter);
 
             startLocalDateTimeUTC = DateTimeHelper.convertToUTC(combinedStartTime);
             endLocalDateTimeUTC = DateTimeHelper.convertToUTC(combinedEndTime);
-            //convert our string date to localdatetime obj using the
-            // pattern specified above
-            System.out.println(startLocalDateTimeUTC +  "start");
 //            //Local time convertion is correctly converted to 24 hour format
 //            //12AM is 00H  while 12PM is 12H AND 1PM is 13H
 //            System.out.println(combinedStartTime + "----Local start time");
@@ -264,15 +256,15 @@ public class AddAppointmentController implements Initializable {
                     contactCombo.getValue().getContact_ID(),
                     startLocalDateTimeUTC,endLocalDateTimeUTC);
 
-//            //Appointments validation check -------------------------------
-//            //Check if appointment is made within comapny's hour 8am to 10pm
-//            if(!DateTimeHelper.isAppointmentTimeWithinCompanysTime(startLocalDateTimeUTC,endLocalDateTimeUTC)){
-//                Alert alert = new Alert(Alert.AlertType.WARNING);
-//                alert.setHeaderText("Conflicting Appointment Time");
-//                alert.setContentText("Appointments must be made within business hours. \n 8AM - 10PM EST Mon-Sun");
-//                alert.show();
-//                return;
-//            }
+            //Appointments validation check -------------------------------
+            //Check if appointment is made within comapny's hour 8am to 10pm
+            if(DateTimeHelper.isAppointmentTimeWithinCompanysTime(startLocalDateTimeUTC,endLocalDateTimeUTC) == false){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Conflicting Appointment Time");
+                alert.setContentText("Appointments must be made within business hours. \n 8AM - 10PM EST Mon-Sun");
+                alert.show();
+                return;
+            }
 //            //Check if appointment overlap
 //            if(DateTimeHelper.isAppointmentOverlapping(appointment, appointmentDAO.getAllAppointment())){
 //                Alert alert = new Alert(Alert.AlertType.WARNING);

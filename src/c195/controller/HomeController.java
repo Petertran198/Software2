@@ -379,6 +379,6 @@ public class HomeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         showCustomerTable();
         showAppointmentTable();
-//        checkIfUserHasAppointmentsWithin15Mins();
+        checkIfUserHasAppointmentsWithin15Mins();
     }
 }
