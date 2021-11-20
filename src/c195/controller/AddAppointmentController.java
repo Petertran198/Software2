@@ -1,9 +1,7 @@
 package c195.controller;
 
 import c195.dao.implementations.AppointmentDaoImplementation;
-import c195.dao.implementations.CustomerDaoImplementation;
 import c195.dao.interfaces.AppointmentDaoInterface;
-import c195.dao.interfaces.CustomerDaoInterface;
 import c195.model.*;
 import c195.utilities.DateTimeHelper;
 import c195.utilities.SwitchRoute;
@@ -11,19 +9,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
@@ -236,9 +227,8 @@ public class AddAppointmentController implements Initializable {
             combinedEndTime =
                     endDatePickerString+" "+endHourString+":" + endMinutesString;
 
-
-            startLocalDateTimeUTC = DateTimeHelper.convertToUTC(combinedStartTime);
-            endLocalDateTimeUTC = DateTimeHelper.convertToUTC(combinedEndTime);
+            startLocalDateTimeUTC = DateTimeHelper.systemDefaultConvertToUTC(combinedStartTime);
+            endLocalDateTimeUTC = DateTimeHelper.systemDefaultConvertToUTC(combinedEndTime);
 //            //Local time convertion is correctly converted to 24 hour format
 //            //12AM is 00H  while 12PM is 12H AND 1PM is 13H
 //            System.out.println(combinedStartTime + "----Local start time");
@@ -266,13 +256,13 @@ public class AddAppointmentController implements Initializable {
                 return;
             }
 //            //Check if appointment overlap
-//            if(DateTimeHelper.isAppointmentOverlapping(appointment, appointmentDAO.getAllAppointment())){
-//                Alert alert = new Alert(Alert.AlertType.WARNING);
-//                alert.setHeaderText("Conflicting Appointment Time");
-//                alert.setContentText("This appointment overlap with another client.");
-//                alert.show();
-//                return;
-//            }
+            if(DateTimeHelper.isAppointmentOverlapping(appointment, appointmentDAO.getAllAppointment())){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Conflicting Appointment Time");
+                alert.setContentText("This appointment overlap with another client.");
+                alert.show();
+                return;
+            }
             appointmentDAO.saveAppointment(appointment);
             SwitchRoute.switchToHome(event);
         }catch(NullPointerException e){

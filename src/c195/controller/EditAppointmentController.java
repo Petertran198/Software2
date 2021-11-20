@@ -10,7 +10,6 @@ import c195.model.Customer;
 import c195.model.User;
 import c195.utilities.DateTimeHelper;
 import c195.utilities.SwitchRoute;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -239,7 +238,6 @@ public class EditAppointmentController implements Initializable {
         descriptionField.setText(appointment.getDescription());
     }
 
-
     /**
      * Set the correct radio button if appointment is AM or PM
      */
@@ -270,8 +268,10 @@ public class EditAppointmentController implements Initializable {
         // Combined string for Date,hours & mins of am/pm start and end date
         String combinedStartTime;
         String combinedEndTime;
-        LocalDateTime startLocalDateTime;
-        LocalDateTime endLocalDateTime;
+        LocalDateTime startLocalDateTimeUTC;
+        LocalDateTime endLocalDateTimeUTC;
+        //This variable contains the updated appointment
+        Appointment a;
         try{
             String title = titleField.getText();
             String type = typeCombo.getValue();
@@ -323,24 +323,27 @@ public class EditAppointmentController implements Initializable {
             combinedEndTime =
                     endDatePickerString+" "+endHourString+":" + endMinutesString;
             //Convert start/end datetime string to utc time to be saved to the data base
-            startLocalDateTime = DateTimeHelper.convertToUTC(combinedStartTime);
-            endLocalDateTime = DateTimeHelper.convertToUTC(combinedEndTime);
+            startLocalDateTimeUTC =
+                    DateTimeHelper.systemDefaultConvertToUTC(combinedStartTime);
+            endLocalDateTimeUTC =
+                    DateTimeHelper.systemDefaultConvertToUTC(combinedEndTime);
 
             //Type & location combo box must be filled
             if(type.isBlank() || location.isBlank()){
                 throw new NullPointerException();
             }
-            Appointment a = new Appointment(title,description,
+             a = new Appointment(title,description,
                     location,contactCombo.getValue().getContact_Name(),type,
                     customerCombo.getValue().getCustomer_ID(),
                     userCombo.getValue().getUser_ID(),
                     contactCombo.getValue().getContact_ID(),
-                    startLocalDateTime,endLocalDateTime);
+                    startLocalDateTimeUTC,endLocalDateTimeUTC);
+
             a.setAppointment_ID(appointment.getAppointment_ID());
 
             //Appointments validation check ---------------------------------
             //Check if appointment is made within comapny's hour 8am to 10pm
-            if(!DateTimeHelper.isAppointmentTimeWithinCompanysTime(startLocalDateTime,endLocalDateTime)){
+            if(DateTimeHelper.isAppointmentTimeWithinCompanysTime(startLocalDateTimeUTC,endLocalDateTimeUTC) == false){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setHeaderText("Conflicting Appointment Time");
                 alert.setContentText("Appointments must be made within business " +
@@ -348,17 +351,17 @@ public class EditAppointmentController implements Initializable {
                 alert.show();
                 return;
             }
-//            //Check if appointment overlap
-//            if(DateTimeHelper.isAppointmentOverlapping(appointment, appointmentDAO.getAllAppointment())){
-//                Alert alert = new Alert(Alert.AlertType.WARNING);
-//                alert.setHeaderText("Conflicting Appointment Time");
-//                alert.setContentText("This appointment overlap with another client.");
-//                alert.show();
-//                return;
-//            }
+//            Check if appointment overlap
+            if(DateTimeHelper.isAppointmentOverlapping(a,
+                    appointmentDAO.getAllAppointment())){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Conflicting Appointment Time");
+                alert.setContentText("This appointment overlap with another client.");
+                alert.show();
+                return;
+            }
 
             appointmentDAO.updateAppointment(a);
-
             SwitchRoute.switchToHome(event);
         }catch(NullPointerException e){
             errors.setText("\nPlease fill out all fields \n-Date " +

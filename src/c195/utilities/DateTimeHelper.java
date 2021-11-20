@@ -34,7 +34,7 @@ public class DateTimeHelper {
      * @return a LocalDateTime Object in UTC format. Takes in a LOCAL 24 hour time
      * and return a 24 hour time in UTC
      */
-    public static LocalDateTime convertToUTC(String dateString){
+    public static LocalDateTime systemDefaultConvertToUTC(String dateString){
         //Tested this method successfully convert time
         LocalDateTime date = null;
         try{
@@ -47,7 +47,6 @@ public class DateTimeHelper {
 //            //System default time zone
             ZonedDateTime localDateTimeZone = ZonedDateTime.of(date,
                     ZoneId.systemDefault());
-
             ZonedDateTime utcDateTimeZone =
                     localDateTimeZone.withZoneSameInstant(ZoneId.of("UTC"));
             //This is the converted utc timezone
@@ -134,14 +133,14 @@ public class DateTimeHelper {
     /**
      * Check if appointment is within the company's work schedule
      * @param start start time in UTC
-     * @param end   end time in UTC
+     * @param end  end time in UTC
      * @return returns true if it is within the company's time
      */
     public static boolean isAppointmentTimeWithinCompanysTime(LocalDateTime start, LocalDateTime end){
         //Times to check if within these valid hours 8am-10pm
         LocalTime startBusinessHour = LocalTime.of(8, 0);
         LocalTime endBusinessHour = LocalTime.of(22, 0);
-
+        //Turn our 24 hour utc time to est time
         LocalDateTime startEstLocalDateTime = convertUTCTimeToEst(start);
         LocalDateTime endEstLocalDateTime = convertUTCTimeToEst(end);
 //        System.out.println("Start time converted to EST " +startEstLocalDateTime );
