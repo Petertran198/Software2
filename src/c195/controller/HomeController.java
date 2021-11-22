@@ -91,9 +91,7 @@ public class HomeController implements Initializable {
         // 7 days starting from that week
         if(week != 1 ){
             now = now.plusWeeks(week - 1);
-            count.setText(week-1 + " week from current week");
-            System.out.println(now + " this is the local time ");
-            System.out.println(now.plusWeeks(1) + " time if a week has passed" );
+            count.setText(week-1 + " week from current");
         }
 
         LocalDate finalNow = now;
@@ -110,14 +108,20 @@ public class HomeController implements Initializable {
     public void getAppointmentsByMonthFilter(int month){
 //        //filter appointments for month
         LocalDate now = LocalDate.now();
-        LocalDate nowPlus1Month = now.plusMonths(month);
+        if(month != 1){
+            now = now.plusMonths(month -1);
+            count.setText(month - 1 + " Month from current");
+        }
+        LocalDate finalNow = now;
+        LocalDate nowPlus1Month = finalNow.plusMonths(month);
         //lambda expression used to efficiently filter appointments by month
-        FilteredList<Appointment> filteredData = new FilteredList<>(allAppointmentsObservableList);
-        filteredData.setPredicate(row -> {
-            LocalDate rowDate = row.getStart().toLocalDate();
-            return rowDate.isAfter(now.minusDays(2)) && rowDate.isBefore(nowPlus1Month);
+        ObservableList<Appointment> filteredAppointments = allAppointmentsObservableList.filtered(appointment -> {
+            LocalDate currentApt = appointment.getStart().toLocalDate();
+            //If apt is after yesterday and appointment is either before next week
+            // or is equal to today + 7 days return it
+            return currentApt.isAfter(finalNow.minusDays(1)) && (currentApt.isBefore(nowPlus1Month) || currentApt.isEqual(nowPlus1Month));
         });
-        appointmentTable.setItems(filteredData);
+        appointmentTable.setItems(filteredAppointments);
     }
 
     //When the all appointments radio button is selected
