@@ -117,7 +117,10 @@ public class DateTimeHelper {
             LocalDateTime currentEnd = currentAppointment.getEnd();
             LocalDateTime anotherAppointmentStart = anotherAppointment.getStart();
             LocalDateTime anotherAppointmentEnd = anotherAppointment.getEnd();
-                if(currentStart.isEqual(anotherAppointmentStart)){
+            //Added currentApt.getAppointment_ID != anotherApt.getAppointment_ID
+            // so that we can edit/update our own appointment with the same time
+            // without an appointment overlap error being trigger.
+                if(currentStart.isEqual(anotherAppointmentStart) && currentAppointment.getAppointment_ID() != anotherAppointment.getAppointment_ID()){
                     return true;
                 }
                 if(currentStart.isBefore(anotherAppointmentStart) && currentEnd.isAfter(anotherAppointmentStart)){
