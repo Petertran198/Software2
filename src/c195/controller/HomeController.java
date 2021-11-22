@@ -10,6 +10,7 @@ import c195.utilities.DateTimeHelper;
 import c195.utilities.SwitchRoute;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,10 +20,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.swing.*;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class HomeController implements Initializable {
@@ -55,11 +62,13 @@ public class HomeController implements Initializable {
     @FXML private RadioButton monthlyRadioBtn;
     @FXML private ToggleGroup appointmentToogleGroup;
     @FXML private Button goUpBtn;
-    @FXML private Button goDownBtn;
+    //Keep Track of the what week we are at
+    @FXML private Label count;
     //keep track of what month or week we want to see. Starting after
     // appointment start date
-    private static int showWhatMonth = 0;
-    private static int showWhatWeek = 0;
+    private static int showWhatMonth = 1;
+    private static int showWhatWeek = 1;
+
     //If msg is empty there is no appointments within 15
     private static String alertMsgIfThereIsAppointmentWithin15Mins = "";
 
@@ -67,69 +76,92 @@ public class HomeController implements Initializable {
     //Using the DAO pattern, customerDao will be used to query  the customer db
     CustomerDaoInterface customerDao = new CustomerDaoImplementation();
     AppointmentDaoInterface appointmentDao = new AppointmentDaoImplementation();
-
+    ObservableList<Appointment> allAppointmentsObservableList =
+            appointmentDao.getAllAppointment();
     //This variable is to select the customer we want to edit
     public  static Customer selectedCustomerToModify;
     //This variable is to select the appointment we want to edit
     public static Appointment selectedAppointmentToModify;
+
+    public void getAppointmentsByWeekFilter(int week){
+        LocalDate now = LocalDate.now();
+        //If it is the first week now = the time currently
+        //If it ISNT the first week skip to that week now = now.plusWeek(numOfWeekOfffset)
+        // and then filter the data to
+        // 7 days starting from that week
+        if(week != 1 ){
+            now = now.plusWeeks(week - 1);
+            count.setText(week-1 + " week from current week");
+            System.out.println(now + " this is the local time ");
+            System.out.println(now.plusWeeks(1) + " time if a week has passed" );
+        }
+
+        LocalDate finalNow = now;
+        LocalDate nowPlus1Week = finalNow.plusWeeks(week);
+        ObservableList<Appointment> filteredAppointments = allAppointmentsObservableList.filtered(appointment -> {
+            LocalDate currentApt = appointment.getStart().toLocalDate();
+            //If apt is after yesterday and appointment is either before next week
+            // or is equal to today + 7 days return it
+            return currentApt.isAfter(finalNow.minusDays(1)) && (currentApt.isBefore(nowPlus1Week) || currentApt.isEqual(nowPlus1Week));
+        });
+        appointmentTable.setItems(filteredAppointments);
+    }
+
+    public void getAppointmentsByMonthFilter(int month){
+//        //filter appointments for month
+        LocalDate now = LocalDate.now();
+        LocalDate nowPlus1Month = now.plusMonths(month);
+        //lambda expression used to efficiently filter appointments by month
+        FilteredList<Appointment> filteredData = new FilteredList<>(allAppointmentsObservableList);
+        filteredData.setPredicate(row -> {
+            LocalDate rowDate = row.getStart().toLocalDate();
+            return rowDate.isAfter(now.minusDays(2)) && rowDate.isBefore(nowPlus1Month);
+        });
+        appointmentTable.setItems(filteredData);
+    }
 
     //When the all appointments radio button is selected
     public void allRadioBtnMethod(ActionEvent event) throws Exception{
         //If shown allAppointments u disable goUp and downButton as it already shows
         // every appointment
         goUpBtn.setDisable(true);
-        goDownBtn.setDisable(true);
+        count.setText("");
         ObservableList<Appointment> appointments =
                 appointmentDao.getAllAppointment();
         appointmentTable.setItems(appointments);
     }
     //When the weekly radio button is selected
     public void weeklyRadioBtnMethod(ActionEvent event) throws Exception{
-        showWhatWeek = 0;
+        showWhatWeek = 1;
         goUpBtn.setDisable(false);
-        goDownBtn.setDisable(false);
-        ObservableList<Appointment> appointments =
-                appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,
-                        showWhatWeek);
-        appointmentTable.setItems(appointments);
+        goUpBtn.setText("Next Week");
+        count.setText("Current Week");
+        getAppointmentsByWeekFilter(showWhatWeek);
     }
     //When the monthly radio button is selected
     public void monthlyRadioBtnMethod(ActionEvent event) throws Exception{
-        showWhatMonth = 0;
+        showWhatMonth = 1;
         goUpBtn.setDisable(false);
-        goDownBtn.setDisable(false);
-        ObservableList<Appointment> appointments =
-                appointmentDao.getAppointmentsOrderByMonth(LoginController.user_id
-                        ,showWhatMonth);
-        appointmentTable.setItems(appointments);
+        goUpBtn.setText("Next Month");
+        count.setText("Current Month");
+
+//        ObservableList<Appointment> appointments =
+//                appointmentDao.getAppointmentsOrderByMonth(LoginController.user_id
+//                        ,showWhatMonth);
+//        appointmentTable.setItems(appointments);
     }
 
-    //This method is to go up or down a week/month for appointments
-    public void goDownBtnMethod(ActionEvent event) throws Exception{
-        if(appointmentToogleGroup.getSelectedToggle() == weeklyRadioBtn){
-            showWhatWeek = showWhatWeek -1;
-            appointmentTable.setItems(appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,showWhatWeek));
-        }
-
-        if(appointmentToogleGroup.getSelectedToggle() == monthlyRadioBtn){
-            showWhatMonth = showWhatMonth -1;
-            appointmentTable.setItems(appointmentDao.getAppointmentsOrderByMonth(LoginController.user_id
-                    ,showWhatMonth));
-
-        }
-    }
 
     //This method is to go up or down a week/month for appointments
     public void goUpBtnMethod(ActionEvent event) throws Exception{
         if(appointmentToogleGroup.getSelectedToggle() == weeklyRadioBtn){
             showWhatWeek = showWhatWeek +1;
-            appointmentTable.setItems(appointmentDao.getAppointmentsOrderByWeek(LoginController.user_id,showWhatWeek));
+            getAppointmentsByWeekFilter(showWhatWeek);
         }
 
         if(appointmentToogleGroup.getSelectedToggle() == monthlyRadioBtn) {
             showWhatMonth = showWhatMonth + 1;
-            appointmentTable.setItems(appointmentDao.getAppointmentsOrderByMonth(LoginController.user_id
-                    ,showWhatMonth));
+            getAppointmentsByMonthFilter(showWhatMonth);
         }
     }
     public void modifyCustomer(ActionEvent event) throws Exception{
@@ -347,7 +379,6 @@ public class HomeController implements Initializable {
      */
     public void showAppointmentTable(){
         goUpBtn.setDisable(true);
-        goDownBtn.setDisable(true);
         ObservableList<Appointment> appointmentList;
         appointmentList = appointmentDao.getAllAppointment();
         appointmentTable.setItems(appointmentList);

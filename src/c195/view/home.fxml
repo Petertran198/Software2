@@ -70,8 +70,8 @@
                 <Button layoutX="409.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToCustomerMonthAndTypeReport" text="Customer Month/Type Report " />
                 <Button layoutX="594.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToContactAppointmentReport" text="Contact Report" />
                 <Button layoutX="700.0" layoutY="216.0" mnemonicParsing="false" onAction="#switchToLocationReport" text="Location Report" />
-            <Button fx:id="goDownBtn" layoutX="5.0" layoutY="2.0" mnemonicParsing="false" onAction="#goDownBtnMethod" text="Go Back a Month/Week" />
-            <Button fx:id="goUpBtn" layoutX="798.0" layoutY="1.0" mnemonicParsing="false" onAction="#goUpBtnMethod" text="Go Up a Month/Week" />
+            <Button fx:id="goUpBtn" layoutX="805.0" layoutY="1.0" mnemonicParsing="false" onAction="#goUpBtnMethod" prefHeight="25.0" prefWidth="114.0" text="Next" />
+            <Label fx:id="count" layoutX="802.0" layoutY="42.0" prefHeight="61.0" prefWidth="129.0" textFill="#bcb4b4" />
             </children>
         </Pane>
     </children>
