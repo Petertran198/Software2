@@ -93,7 +93,6 @@ public class HomeController implements Initializable {
             now = now.plusWeeks(week - 1);
             count.setText(week-1 + " week from current");
         }
-
         LocalDate finalNow = now;
         LocalDate nowPlus1Week = finalNow.plusWeeks(week);
         ObservableList<Appointment> filteredAppointments = allAppointmentsObservableList.filtered(appointment -> {
